@@ -1,21 +1,19 @@
 import React from "react";
 import { FaChevronDown } from "react-icons/fa";
-import Logo from "../assets/hilal-logo.svg"; // replace with your logo path
+import Logo from "../assets/hilal-logo.svg";
 
 const Navbar = () => {
     return (
         <nav className="relative bg-[#DF1600]   text-white shadow-md z-10">
             <div className=" ml-[45px] px-4 flex  h-[75px]  items-center py-3 relative">
 
-                <div className="">
-                    {/* Logo Box */}
-                    <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
-                        <img
-                            src={Logo}
-                            alt="Hilal Publications"
-                            className="h-14 w-auto"
-                        />
-                    </div>
+                {/* Logo Section */}
+                <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
+                    <img
+                        src={Logo}
+                        alt="Hilal Publications"
+                        className="h-14 w-auto"
+                    />
                 </div>
 
                 {/* Navigation Links */}
@@ -38,11 +36,11 @@ const Navbar = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex ml-auto space-x-2">
-                    <button className="w-32 bg-white text-[#DF1600] py-1 text-[15px] font-bold border border-white">
+                <div className="flex ml-auto space-x-2 text-[16px]">
+                    <button className="w-32 bg-white text-[#DF1600] p-3  font-bold border border-white">
                         SIGN IN
                     </button>
-                    <button className="w-32 bg-white text-[#DF1600] py-1 text-[15px] font-bold border border-white">
+                    <button className="w-32 bg-white text-[#DF1600] p-3  font-bold border border-white">
                         SUBSCRIBE
                     </button>
                 </div>
