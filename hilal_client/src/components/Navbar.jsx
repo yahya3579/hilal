@@ -17,8 +17,8 @@ const Navbar = () => {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="flex  items-center space-x-4 ml-60">
-                    <ul className="flex space-x-10 text-[18px] font-medium">
+                <div className="flex  items-center space-x-3 ml-60">
+                    <ul className="flex space-x-5 text-[18px] font-medium">
                         <li className="hover:underline cursor-pointer">Home</li>
                         <li className="relative group cursor-pointer">
                             Category <FaChevronDown className="inline ml-1" />
