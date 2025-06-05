@@ -4,54 +4,10 @@ import {
     Music2,
     Instagram,
     ChevronRight,
-    User2Icon,
-    User,
-    MapPin,
-    Mail,
-    Phone,
-} from "lucide-react";
-import { FaEnvelope, FaMap, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 
-const footerSections = [
-    {
-        title: "USEFUL INFO LINKS",
-        icon: "⛶",
-        links: [
-            "ISPR",
-            "Pakistan Army",
-            "Pakistan Navy",
-            "Pakistan Airforce",
-            "Youtube - Hilal Digital",
-            "Instagram - Hilal Digital",
-            "Tiktok - Hilal Digital",
-        ],
-    },
-    {
-        title: "ADVERTISEMENTS",
-        icon: "📢",
-        links: [
-            "Post an Add",
-            "Adds Renew",
-            "Price of Advertisements",
-            "Adds Closed",
-            "Monthly or Yearly",
-            "Trial Adds",
-            "Add Making",
-        ],
-    },
-    {
-        title: "HILAL PAGES",
-        icon: '👤',
-        links: [
-            "About Us",
-            "Contribute",
-            "Subscribe",
-            "Advertise",
-            "Be a Member",
-            "Career",
-        ],
-    },
-];
+} from "lucide-react";
+import { FaEnvelope, FaMap, FaPhoneAlt } from "react-icons/fa";
+import { footerSections } from "../utils/constants";
 
 const bottomLinks = ["Home", "FAQ", "Support"];
 
