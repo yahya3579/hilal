@@ -43,15 +43,16 @@ export default function HilalDigital() {
 
             <header className="bg-white ">
                 <div className="max-w-7xl mx-auto px-4 pt-4">
-                    <h1 className="text-2xl font-medium py-1 text-[#F65050]">Hilal Digital</h1>
+                    <h1 className="text-2xl font-medium py-1 pb-4 text-[#F65050]">Hilal Digital</h1>
                     <div className="h-[1px] bg-gradient-to-r from-red-600 w-[93%] to-black " style={{ backgroundSize: '100% 100%', backgroundImage: 'linear-gradient(to right, #dc2626 20%, black 20%)' }}></div>
                 </div>
             </header>
 
-            <div className="max-w-7xl mx-auto px-4 py-6">
+
+            <div className="max-w-7xl mx-auto px-4 pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     {videoData.map((item) => (
-                        <div key={item.id} className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                        <div key={item.id} className="bg-white rounded-2xl  shadow-[0_4px_6px_0_#00000040] overflow-hidden">
                             <div className="relative w-full h-[183px]">
                                 {playing === item.id ? (
                                     <iframe
