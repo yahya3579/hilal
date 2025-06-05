@@ -71,9 +71,12 @@ export default function ArmedForcesNews() {
         <div className="pl-3">
             {/* Publications Showcase */}
             <div className="mb-2">
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                     {publications.map(({ id, img, alt }) => (
-                        <div key={id} className="bg-white shadow-sm overflow-hidden rounded">
+                        <div
+                            key={id}
+                            className="bg-white shadow-sm overflow-hidden rounded w-[calc(50%-0.5rem)] sm:w-[calc(25%-0.5rem)]"
+                        >
                             <img
                                 src={img}
                                 alt={alt}
@@ -103,24 +106,22 @@ export default function ArmedForcesNews() {
                 {news.map(({ id, title, author, date, img }) => (
                     <article
                         key={id}
-                        className="bg-white rounded-lg p-1 border border-gray-100 transition-shadow shadow-[0px_4px_4px_0px_#00000040]"
+                        className="bg-white rounded-lg p-1 border border-gray-100 transition-shadow shadow-[0px_4px_4px_0px_#00000040] flex flex-col sm:flex-row gap-4"
                     >
-                        <div className="flex gap-4">
-                            <img
-                                src={img}
-                                alt="News thumbnail"
-                                className="w-[93px] h-[73px] object-cover flex-shrink-0 rounded"
-                            />
-                            <div className="flex-1">
-                                <div className="flex items-center text-sm text-[#2D2D2D] text-[10px] font-normal mb-2">
-                                    <span>{author}</span>
-                                    <span className="mx-1">-</span>
-                                    <span className="text-gray-500">{date}</span>
-                                </div>
-                                <h3 className="text-[15px] font-normal oswald text-[#393939] leading-tight hover:text-blue-600 cursor-pointer">
-                                    {title}
-                                </h3>
+                        <img
+                            src={img}
+                            alt="News thumbnail"
+                            className="w-full sm:w-[93px] h-[73px] object-cover flex-shrink-0 rounded"
+                        />
+                        <div className="flex-1">
+                            <div className="flex items-center text-sm text-[#2D2D2D] text-[10px] font-normal mb-2">
+                                <span>{author}</span>
+                                <span className="mx-1">-</span>
+                                <span className="text-gray-500">{date}</span>
                             </div>
+                            <h3 className="text-[15px] font-normal oswald text-[#393939] leading-tight hover:text-blue-600 cursor-pointer">
+                                {title}
+                            </h3>
                         </div>
                     </article>
                 ))}

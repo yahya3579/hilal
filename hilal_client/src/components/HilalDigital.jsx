@@ -140,7 +140,7 @@ export default function HilalDigital() {
 
     return (
         <>
-            <header className="bg-white ">
+            <header className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 pt-4">
                     <h1 className="text-2xl font-medium py-1 pb-4 text-[#F65050] oswald">
                         Hilal Digital
@@ -163,9 +163,9 @@ export default function HilalDigital() {
                     {videoData.map((item) => (
                         <div
                             key={item.id}
-                            className="bg-white rounded-2xl shadow-[0_4px_6px_0_#00000040] overflow-hidden flex-shrink-0 w-[250px]"
+                            className="bg-white rounded-2xl shadow-[0_4px_6px_0_#00000040] overflow-hidden flex-shrink-0 w-[90%] sm:w-[250px]"
                         >
-                            <div className="relative w-[250px] h-[183px]">
+                            <div className="relative w-full sm:w-[250px] h-[183px]">
                                 {playing === item.id ? (
                                     <iframe
                                         className="w-full h-full"
