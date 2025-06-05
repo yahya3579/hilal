@@ -6,7 +6,11 @@ import {
     ChevronRight,
     User2Icon,
     User,
+    MapPin,
+    Mail,
+    Phone,
 } from "lucide-react";
+import { FaEnvelope, FaMap, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
 
 const footerSections = [
     {
@@ -104,11 +108,16 @@ export default function Footer() {
                             </span>
                         </button>
 
-                        <div className="space-y-2 text-sm text-gray-300 opacity-70">
-                            {["Hilal Road, Rawalpindi, PK", "hilalengish@gmail.com", "051-5104118"].map((item, idx) => (
+                        <div className="space-y-2 text-sm text-white ">
+                            {[
+                                { text: "Hilal Road, Rawalpindi, PK", icon: <FaMap className="w-4 h-4 mr-2" /> },
+                                { text: "hilalengish@gmail.com", icon: <FaEnvelope className="w-4 h-4 mr-2" /> },
+                                { text: "051-5104118", icon: <FaPhoneAlt className="w-4 h-4 mr-2" /> },
+                            ].map((item, idx) => (
                                 <div key={idx} className="flex items-center">
-                                    <span className="w-2 h-2 bg-white rounded-full mr-3" />
-                                    {item}
+                                    <span className="opacity-100"> {item.icon}</span>
+                                    <span className="opacity-70"> {item.text}</span>
+
                                 </div>
                             ))}
                         </div>
