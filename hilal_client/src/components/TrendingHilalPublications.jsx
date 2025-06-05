@@ -35,16 +35,17 @@ const newsItems = [
 ];
 
 const NewsItem = ({ title, author, date, img }) => (
-    <div className="bg-white rounded-lg px-4 flex gap-4 hover:shadow-md transition-shadow duration-300 cursor-pointer">
+    <div className="bg-white rounded-lg px-4 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow duration-300 cursor-pointer">
         <img
             src={img}
             alt="News thumbnail"
-            className="w-[95px] h-[74px] object-cover rounded flex-shrink-0"
+            className="w-full sm:w-[95px] h-[74px] object-cover rounded flex-shrink-0"
         />
         <div className="flex-1">
             <div className="flex items-center text-xs text-gray-500 mb-1">
-                <span className="text-[#2D2D2D] font-normal text-[10px] mr-1">{author} -</span>
-                <span className='text-gray-500 font-normal text-[10px]'>{date}</span>
+                <span className="text-[#2D2D2D] font-normal text-[10px] mr-1">{author}</span>
+                <span className="mx-1">-</span>
+                <span className="text-gray-500 font-normal text-[10px]">{date}</span>
             </div>
             <h3 className="text-[15px] font-normal oswald text-[#393939] line-clamp-2">{title}</h3>
         </div>
@@ -67,10 +68,10 @@ const TrendingHilalPublications = () => {
                 </div>
             </header>
 
-            <div className="flex gap-8 pt-6 px-4">
+            <div className="flex flex-col lg:flex-row gap-8 pt-6 px-4">
                 {/* Left Column */}
                 <div className="lg:col-span-2">
-                    <div className="bg-white rounded-lg overflow-hidden w-[420px]">
+                    <div className="bg-white rounded-lg overflow-hidden w-full lg:w-[420px]">
                         <div className="relative">
                             <img
                                 src="https://www.pcb.com.pk/timthumb.php?src=images/news_images/featured_images/825c322cd10e.jpg&a=c&w=295&h=190"
