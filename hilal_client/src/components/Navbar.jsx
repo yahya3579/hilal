@@ -1,34 +1,35 @@
 import React from "react";
+import { FaChevronDown } from "react-icons/fa";
+import Logo from "../assets/hilal-logo.svg"; // replace with your logo path
 
 const Navbar = () => {
     return (
-        <nav className="bg-[#d71900] text-white shadow-md">
-            <div className="container mx-auto px-4 flex justify-between items-center py-2">
-                {/* Logo */}
-                <div className="flex items-center space-x-4">
-                    <img
-                        src="/hilal-logo.png" // replace with actual logo path
-                        alt="Hilal Publications"
-                        className="h-10 w-auto bg-white px-2 py-1"
-                    />
-                    <ul className="flex space-x-4 text-sm">
+        <nav className="relative bg-[#DF1600]   text-white shadow-md z-10">
+            <div className=" ml-[45px] px-4 flex  h-[75px]  items-center py-3 relative">
+
+                <div className="">
+                    {/* Logo Box */}
+                    <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
+                        <img
+                            src={Logo}
+                            alt="Hilal Publications"
+                            className="h-14 w-auto"
+                        />
+                    </div>
+                </div>
+
+                {/* Navigation Links */}
+                <div className="flex  items-center space-x-4 ml-60">
+                    <ul className="flex space-x-10 text-[18px] font-medium">
                         <li className="hover:underline cursor-pointer">Home</li>
                         <li className="relative group cursor-pointer">
-                            Category
-                            <span className="ml-1">▼</span>
-                            {/* Dropdown (optional) */}
-                            {/* <ul className="absolute hidden group-hover:block bg-white text-black mt-2 p-2 shadow rounded">
-                <li>Option 1</li>
-                <li>Option 2</li>
-              </ul> */}
+                            Category <FaChevronDown className="inline ml-1" />
                         </li>
                         <li className="relative group cursor-pointer">
-                            Magazines
-                            <span className="ml-1">▼</span>
+                            Magazines <FaChevronDown className="inline ml-1" />
                         </li>
                         <li className="relative group cursor-pointer">
-                            E-Book
-                            <span className="ml-1">▼</span>
+                            E-Book <FaChevronDown className="inline ml-1" />
                         </li>
                         <li className="hover:underline cursor-pointer">
                             Our Contributors
@@ -36,15 +37,16 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                {/* Buttons */}
-                <div className="flex space-x-2">
-                    <button className="bg-white text-[#d71900] px-3 py-1 text-sm font-semibold border border-white hover:bg-gray-100">
+                {/* Action Buttons */}
+                <div className="flex ml-auto space-x-2">
+                    <button className="w-32 bg-white text-[#DF1600] py-1 text-[15px] font-bold border border-white">
                         SIGN IN
                     </button>
-                    <button className="bg-white text-[#d71900] px-3 py-1 text-sm font-semibold border border-white hover:bg-gray-100">
+                    <button className="w-32 bg-white text-[#DF1600] py-1 text-[15px] font-bold border border-white">
                         SUBSCRIBE
                     </button>
                 </div>
+
             </div>
         </nav>
     );
