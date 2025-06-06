@@ -80,6 +80,7 @@ export default function ArmedForcesNews() {
                             <img
                                 src={img}
                                 alt={alt}
+                                loading="lazy"
                                 className="w-full h-[105px] object-cover bg-white p-2"
                             />
                         </div>
@@ -111,6 +112,7 @@ export default function ArmedForcesNews() {
                         <img
                             src={img}
                             alt="News thumbnail"
+                            loading="lazy"
                             className="w-full sm:w-[93px] h-[73px] object-cover flex-shrink-0 rounded"
                         />
                         <div className="flex-1">

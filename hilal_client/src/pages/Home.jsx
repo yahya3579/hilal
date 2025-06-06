@@ -12,7 +12,7 @@ const Home = () => {
     return (
         <>
             <div className="flex flex-col lg:flex-row gap-x-4 border-t-2 border-b border-b-black border-t-[#DF1600] mb-3 mt-8 ml-[45px] mr-7">
-                <div className="w-full lg:w-[70%] min-h-screen ">
+                <div className="w-full lg:w-[70%]  min-h-screen ">
                     <HilalDigital />
                     <TrendingHilalPublications />
                     <InFocusSection />

@@ -56,7 +56,7 @@ const TrendingHilalPublications = () => {
     return (
         <>
             <header className="">
-                <div className="max-w-7xl mx-auto px-4">
+                <div className=" px-4">
                     <h1 className="text-2xl font-medium py-1 pb-4 oswald text-[#F65050]">Trending Hilal Publications</h1>
                     <div
                         className="h-[1px] w-[93%]"

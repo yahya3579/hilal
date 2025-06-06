@@ -2,11 +2,11 @@ export default function PreviousMonthHilal() {
     return (
         <>
             {/* Previous Month Hilal Magazines - Takes up 2/3 of the width */}
-            <div className="max-w-7xl  mx-auto px-4 py-2 mb-3  border-black pb-4 ">
+            <div className=" px-4 py-2 mb-3  border-black pb-4 ">
                 <div className="mb-6 pt-4">
 
                     <header className="">
-                        <div className="max-w-7xl mx-auto px-2">
+                        <div className=" ">
                             <h1 className="text-2xl font-medium py-1 pb-4 text-[#F65050] oswald">Previous Month Hilal Magzines</h1>
                             <div
                                 className="h-[1px] w-[93%]"

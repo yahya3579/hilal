@@ -83,7 +83,7 @@ export default function InFocusSection() {
     return (
         <>
             <header className=" ">
-                <div className="max-w-7xl mx-auto p-4">
+                <div className=" p-4">
                     <h1 className="text-2xl font-medium py-1 oswald pb-4 text-[#F65050]">In Focus</h1>
                     <div
                         className="h-[1px] w-[93%]"
@@ -95,7 +95,7 @@ export default function InFocusSection() {
                 </div>
             </header>
 
-            <div className="max-w-7xl  mx-auto px-4 py-2 mb-3  pb-8">
+            <div className=" px-4 py-2 mb-3  pb-8">
                 {/* Main Articles */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-3">
                     {mainArticles.map(({ title, description, image, category, author, date }, idx) => (
