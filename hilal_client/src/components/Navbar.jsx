@@ -36,10 +36,10 @@ const Navbar = () => {
 
                 {/* Action Buttons */}
                 <div className="flex ml-auto space-x-2 text-[14px] lg:text-[16px] mt-4 lg:mt-0">
-                    <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white">
+                    <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
                         SIGN IN
                     </button>
-                    <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white">
+                    <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
                         SUBSCRIBE
                     </button>
                 </div>
