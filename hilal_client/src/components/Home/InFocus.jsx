@@ -1,6 +1,6 @@
 // Reusable Main Article Card
 const ArticleCard = ({ image, category, author, date, title, description }) => (
-    <article className="bg-white rounded-lg shadow-sm overflow-hidden">
+    <article className="bg-white rounded-lg  overflow-hidden">
         <div className="relative">
             <img src={image} alt={title} className="w-full h-[264px] object-cover" />
             {category && (
@@ -23,7 +23,7 @@ const ArticleCard = ({ image, category, author, date, title, description }) => (
 
 // Reusable Small Article Card
 const SmallArticleCard = ({ image, author, date, title }) => (
-    <article className="bg-white shadow-sm overflow-hidden">
+    <article className="bg-white  overflow-hidden">
         <div className="flex gap-4">
             <img src={image} alt={title} className="w-24 h-20 object-cover flex-shrink-0" />
             <div className="flex-1">

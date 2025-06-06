@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react"
-import NewsLetterArrow from '../assets/NewsLetterArrow.svg'
+import NewsLetterArrow from '../../assets/NewsLetterArrow.svg'
 export default function NewsletterSubscription() {
     return (
         <div className=" mx-auto ">
