@@ -6,7 +6,7 @@ import Logo from "../assets/hilal-logo.svg";
 const Navbar = () => {
     return (
         <nav className="relative bg-[#DF1600] text-white shadow-md z-10">
-            <div className="ml-4 lg:ml-[45px] px-4 flex flex-wrap lg:flex-nowrap h-[75px] items-center py-3 relative">
+            <div className="ml-4 lg:ml-[10px] px-4 flex flex-wrap lg:flex-nowrap h-[75px] items-center py-3 relative">
                 {/* Logo Section */}
                 <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
                     <img
