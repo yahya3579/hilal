@@ -37,9 +37,9 @@ const Navbar = () => {
 
                 {/* Action Buttons */}
                 <div className="flex ml-auto space-x-2 text-[14px] lg:text-[16px] mt-4 lg:mt-0">
-                    <Link to="/admindashboard/articles">
+                    <Link to="/admin/dashboard">
                         <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
-                            SIGN IN
+                            Admin
                         </button>
                     </Link>
                     <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
