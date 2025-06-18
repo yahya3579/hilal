@@ -20,7 +20,7 @@ const Articles = () => {
             {/* Header */}
             <div className="text-center mb-8 relative">
                 <h1 className="text-red-600 text-2xl font-bold tracking-wide">ADMIN DASHBOARD</h1>
-                <div 
+                <div
                     className="absolute left-11 mt-2"
                     style={{
                         width: '1357px',
@@ -35,7 +35,7 @@ const Articles = () => {
             </div>
 
             {/* Main Content */}
-            <div className="bg-white  border-gray-200 mx-auto max-w-7xl">
+            <div className="bg-white  border-gray-200 ">
                 <div className="p-6">
                     {/* Controls Section */}
                     <div className="flex justify-between items-center mb-6">
@@ -102,7 +102,7 @@ const Articles = () => {
                         <div className="text-sm text-gray-400">
                             Showing data 1 to 8 of 256K entries
                         </div>
-                        
+
                         <div className="flex items-center gap-1">
                             <button className="w-8 h-8 text-gray-400 hover:text-gray-600">&lt;</button>
                             <button className="w-8 h-8 bg-gray-800 text-white rounded text-sm">1</button>
