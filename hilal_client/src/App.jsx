@@ -6,6 +6,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Css from "./pages/Css";
 import Articles from "./pages/admin/Articles";
+import AdminAds from "./components/AdminAds";
 
 const App = () => {
   return (
@@ -15,9 +16,10 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
-      </Route>
       <Route path="/admindashboard" element={<AdminLayout />}>
         <Route path="articles" element={<Articles />} />
+        <Route path="ads" element={<AdminAds />} />
+      </Route>
       </Route>
     </Routes>
   );

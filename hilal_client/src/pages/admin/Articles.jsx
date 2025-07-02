@@ -35,7 +35,7 @@ const Articles = () => {
             </div>
 
             {/* Main Content */}
-            <div className="bg-white  border-gray-200 mx-auto max-w-7xl">
+            <div className="bg-white  border-gray-200 ">
                 <div className="p-6">
                     {/* Controls Section */}
                     <div className="flex justify-between items-center mb-6">
