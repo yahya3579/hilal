@@ -42,9 +42,11 @@ const Navbar = () => {
                             Admin
                         </button>
                     </Link>
+                    <Link to="/articles">
                     <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
                         SUBSCRIBE
                     </button>
+                    </Link>
                 </div>
             </div>
         </nav>
