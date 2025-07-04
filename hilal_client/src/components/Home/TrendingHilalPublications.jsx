@@ -1,114 +1,120 @@
 import React from 'react';
-import { Clock, User } from "lucide-react";
-
-const newsItems = [
-    {
-        title: "Pakistan cricket team gears up for ICC T20 World Cup 2025",
-        author: "Ayesha Khan",
-        date: "2 Jun 2025",
-        img: "https://www.zapcricket.com/cdn/shop/articles/348074.3.webp?v=1715982579"
-    },
-    {
-        title: "Pakistan Army successfully tests new drone technology",
-        author: "Maj. Ali Raza",
-        date: "30 May 2025",
-        img: "https://quwa.org/wp-content/uploads/2023/01/13012023-FR-scaled.webp"
-    },
-    {
-        title: "Women athletes shine at National Games in Islamabad",
-        author: "Sara Malik",
-        date: "28 May 2025",
-        img: "https://www.brandsynario.com/wp-content/uploads/Naseem-Hameed.jpg"
-    },
-    {
-        title: "Pakistan Navy expands maritime security operations in Arabian Sea",
-        author: "Commodore Imran Shah",
-        date: "25 May 2025",
-        img: "https://i.brecorder.com/primary/2024/06/07150554a50445a.jpg"
-    },
-    {
-        title: "Pakistani squash legend discusses upcoming international championships",
-        author: "Zahid Hussain",
-        date: "22 May 2025",
-        img: "https://www.thenews.com.pk/assets/uploads/tns/2024-10-20/1241807_739471_tns-51_tns.jpg"
-    },
-];
-
-const NewsItem = ({ title, author, date, img }) => (
-    <div className="bg-white rounded-lg px-4 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow duration-300 cursor-pointer">
-        <img
-            src={img}
-            alt="News thumbnail"
-            className="w-full sm:w-[95px] h-[74px] object-cover rounded flex-shrink-0"
-        />
-        <div className="flex-1">
-            <div className="flex items-center text-xs text-gray-500 mb-1">
-                <span className="text-[#2D2D2D] font-normal text-[10px] mr-1">{author}</span>
-                <span className="mx-1">-</span>
-                <span className="text-gray-500 font-normal text-[10px]">{date}</span>
-            </div>
-            <h3 className="text-[15px] font-normal oswald text-[#393939] line-clamp-2">{title}</h3>
-        </div>
-    </div>
-);
 
 const TrendingHilalPublications = () => {
-    return (
-        <>
-            <header className="">
-                <div className=" px-4">
-                    <h1 className="text-2xl font-medium py-1 pb-4 oswald text-[#F65050]">Trending Hilal Publications</h1>
-                    <div
-                        className="h-[1px] w-[93%]"
-                        style={{
-                            backgroundSize: '100% 100%',
-                            backgroundImage: 'linear-gradient(to right, #dc2626 20%, black 20%)',
-                        }}
-                    ></div>
-                </div>
-            </header>
+  const articles = [
+    {
+      id: 1,
+      category: "IN-FOCUS",
+      categoryColor: "bg-green-800",
+      title: "What Have We Given to Pakistan Strengthening the Economy through Entrepreneurship and Creative Endeavours...",
+      author: "Amir Jahangir",
+      date: "April 2025",
+      bgImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-green-600 to-green-700"
+    },
+    {
+      id: 2,
+      category: "NATIONAL & INTL ISSUES",
+      categoryColor: "bg-gray-800",
+      title: "Deporting the Afghan Refugees: Challenges and Policy Options, Pakistan has shouldered ...",
+      author: "Ambassador Naghmana (R)",
+      date: "April 2025",
+      bgImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-amber-200 to-amber-300"
+    },
+    {
+      id: 3,
+      category: "MISC",
+      categoryColor: "bg-gray-800",
+      title: "History's Darkest Tool: Hunger and Starvation as Weapons of War, From the Roman sieges to modern conflicts ...",
+      author: "Vice Admiral Taj (R)",
+      date: "April 2025",
+      bgImage: "https://images.unsplash.com/photo-1586892478025-2b5472316f22?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-gray-500 to-gray-600"
+    },
+    {
+      id: 4,
+      category: "IN-FOCUS",
+      categoryColor: "bg-green-800",
+      title: "The Long Road to a Knowledge Economy, Pakistan's greatest investment isn't in ...",
+      author: "Amir Zia",
+      date: "April 2025",
+      bgImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-green-600 to-green-700"
+    },
+    {
+      id: 5,
+      category: "NATIONAL & INTL ISSUES",
+      categoryColor: "bg-gray-800",
+      title: "Scaling Up Rainwater Harvesting in Pakistan: A Need of the Hour, Pakistan's escalating water...",
+      author: "Syed Zaheer Gardezi",
+      date: "April 2025",
+      bgImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-gray-200 to-gray-300"
+    },
+    {
+        id: 6,
+        category: "MISC",
+        categoryColor: "bg-gray-800",
+        title: "Foreigners Who Have Made Pakistan Their Home (Part III), While many Pakistanis dream ...",
+        author: "Jennifer McKay",
+        date: "April 2025",
+        bgImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
 
-            <div className="flex flex-col lg:flex-row gap-8 pt-6 px-4">
-                {/* Left Column */}
-                <div className="lg:col-span-2">
-                    <div className="bg-white rounded-lg overflow-hidden w-full lg:w-[420px]">
-                        <div className="relative">
-                            <img
-                                src="https://www.pcb.com.pk/timthumb.php?src=images/news_images/featured_images/825c322cd10e.jpg&a=c&w=295&h=190"
-                                alt="Pakistan Cricket Team"
-                                className="w-full h-[264px] object-cover"
-                            />
-                            <div className="absolute top-4 left-4">
-                                <span className="bg-green-700 text-white px-2 py-1 text-xs rounded">Sports</span>
-                            </div>
-                        </div>
-                        <div className="p-6">
-                            <div className="flex items-center text-sm text-[#2D2D2D] text-[12px] font-normal mb-2">
-                                <span className="">Ayesha Khan</span>
-                                <span className='mx-1'>-</span>
-                                <span className='text-gray-500'>2 Jun 2025</span>
-                            </div>
-                            <h2 className="text-[18px] oswald font-medium text-[#393939] mb-3">
-                                Pakistan Cricket Board announces squad for ICC T20 World Cup
-                            </h2>
-                            <p className="text-[#39393999] font-[250px] text-[14px] leading-normal line-clamp-3">
-                                The Pakistan Cricket Board has revealed the final squad to compete in the ICC T20 World Cup 2025,
-                                highlighting a mix of young talent and experienced players ready to bring glory to the nation.
-                                Preparations are underway with rigorous training camps scheduled across the country.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+        bgColor: "from-gray-500 to-gray-600"
+      }
+      
+  ];
 
-                {/* Right Column - News List */}
-                <div className="space-y-4">
-                    {newsItems.map((item, index) => (
-                        <NewsItem key={index} {...item} />
-                    ))}
-                </div>
+  return (
+    <div className="w-[700px] ml-5 pt-6">
+      {/* Header */}
+      <div className="h-1 w-full bg-red-600 mt-2 mb-4" />
+      <div className="bg-white mb-6">
+        <h2
+          className="text-red-600 font-[500] text-[24px] leading-[100%] uppercase font-poppins"
+          style={{ letterSpacing: '-0.03em' }}
+        >
+          TRENDING - HILAL PUBLICATIONS
+        </h2>
+      </div>
+
+      {/* Images Grid */}
+      <div className="grid grid-cols-3 gap-4">
+        {articles.map((article) => (
+          <div key={article.id} className="bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            {/* Image Section */}
+            <div 
+              className={`h-40 relative overflow-hidden`}
+              style={{ 
+                backgroundImage: `url(${article.bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              {/* Category Badge */}
+              <div className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+                {article.category}
+              </div>
             </div>
-        </>
-    );
+            {/* Content Section */}
+            <div className="p-4">
+              {/* Author and Date */}
+              <div className="text-gray-400 text-xs mb-2">
+                <span className="font-medium">{article.author}</span>
+                <span className="mx-2">•</span>
+                <span>{article.date}</span>
+              </div>
+              {/* Title */}
+              <h3 className="text-gray-800 font-bold text-sm leading-tight">
+                {article.title}
+              </h3>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default TrendingHilalPublications;

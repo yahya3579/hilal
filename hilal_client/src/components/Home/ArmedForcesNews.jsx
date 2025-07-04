@@ -1,133 +1,79 @@
-export default function ArmedForcesNews() {
-    const publications = [
-        {
-            id: 1,
-            img: "https://quwa.org/wp-content/uploads/2024/06/Pakistan-Day-Parade.jpg",
-            alt: "Pakistan Flag",
-        },
-        {
-            id: 2,
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMLbIv5mGpP5NrFbIPD0P-pK2YR8oAh1QAZQ&s",
-            alt: "Pakistan Army Logo",
-        },
-        {
-            id: 3,
-            img: "https://www.arabnews.pk/sites/default/files/styles/n_670_395/public/2019/09/28/1774146-1751985535.jpeg?itok=gNtZFxiy",
-            alt: "Pakistan Air Force Logo",
-        },
-        {
-            id: 4,
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQudTYm5knUm7g-p0Bt92OPJ0XCJ8nHK-beCA&s",
-            alt: "Pakistan Navy Logo",
-        },
-    ];
 
-    const news = [
-        {
-            id: 1,
-            title: "Pakistan Army conducts large-scale military exercises to boost readiness",
-            author: "ISPR",
-            date: "3 Jun 2025",
-            img: "https://img.dunyanews.tv/news/2022/January/01-05-22/news_big_images/635676_99319353.jpg",
-        },
-        {
-            id: 2,
-            title: "Pakistan Air Force showcases new fighter jets at Islamabad Airshow",
-            author: "Defense News",
-            date: "29 May 2025",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkAuboBDi0kpG_qBivV8gCgSuQJLYJuWnshA&s",
-        },
-        {
-            id: 3,
-            title: "Pakistan Navy completes joint exercises with allied forces in Arabian Sea",
-            author: "Navy Times",
-            date: "15 May 2025",
-            img: "https://www.arabnews.pk/sites/default/files/styles/n_670_395/public/2019/09/28/1774146-1751985535.jpeg?itok=gNtZFxiy",
-        },
-        {
-            id: 4,
-            title: "Pakistan’s defense budget increased to modernize armed forces capabilities",
-            author: "The News International",
-            date: "1 Jun 2025",
-            img: "https://quwa.org/wp-content/uploads/2024/06/Pakistan-Day-Parade.jpg",
-        },
-        {
-            id: 5,
-            title: "ISPR releases footage of counterterrorism operations in North Waziristan",
-            author: "ISPR",
-            date: "28 May 2025",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMLbIv5mGpP5NrFbIPD0P-pK2YR8oAh1QAZQ&s",
-        },
-        {
-            id: 6,
-            title: "Pakistan honors armed forces personnel on Defence Day celebrations",
-            author: "Pak Army News",
-            date: "6 Sep 2024",
-            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQudTYm5knUm7g-p0Bt92OPJ0XCJ8nHK-beCA&s",
-        },
-    ];
 
-    return (
-        <div className="pl-3">
-            {/* Publications Showcase */}
-            <div className="mb-2">
-                <div className="flex gap-2 flex-wrap">
-                    {publications.map(({ id, img, alt }) => (
-                        <div
-                            key={id}
-                            className="bg-white shadow-sm overflow-hidden rounded w-[calc(50%-0.5rem)] sm:w-[calc(25%-0.5rem)]"
-                        >
-                            <img
-                                src={img}
-                                alt={alt}
-                                loading="lazy"
-                                className="w-full h-[105px] object-cover bg-white p-2"
-                            />
-                        </div>
-                    ))}
-                </div>
+import React from 'react';
+
+const ArmedForcesNews = () => {
+  const newsItems = [
+    {
+      id: 1,
+      image: 'https://picsum.photos/80/60?random=1',
+      title: 'Chief of Army Staff (COAS), General Syed Asim Munir, NI (M), chaired the'
+    },
+    {
+      id: 2,
+      image: 'https://picsum.photos/80/60?random=2',
+      title: 'On February 5, 2025, Chief of the Army Staff (COAS), General Syed Asim'
+    },
+    {
+      id: 3,
+      image: 'https://picsum.photos/80/60?random=3',
+      title: 'General Syed Asim Munir, NI (M), Chief of Army Staff, visited Wana in So'
+    },
+    {
+      id: 4,
+      image: 'https://picsum.photos/80/60?random=4',
+      title: 'A high-level delegation from the United States, led by Mr. Eric Meyer, S'
+    },
+    {
+      id: 5,
+      image: 'https://picsum.photos/80/60?random=5',
+      title: 'On night 6/7 April 2025, an intelligence based operation was conducted'
+    }
+  ];
+
+  return (
+    <div className="w-[520px]  border-gray-200 relative left-3 mt-25 outline-none">
+      {/* Header */}
+      <div className="text-center py-1 mb-2 outline-none">
+        <span className="bg-red-600 text-white px-8 py-2 font-bold text-sm outline-none">
+          Arm Forces News
+        </span>
+      </div>
+
+      <div className="px-2 pb-2 outline-none">
+        {/* News Items */}
+        <div className="space-y-2 outline-none">
+          {newsItems.map((item) => (
+            <div key={item.id} className="flex items-start gap-2 hover:bg-gray-50 p-1 rounded cursor-pointer outline-none">
+              <img
+                src={item.image}
+                alt={`News ${item.id}`}
+                className="w-12 h-10 object-cover flex-shrink-0  outline-none"
+              />
+              <p className="text-gray-500 text-xs    outline-none font-bold">
+                {item.title}
+              </p>
             </div>
-
-            {/* Armed Forces News Section */}
-            <header className="bg-white">
-                <div className="max-w-7xl mx-auto px-2">
-                    <h1 className="text-2xl font-medium py-1 pb-2 text-[#F65050] oswald">Armed Forces News</h1>
-                    <div
-                        className="h-[1px] w-[93%]"
-                        style={{
-                            backgroundSize: "100% 100%",
-                            backgroundImage: "linear-gradient(to right, #dc2626 20%, black 20%)",
-                        }}
-                    ></div>
-                </div>
-            </header>
-
-            {/* News List */}
-            <div className="space-y-4 pt-2">
-                {news.map(({ id, title, author, date, img }) => (
-                    <article
-                        key={id}
-                        className="bg-white rounded-lg p-1 border border-gray-100 transition-shadow shadow-[0px_4px_4px_0px_#00000040] flex flex-col sm:flex-row gap-4"
-                    >
-                        <img
-                            src={img}
-                            alt="News thumbnail"
-                            loading="lazy"
-                            className="w-full sm:w-[93px] h-[73px] object-cover flex-shrink-0 rounded"
-                        />
-                        <div className="flex-1">
-                            <div className="flex items-center text-sm text-[#2D2D2D] text-[10px] font-normal mb-2">
-                                <span>{author}</span>
-                                <span className="mx-1">-</span>
-                                <span className="text-gray-500">{date}</span>
-                            </div>
-                            <h3 className="text-[15px] font-normal oswald text-[#393939] leading-tight hover:text-blue-600 cursor-pointer">
-                                {title}
-                            </h3>
-                        </div>
-                    </article>
-                ))}
-            </div>
+          ))}
         </div>
-    );
-}
+
+        {/* Advertisement Banner */}
+        <div className="mt-3 relative outline-none">
+          <img
+            src="https://picsum.photos/552/100?random=6"
+            alt="Advertisement"
+            className="w-[552px] h-[100px] object-cover rounded outline-none"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded outline-none">
+            <div className="text-white text-center outline-none">
+              <div className="text-xl font-bold outline-none">Ad space</div>
+              <div className="text-sm outline-none">552*100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ArmedForcesNews;
