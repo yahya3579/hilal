@@ -1,12 +1,18 @@
-import React from "react";
-import { FaChevronDown } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../assets/hilal-logo.svg";
 
 const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
         <nav className="relative bg-[#DF1600] text-white shadow-md z-10">
-            <div className="ml-4 lg:ml-[10px] px-4 flex flex-wrap lg:flex-nowrap h-[75px] items-center py-3 relative">
+            <div className="px-4 flex justify-between items-center h-[75px] py-3 relative">
                 {/* Logo Section */}
                 <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
                     <img
@@ -16,9 +22,22 @@ const Navbar = () => {
                     />
                 </div>
 
-                {/* Navigation Links */}
-                <div className="flex items-center space-x-3 lg:ml-60 mt-4 lg:mt-0">
-                    <ul className="flex flex-wrap space-x-5 text-[16px] lg:text-[18px] font-medium">
+                {/* Mobile Menu Button */}
+                <button
+                    className="lg:hidden ml-auto z-20 text-white"
+                    onClick={toggleMenu}
+                    aria-label="Toggle menu"
+                >
+                    {isMenuOpen ? (
+                        <FaTimes className="h-6 w-6" />
+                    ) : (
+                        <FaBars className="h-6 w-6" />
+                    )}
+                </button>
+
+                {/* Desktop Navigation */}
+                <div className="hidden lg:flex items-center space-x-3 ml-60">
+                    <ul className="flex space-x-5 text-[18px] font-medium">
                         <li className="hover:underline cursor-pointer">Home</li>
                         <li className="relative group cursor-pointer">
                             Category <FaChevronDown className="inline ml-1" />
@@ -35,17 +54,57 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex ml-auto space-x-2 text-[14px] lg:text-[16px] mt-4 lg:mt-0">
+                {/* Desktop Action Buttons */}
+                <div className="hidden lg:flex ml-auto space-x-2 text-[16px]">
                     <Link to="/admin/dashboard">
-                        <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
+                        <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
                             Admin
                         </button>
                     </Link>
                     <Link to="/articles">
-                    <button className="w-28 lg:w-32 bg-white text-[#DF1600] p-2 lg:p-3 font-bold border border-white cursor-pointer">
-                        SUBSCRIBE
-                    </button>
+                        <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                            SUBSCRIBE
+                        </button>
+                    </Link>
+                </div>
+            </div>
+
+            {/* Mobile Menu */}
+            <div
+                className={`lg:hidden ${isMenuOpen ? "block" : "hidden"
+                    } bg-[#DF1600] absolute top-[75px] left-0 right-0 z-50 shadow-lg transition-all duration-300`}
+            >
+                <ul className="flex flex-col px-4 py-2 text-[16px] font-medium">
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
+                        Home
+                    </li>
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2 flex justify-between items-center">
+                        <span>Category</span>
+                        <FaChevronDown className="ml-1" />
+                    </li>
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2 flex justify-between items-center">
+                        <span>Magazines</span>
+                        <FaChevronDown className="ml-1" />
+                    </li>
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2 flex justify-between items-center">
+                        <span>E-Book</span>
+                        <FaChevronDown className="ml-1" />
+                    </li>
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
+                        Our Contributors
+                    </li>
+                </ul>
+
+                <div className="flex flex-col space-y-2 p-4">
+                    <Link to="/admin/dashboard" className="w-full">
+                        <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                            Admin
+                        </button>
+                    </Link>
+                    <Link to="/articles" className="w-full">
+                        <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                            SUBSCRIBE
+                        </button>
                     </Link>
                 </div>
             </div>
