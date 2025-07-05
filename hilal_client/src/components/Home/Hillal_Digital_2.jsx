@@ -23,23 +23,22 @@ const HilalDigital2 = () => {
     ];
 
     return (
-        <div className="border-t-2 border-red-600 bg-gray-50">
-            {/* Header */}
-
-            <header className="text-[#DF1600]  px-4 py-2">
-                <h2 className="font-[Poppins] font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase">
-                    HILAL DIGITAL
-                </h2>
-            </header>
+        <div className="bg-white font-poppins px-4 py-2 font-poppins ">
+            {/* In Focus Header */}
+            <div className="border-t-[3px] border-red-600">
+                <div className="py-2 mb-2">
+                    <h2 className="heading-text-primary">Hilal Digital</h2>
+                </div>
 
 
-            {/* Main Content */}
-            <div className=" px-4 py-6 ">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {/* Main Content */}
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3">
                     {/* Main Video Section */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                            <div className="aspect-video h-[380px] bg-gray-900 relative">
+                        <div className="bg-white overflow-hidden">
+                            <div className="aspect-video h-[350px] bg-gray-900 relative">
                                 <iframe
                                     className="w-full h-full"
                                     src="https://www.youtube.com/embed/dQw4w9WgXcQ"
@@ -55,7 +54,7 @@ const HilalDigital2 = () => {
                     {/* Sidebar */}
                     <div className="space-y-4">
                         {newsItems.map((item, index) => (
-                            <div key={index} className="bg-white  border-b border-gray-200 pb-3">
+                            <div key={index} className="bg-white">
                                 <div className="flex gap-3">
                                     <div className="w-20 h-16 bg-gray-200  flex-shrink-0 overflow-hidden">
                                         <img
@@ -65,22 +64,23 @@ const HilalDigital2 = () => {
                                         />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-sm font-medium text-gray-900 leading-tight mb-1">
-                                            {item.title}
-                                        </h3>
-                                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                                        <div className="flex items-center gap-2 text-xs text-gray-400">
                                             <span>{item.views}</span>
-                                            <span>•</span>
                                             <span>{item.time}</span>
                                         </div>
+                                        <h3 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8] ">
+                                            {item.title}
+                                        </h3>
+
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
+
             </div>
-        </div>
+        </div >
     );
 };
 

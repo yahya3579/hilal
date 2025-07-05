@@ -16,7 +16,7 @@ const InFocusSection = () => {
                             <img
                                 src="https://i.natgeofe.com/n/9ad480f8-ca3a-46b2-842d-889d93afc43e/deosai-national-park-pakistan.jpg"
                                 alt="Knowledge economy"
-                                className="w-full h-[320px] object-cover"
+                                className="w-full h-[300px] object-cover"
                             />
 
 
@@ -33,18 +33,16 @@ const InFocusSection = () => {
                                     developed world is creating new, dynamic opportunities, but at the cost of the old and established.
                                     The choices are stark: either countries adapt within a compressed timeframe or fall behind and lose...
                                 </p>
-                                <a href="#" className="text-xs font-bold text-red-600 hover:underline">
-                                    Read More
-                                </a>
+
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2  gap-x-4 ">
+                        <div className="grid grid-cols-2 gap-y-2  gap-x-4 ">
                             {[1, 2, 3, 4].map((item, index) => (
-                                <div className="bg-white  overflow-hidden">
+                                <div className=" overflow-hidden">
                                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK4gn1_pFyGPz7r_gZa5YAY1AnxDvRXP0Deg&s" alt=""
-                                        loading="lazy" className="h-[150px] object-cover w-full" />
-                                    <div className="py-3">
+                                        loading="lazy" className="h-[120px] object-cover w-full" />
+                                    <div className="py-2">
                                         <p className="text-xs text-gray-400 mb-1">Tahir Jahangir</p>
                                         <h4 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8] ">
                                             What Have We Given to Pakistan Strengthening the Economy

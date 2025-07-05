@@ -1,36 +1,34 @@
 const PreviousMonthHilal = () => {
     const magazineCovers = [
         {
-            src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI3ik4PV-w8Tr42F8k--5P0DU1SAhRYQg608Xn1cjGayUXdlPNxjo1JVGWPsR1G2rAXwg&usqp=CAU",
+            src: "https://m.media-amazon.com/images/I/71cmgvLSnJL.jpg",
             alt: "Resolution Day Magazine Cover"
         },
         {
-            src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcTU0iDBEDglLCrUfCPdnkqmbSxoQuvvkfhw&s",
+            src: "https://m.media-amazon.com/images/I/71cmgvLSnJL.jpg",
             alt: "1940 Historical Magazine Cover"
         },
         {
-            src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcTU0iDBEDglLCrUfCPdnkqmbSxoQuvvkfhw&s",
+            src: "https://m.media-amazon.com/images/I/71cmgvLSnJL.jpg",
             alt: "Hilal Her Magazine Cover"
         }
     ];
 
     return (
-        <div className="bg-white w-full">
-            <div className="border-t-2 border-red-600">
-                <div className="text-[#DF1600] px-4 py-2">
-                    <h2 className="font-[Poppins] font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase">
-                        PREVIOUS MONTH HILAL MAGAZINES
-                    </h2>
+        <div className="bg-white w-full font-poppins">
+            <div className="border-t-[3px] border-red-600">
+                <div className="py-2">
+                    <h2 className="heading-text-primary">Previous month hilal magzines</h2>
                 </div>
 
 
 
                 {/* Magazine Covers */}
                 <div className="mt-5">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 max-lg: gap-y-4 gap-x-6">
                         {magazineCovers.map((magazine, index) => (
                             <div key={index} className="overflow-hidden w-full  shadow-md">
-                                <img
+                                <img loading="lazy"
                                     src={magazine.src}
                                     alt={magazine.alt}
                                     className="w-full h-[373px] object-cover aspect-[3/4]"
