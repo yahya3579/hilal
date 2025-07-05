@@ -9,3 +9,16 @@
 .font-poppins{
  font-family: 'Poppins', 'sans-serif';
 }
+.heading-text-primary
+{
+  color: #DF1600;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 100%; /* equivalent to 24px since 100% of 24px = 24px */
+  letter-spacing: -0.03em; /* -3% of 1em */
+  text-transform: uppercase;
+}
+.red-primary{
+  color: #DF1600;
+}
