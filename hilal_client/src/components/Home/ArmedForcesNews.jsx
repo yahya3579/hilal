@@ -41,7 +41,7 @@ const ArmedForcesNews = () => {
             <img
               key={index}
               src="https://www.nbf.org.pk/sites/default/files/book_covers/WhatsApp%20Image%202024-01-25%20at%2011.46.36%20AM.jpeg"
-              className="max-lg:w-32 w-full "
+              className="w-15 "
               alt={`Book ${index + 1}`}
             />
           ))}
