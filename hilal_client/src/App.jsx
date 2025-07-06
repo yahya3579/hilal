@@ -12,6 +12,8 @@ import MagazineManagement from "./pages/admin/MagazineManagement";
 import ArticlesGallery from "./pages/admin/ArticlesGallery";
 import BillBoards from "./pages/admin/BillBoards";
 import NotFound from "./pages/NotFound";
+import SignUp from "./pages/Signup";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
         <Route path="/css" element={<Css />} />
         <Route path="articles" element={<Articles />} />
       </Route>
+      <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
       <Route element={<AdminLayout />}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bill-boards-management" element={<BillBoards />} />
@@ -31,6 +35,8 @@ const App = () => {
         <Route path="/admin/comment-management" element={<CommentManagement />} />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
+      {/* Catch all undefined routes */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
