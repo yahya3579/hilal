@@ -2,8 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+
 
 .oswald {
   font-family: 'Oswald', sans-serif;
@@ -11,6 +12,11 @@
 .font-poppins{
  font-family: 'Poppins', 'sans-serif';
 }
+
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .heading-text-primary
 {
   color: #DF1600;
@@ -30,3 +36,38 @@
 .font-roboto {
   font-family: 'Roboto', sans-serif;
 }
+
+
+:root {
+  --color-primary: #DF1600;
+  --color-dark: #292D32;
+  --color-gray: #676767;
+  --color-border: #088586; /* default gray-200 */
+}
+
+/* text color */
+.color-primary{
+  color: var(--color-primary);
+}
+.color-dark{
+  color: var(--color-dark);
+}
+.color-gray{
+  color: var(--color-gray);
+}
+.color-border{
+  border-color: var(--color-border);
+} 
+
+/* background color */
+.bg-primary{
+  background-color: var(--color-primary);
+}
+.bg-dark{
+  background-color: var(--color-dark);
+}
+.bg-gray{
+  background-color: var(--color-gray);
+}
+
+

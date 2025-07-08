@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
-
+import { Link } from 'react-router-dom';
 const Articles = () => {
     const [articles] = useState([
         { id: 1, name: 'What have we given to.....', date: '10-03-2025', category: 'In-Focus' },
@@ -120,9 +120,10 @@ const Articles = () => {
                         <button className="px-6 py-2 border border-red-600 text-red-600 rounded font-medium hover:bg-red-50">
                             Manage Ads
                         </button>
-                        <button className="px-6 py-2 bg-red-600 text-white rounded font-medium hover:bg-red-700">
-                            New Article
-                        </button>
+                        <Link to="/admin/new-article">
+                            <button className="px-6 py-2 bg-red-600 text-white rounded font-medium hover:bg-red-700">
+                                New Article
+                            </button> </Link>
                     </div>
                 </div>
             </div>
