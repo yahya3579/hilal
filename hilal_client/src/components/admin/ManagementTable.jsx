@@ -57,6 +57,7 @@ const ManagementTable = ({ title, columns, data = [], onAddNew }) => {
 
             {/* New Item Button */}
             {title != "Comment management" && <div className="flex justify-center mt-8">
+
                 <button
                     onClick={onAddNew}
                     className="bg-[#DF0404] text-white px-6 py-2 rounded hover:bg-red-700 transition-colors font-bold text-[16.1px] leading-[100%] tracking-[-0.01em] font-poppins"

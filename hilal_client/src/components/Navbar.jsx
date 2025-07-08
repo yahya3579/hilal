@@ -2,7 +2,23 @@ import React, { useState } from "react";
 import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Logo from "../assets/hilal-logo.svg";
+import {
+    Facebook,
+    Youtube,
+    Music2,
+    Instagram,
+    ChevronRight,
 
+} from "lucide-react";
+
+
+
+const socialIcons = [
+    { Icon: Facebook, href: "#" },
+    { Icon: Youtube, href: "#" },
+    { Icon: Music2, href: "#" },
+    { Icon: Instagram, href: "#" },
+];
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -21,7 +37,6 @@ const Navbar = () => {
                         className="h-14 w-auto"
                     />
                 </div>
-
                 {/* Mobile Menu Button */}
                 <button
                     className="lg:hidden ml-auto z-20 text-white"
@@ -38,7 +53,10 @@ const Navbar = () => {
                 {/* Desktop Navigation */}
                 <div className="hidden lg:flex items-center space-x-3 ml-60">
                     <ul className="flex space-x-5 text-[18px] font-medium">
-                        <li className="hover:underline cursor-pointer">Home</li>
+                        <Link to="/">
+                            <li className="hover:underline cursor-pointer">Home</li>
+                        </Link>
+
                         <li className="relative group cursor-pointer">
                             Category <FaChevronDown className="inline ml-1" />
                         </li>
@@ -54,19 +72,32 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                {/* Desktop Action Buttons */}
-                <div className="hidden lg:flex ml-auto space-x-2 text-[16px]">
+                <div className="flex items-center space-x-2  ml-auto">
+                    {/* Desktop Action Buttons */}
+                    <div className="flex items-center space-x-2  ml-auto">
+                        {socialIcons.map(({ Icon, href }, idx) => (
+                            <a
+                                key={idx}
+                                href={href}
+                                className=" p-3 rounded hover:bg-red-700 transition-colors"
+                            >
+                                <Icon className="w-4 h-4" />
+                            </a>
+                        ))}
+                    </div>
+                    <div className="hidden lg:flex ml-auto space-x-2 text-[16px]">
 
-                    <Link to="/login">
-                        <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
-                            Login
-                        </button>
-                    </Link>
-                    <Link to="/admin/dashboard">
-                        <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
-                            Admin
-                        </button>
-                    </Link>
+                        <Link to="/login">
+                            <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                Login
+                            </button>
+                        </Link>
+                        <Link to="/admin/dashboard">
+                            <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                Admin
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
 

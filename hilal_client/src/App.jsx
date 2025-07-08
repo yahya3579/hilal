@@ -9,6 +9,7 @@ import Articles from "./pages/admin/Articles";
 import Dashboard from "./pages/admin/Dashboard";
 import CommentManagement from "./pages/admin/CommentManagement";
 import MagazineManagement from "./pages/admin/MagazineManagement";
+import EditArticle from "./pages/admin/EditArticle";
 import ArticlesGallery from "./pages/admin/ArticlesGallery";
 import BillBoards from "./pages/admin/BillBoards";
 import NotFound from "./pages/NotFound";
@@ -23,7 +24,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
-        <Route path="articles" element={<Articles />} />
+        <Route path="/articles" element={<Articles />} />
       </Route>
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
@@ -33,9 +34,11 @@ const App = () => {
         <Route path="/admin/articles-management" element={<ArticlesGallery />} />
         <Route path="/admin/magazine-management" element={<MagazineManagement />} />
         <Route path="/admin/comment-management" element={<CommentManagement />} />
+
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
       {/* Catch all undefined routes */}
+      <Route path="/admin/new-article" element={<EditArticle />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
