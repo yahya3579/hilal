@@ -1,19 +1,36 @@
 "use client"
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import HilalDigital from "../assets/hilal-logo.svg"
 import { FaFacebook } from "react-icons/fa"
+import api from "../utils/api"
 
 const SignUp = () => {
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log("Sign up:", { email, password })
-    }
+    const navigate = useNavigate();
+
+
+
+    const handleSubmit = async (e) => {
+        // setLoading(true);
+        e.preventDefault();
+
+        try {
+            const res = await api.post("/api/user/register/", { "email": email, password })
+            navigate("/login")
+        } catch (error) {
+            alert(error)
+        } finally {
+            //    setLoading(false)
+        }
+    };
+
+
+
 
     const handleGoogleSignUp = () => {
         console.log("Sign up with Google")

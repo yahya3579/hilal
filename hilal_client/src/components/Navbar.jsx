@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/hilal-logo.svg";
 import {
     Facebook,
@@ -21,9 +21,25 @@ const socialIcons = [
 ];
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Check if access token exists in local storage
+        const accessToken = localStorage.getItem("access");
+        setIsLoggedIn(!!accessToken);
+    }, []);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        setIsLoggedIn(false);
+        navigate("/login");
+
     };
 
     return (
@@ -86,17 +102,27 @@ const Navbar = () => {
                         ))}
                     </div>
                     <div className="hidden lg:flex ml-auto space-x-2 text-[16px]">
-
-                        <Link to="/login">
-                            <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
-                                Login
+                        {isLoggedIn ? (
+                            <button
+                                onClick={handleLogout}
+                                className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer"
+                            >
+                                Logout
                             </button>
-                        </Link>
-                        <Link to="/admin/dashboard">
-                            <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
-                                Admin
-                            </button>
-                        </Link>
+                        ) : (
+                            <>
+                                <Link to="/login">
+                                    <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                        Login
+                                    </button>
+                                </Link>
+                                <Link to="/admin/dashboard">
+                                    <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                        Admin
+                                    </button>
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -128,17 +154,27 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex flex-col space-y-2 p-4">
-
-                    <Link to="/login" className="w-full">
-                        <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
-                            Login
+                    {isLoggedIn ? (
+                        <button
+                            onClick={handleLogout}
+                            className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer"
+                        >
+                            Logout
                         </button>
-                    </Link>
-                    <Link to="/admin/dashboard" className="w-full">
-                        <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
-                            Admin
-                        </button>
-                    </Link>
+                    ) : (
+                        <>
+                            <Link to="/login" className="w-full">
+                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                    Login
+                                </button>
+                            </Link>
+                            <Link to="/admin/dashboard" className="w-full">
+                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                    Admin
+                                </button>
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

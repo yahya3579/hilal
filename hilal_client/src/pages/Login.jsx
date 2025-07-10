@@ -1,19 +1,41 @@
 "use client"
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import HilalDigital from "../assets/hilal-logo.svg"
 import { FaFacebook, FaGoogle } from "react-icons/fa"
+import api from "../utils/api"
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/constants"
+import { jwtDecode } from "jwt-decode"
 
 const Login = () => {
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log("Sign up:", { email, password })
-    }
+    const navigate = useNavigate();
+
+
+
+    const handleSubmit = async (e) => {
+        // setLoading(true);
+        e.preventDefault();
+
+        try {
+            const res = await api.post("/api/token/", { email, password })
+            console.log(res.data)
+            localStorage.setItem(ACCESS_TOKEN, res.data.access);
+            localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+            console.log(jwtDecode(res.data.access))
+            navigate("/")
+        } catch (error) {
+            alert(error)
+        } finally {
+            //    setLoading(false)
+        }
+    };
+
+
 
     const handleGoogleSignUp = () => {
         console.log("Sign up with Google")

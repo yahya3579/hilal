@@ -61,6 +61,7 @@ const Home = () => {
 
 
 
+
       <div className="flex lg:flex-row flex-col px-4 py-2 gap-x-4">
         <div className="lg:w-[70%]">
           <PreviousMonthHilal />
@@ -70,6 +71,7 @@ const Home = () => {
         </div>
 
       </div>
+
 
     </>
   );

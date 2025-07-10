@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Home from "./pages/Home";
@@ -15,12 +15,25 @@ import BillBoards from "./pages/admin/BillBoards";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
+import ProtectedRoutes from "./layouts/ProtectedRoutes";
 
+
+
+function Logout() {
+  localStorage.clear()
+  return <Navigate to="/login" />
+}
+
+function RegisterAndLogout() {
+  localStorage.clear()
+  return <Register />
+}
 const App = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={
+          <ProtectedRoutes> <Home /></ProtectedRoutes>} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
