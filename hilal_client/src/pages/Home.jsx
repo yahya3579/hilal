@@ -10,6 +10,7 @@ import NewsLetter from "../components/Home/NewsLetter";
 import Advertisement2 from "../components/Home/Advertisement2";
 import Advertisement1 from "../components/Home/Advertisement1";
 import Advertisement4 from "../components/Home/Advertisement4";
+import GoogleSignInButton from "./Google";
 
 
 
@@ -72,6 +73,7 @@ const Home = () => {
 
       </div>
 
+      <GoogleSignInButton />
 
     </>
   );

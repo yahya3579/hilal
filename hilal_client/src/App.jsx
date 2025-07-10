@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
 import ProtectedRoutes from "./layouts/ProtectedRoutes";
+import GoogleSignInButton from "./pages/Google";
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/css" element={<Css />} />
         <Route path="/articles" element={<Articles />} />
       </Route>
+
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route element={<AdminLayout />}>
