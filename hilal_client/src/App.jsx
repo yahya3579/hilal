@@ -33,7 +33,10 @@ const App = () => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={
-          <ProtectedRoutes> <Home /></ProtectedRoutes>} />
+
+          //   <ProtectedRoutes> <Home /></ProtectedRoutes>} />
+          <Home />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
