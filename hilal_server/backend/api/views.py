@@ -28,13 +28,65 @@ from .models import CustomUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.conf import settings
 
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from rest_framework import generics
+from .models import CustomUser
+from .serializers import CustomUserSerializer
+
 class CreateUserView(generics.CreateAPIView):
-    """
-    View to create a new user.
-    """
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = [AllowAny]  # Allow any user to create an account
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        first_name = request.data.get("first_name", "")
+        last_name = request.data.get("last_name", "")
+
+        try:
+            user = CustomUser.objects.get(email=email)
+            if user.has_usable_password():
+                return Response({"error": "This email is already registered with a password."}, status=400)
+            else:
+                # User created with social login earlier, now wants to set password
+                user.set_password(password)
+                user.first_name = first_name or user.first_name
+                user.last_name = last_name or user.last_name
+                user.save()
+
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                    "user": {
+                        "email": user.email,
+                        "first_name": user.first_name,
+                        "last_name": user.last_name,
+                    }
+                }, status=200)
+
+        except CustomUser.DoesNotExist:
+            # Create new user
+            user = CustomUser(email=email, first_name=first_name, last_name=last_name)
+            user.set_password(password)
+            user.save()
+
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "user": {
+                    "email": user.email,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                }
+            }, status=201)
+
+
 
 class GoogleLoginAPIView(APIView):
     permission_classes = [AllowAny]
@@ -54,7 +106,7 @@ class GoogleLoginAPIView(APIView):
             if created:
                 user.first_name = first_name
                 user.last_name = last_name
-                user.set_unusable_password()
+               # user.set_unusable_password()
                 user.save()
 
             # Generate JWT
@@ -98,7 +150,7 @@ class FacebookLoginAPIView(APIView):
         if created:
             user.first_name = data.get("first_name", "")
             user.last_name = data.get("last_name", "")
-            user.set_unusable_password()
+            #user.set_unusable_password()
             user.save()
 
         refresh = RefreshToken.for_user(user)
@@ -111,3 +163,4 @@ class FacebookLoginAPIView(APIView):
                 "last_name": user.last_name,
             }
         })
+
