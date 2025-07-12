@@ -1,11 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import HilalDigital from "../assets/hilal-logo.svg"
 import { FaFacebook } from "react-icons/fa"
 import api from "../utils/api"
 import GoogleSignInButton from "./Google"
+
 
 const SignUp = () => {
     const [email, setEmail] = useState("johndoe@email.com")
@@ -31,14 +32,86 @@ const SignUp = () => {
     };
 
 
+    const [fbLoaded, setFbLoaded] = useState(false);
 
 
-    const handleGoogleSignUp = () => {
-        console.log("Sign up with Google")
-    }
+    useEffect(() => {
+        const scriptId = "facebook-jssdk";
+
+        const existing = document.getElementById(scriptId);
+        if (existing) {
+            existing.remove();
+        }
+
+        window.FB = undefined;
+
+        const script = document.createElement("script");
+        script.id = scriptId;
+        script.src = "https://connect.facebook.net/en_US/sdk.js";
+        script.async = true;
+        script.defer = true;
+
+        script.onload = () => {
+            const waitForFB = setInterval(() => {
+                if (window.FB) {
+                    clearInterval(waitForFB);
+                    window.FB.init({
+                        appId: "24151840021077228", // Ensure this is a valid app ID
+                        cookie: true,
+                        xfbml: true,
+                        version: "v17.0",
+                    });
+                    setFbLoaded(true);
+                }
+            }, 100);
+        };
+
+        document.body.appendChild(script);
+
+        return () => {
+            const injected = document.getElementById(scriptId);
+            if (injected) injected.remove();
+            window.FB = undefined;
+        };
+    }, []);
+
+    const handleLogin = () => {
+        if (!fbLoaded || !window.FB) {
+            console.error("⚠️ Facebook SDK is not loaded or initialized yet.");
+            return;
+        }
+
+        window.FB.login(
+            function (response) {
+                if (response.authResponse) {
+                    const accessToken = response.authResponse.accessToken;
+
+                    api
+                        .post("http://localhost:8000/api/user/facebook-login/", {
+                            access_token: accessToken,
+                        })
+                        .then((res) => {
+                            console.log("✅ Login Success", res.data);
+                            localStorage.setItem("access", res.data.access);
+                            localStorage.setItem("refresh", res.data.refresh);
+                            navigate("/");
+                        })
+                        .catch((err) => {
+                            console.error("❌ Login Failed (backend):", err.response?.data || err.message);
+                        });
+                } else {
+                    console.warn("⚠️ User cancelled login or did not authorize.");
+                }
+            },
+            { scope: "email" }
+        );
+    };
+
+
 
     return (
         <div>
+
 
             <div className="min-h-screen flex flex-col lg:flex-row">
                 {/* Left Side - Brand Section */}
@@ -100,15 +173,18 @@ const SignUp = () => {
 
                             <GoogleSignInButton />
                             {/* Facebook Sign Up Button */}
-                            <button
+                            {/* <button
                                 onClick={() => console.log('Log in with Facebook')}
                                 className="w-full bg-[#D9D9D9] text-[#424242] hover:bg-gray-300 font-zen font-normal text-sm sm:text-[16px] leading-tight sm:leading-[25.6px] tracking-[0px]  py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center mb-4 sm:mb-6 transition-colors duration-200"
                             >
                                 <FaFacebook color="#1877F3" className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
 
                                 Log In with Facebook
+                            </button> */}
+                            <button onClick={handleLogin} disabled={!fbLoaded} className={` ${fbLoaded ? "w-full bg-[#D9D9D9] text-[#424242] hover:bg-gray-300 font-zen font-normal text-sm sm:text-[16px] leading-tight sm:leading-[25.6px] tracking-[0px]  py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center mb-4 sm:mb-6 transition-colors duration-200" : "bg-gray-400 cursor-not-allowed"}`}>
+                                {fbLoaded ? <FaFacebook color="#1877F3" className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" /> : "Loading..."}
+                                Log In with Facebook
                             </button>
-
                             {/* Divider */}
                             <div className="relative mb-4 sm:mb-6">
                                 <div className="absolute inset-0 flex items-center">

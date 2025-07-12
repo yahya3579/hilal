@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'rest_framework',  # Django REST Framework for building APIs   4
     "api",
     "corsheaders",  # CORS headers for cross-origin requests
+    "social_django"
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,19 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
 
 AUTH_USER_MODEL = "api.CustomUser"
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Replace with your actual Facebook app credentials
+SOCIAL_AUTH_FACEBOOK_KEY = '24151840021077228'
+SOCIAL_AUTH_FACEBOOK_SECRET = '3c579a7a679998c267f5fc1affc2ece9'
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email, first_name, last_name'
+}
