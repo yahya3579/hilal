@@ -72,6 +72,7 @@ class CreateUserView(generics.CreateAPIView):
         except CustomUser.DoesNotExist:
             # Create new user
             user = CustomUser(email=email, first_name=first_name, last_name=last_name)
+
             user.set_password(password)
             user.save()
 
@@ -106,7 +107,7 @@ class GoogleLoginAPIView(APIView):
             if created:
                 user.first_name = first_name
                 user.last_name = last_name
-               # user.set_unusable_password()
+                user.set_unusable_password()
                 user.save()
 
             # Generate JWT
@@ -150,7 +151,7 @@ class FacebookLoginAPIView(APIView):
         if created:
             user.first_name = data.get("first_name", "")
             user.last_name = data.get("last_name", "")
-            #user.set_unusable_password()
+            user.set_unusable_password()
             user.save()
 
         refresh = RefreshToken.for_user(user)
