@@ -43,9 +43,9 @@ class CreateUserView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         email = request.data.get("email")
-        password = request.data.get("password")
-        first_name = request.data.get("first_name", "")
-        last_name = request.data.get("last_name", "")
+        password = request.data.get("password")  # Updated field name
+        fname = request.data.get("fname", "")
+        lname = request.data.get("lname", "")
 
         try:
             user = CustomUser.objects.get(email=email)
@@ -54,8 +54,8 @@ class CreateUserView(generics.CreateAPIView):
             else:
                 # User created with social login earlier, now wants to set password
                 user.set_password(password)
-                user.first_name = first_name or user.first_name
-                user.last_name = last_name or user.last_name
+                user.fname = fname or user.fname
+                user.lname = lname or user.lname
                 user.save()
 
                 refresh = RefreshToken.for_user(user)
@@ -64,14 +64,14 @@ class CreateUserView(generics.CreateAPIView):
                     "access": str(refresh.access_token),
                     "user": {
                         "email": user.email,
-                        "first_name": user.first_name,
-                        "last_name": user.last_name,
+                        "first_name": user.fname,
+                        "last_name": user.lname,
                     }
                 }, status=200)
 
         except CustomUser.DoesNotExist:
             # Create new user
-            user = CustomUser(email=email, first_name=first_name, last_name=last_name)
+            user = CustomUser(email=email, fname=fname, lname=lname)
 
             user.set_password(password)
             user.save()
@@ -82,8 +82,8 @@ class CreateUserView(generics.CreateAPIView):
                 "access": str(refresh.access_token),
                 "user": {
                     "email": user.email,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
+                    "first_name": user.fname,
+                    "last_name": user.lname,
                 }
             }, status=201)
 
@@ -105,8 +105,8 @@ class GoogleLoginAPIView(APIView):
 
             user, created = CustomUser.objects.get_or_create(email=email)
             if created:
-                user.first_name = first_name
-                user.last_name = last_name
+                user.fname = first_name
+                user.lname = last_name
                 user.set_unusable_password()
                 user.save()
 
@@ -117,8 +117,8 @@ class GoogleLoginAPIView(APIView):
                 "access": str(refresh.access_token),
                 "user": {
                     "email": user.email,
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
+                    "first_name": user.fname,
+                    "last_name": user.lname,
                 }
             })
         except Exception as e:
@@ -149,8 +149,8 @@ class FacebookLoginAPIView(APIView):
 
         user, created = CustomUser.objects.get_or_create(email=email)
         if created:
-            user.first_name = data.get("first_name", "")
-            user.last_name = data.get("last_name", "")
+            user.fname = data.get("first_name", "")
+            user.lname = data.get("last_name", "")
             user.set_unusable_password()
             user.save()
 
@@ -160,8 +160,8 @@ class FacebookLoginAPIView(APIView):
             "access": str(refresh.access_token),
             "user": {
                 "email": user.email,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
+                "first_name": user.fname,
+                "last_name": user.lname,
             }
         })
 
