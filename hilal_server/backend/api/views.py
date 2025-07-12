@@ -57,17 +57,27 @@ class CreateUserView(generics.CreateAPIView):
                 user.fname = fname or user.fname
                 user.lname = lname or user.lname
                 user.save()
-
+                
                 refresh = RefreshToken.for_user(user)
-                return Response({
-                    "refresh": str(refresh),
+                response = Response({
                     "access": str(refresh.access_token),
                     "user": {
                         "email": user.email,
                         "first_name": user.fname,
                         "last_name": user.lname,
                     }
-                }, status=200)
+                }, status=201)
+
+                # Set refresh token as HttpOnly cookie
+                response.set_cookie(
+                    key='refresh_token',
+                    value=str(refresh),
+                    httponly=True,
+                    secure=False,  # set to True in production with HTTPS
+                    samesite='Lax',
+                    max_age=7 * 24 * 60 * 60  # or as needed
+                )
+                return response
 
         except CustomUser.DoesNotExist:
             # Create new user
@@ -77,15 +87,34 @@ class CreateUserView(generics.CreateAPIView):
             user.save()
 
             refresh = RefreshToken.for_user(user)
-            return Response({
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "user": {
-                    "email": user.email,
-                    "first_name": user.fname,
-                    "last_name": user.lname,
-                }
-            }, status=201)
+            # return Response({
+            #     "refresh": str(refresh),
+            #     "access": str(refresh.access_token),
+            #     "user": {
+            #         "email": user.email,
+            #         "first_name": user.fname,
+            #         "last_name": user.lname,
+            #     }
+            # }, status=201)                refresh = RefreshToken.for_user(user)
+            response = Response({
+                    "access": str(refresh.access_token),
+                    "user": {
+                        "email": user.email,
+                        "first_name": user.fname,
+                        "last_name": user.lname,
+                    }
+                }, status=201)
+
+                # Set refresh token as HttpOnly cookie
+            response.set_cookie(
+                    key='refresh_token',
+                    value=str(refresh),
+                    httponly=True,
+                    secure=False,  # set to True in production with HTTPS
+                    samesite='Lax',
+                    max_age=7 * 24 * 60 * 60  # or as needed
+                )
+            return response
 
 
 
@@ -111,16 +140,36 @@ class GoogleLoginAPIView(APIView):
                 user.save()
 
             # Generate JWT
+            # refresh = RefreshToken.for_user(user)
+            # return Response({
+            #     "refresh": str(refresh),
+            #     "access": str(refresh.access_token),
+            #     "user": {
+            #         "email": user.email,
+            #         "first_name": user.fname,
+            #         "last_name": user.lname,
+            #     }
+            # })
             refresh = RefreshToken.for_user(user)
-            return Response({
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "user": {
-                    "email": user.email,
-                    "first_name": user.fname,
-                    "last_name": user.lname,
-                }
-            })
+            response = Response({
+                    "access": str(refresh.access_token),
+                    "user": {
+                        "email": user.email,
+                        "first_name": user.fname,
+                        "last_name": user.lname,
+                    }
+                }, status=201)
+
+                # Set refresh token as HttpOnly cookie
+            response.set_cookie(
+                    key='refresh_token',
+                    value=str(refresh),
+                    httponly=True,
+                    secure=False,  # set to True in production with HTTPS
+                    samesite='Lax',
+                    max_age=7 * 24 * 60 * 60  # or as needed
+                )
+            return response
         except Exception as e:
             return Response({"error": "Invalid token", "details": str(e)}, status=400)
 
@@ -154,14 +203,92 @@ class FacebookLoginAPIView(APIView):
             user.set_unusable_password()
             user.save()
 
-        refresh = RefreshToken.for_user(user)
-        return Response({
-            "refresh": str(refresh),
-            "access": str(refresh.access_token),
-            "user": {
-                "email": user.email,
-                "first_name": user.fname,
-                "last_name": user.lname,
-            }
-        })
+        # refresh = RefreshToken.for_user(user)
+        # return Response({
+        #     "refresh": str(refresh),
+        #     "access": str(refresh.access_token),
+        #     "user": {
+        #         "email": user.email,
+        #         "first_name": user.fname,
+        #         "last_name": user.lname,
+        #     }
+        # })
+            refresh = RefreshToken.for_user(user)
+            response = Response({
+                    "access": str(refresh.access_token),
+                    "user": {
+                        "email": user.email,
+                        "first_name": user.fname,
+                        "last_name": user.lname,
+                    }
+                }, status=201)
+
+                # Set refresh token as HttpOnly cookie
+            response.set_cookie(
+                    key='refresh_token',
+                    value=str(refresh),
+                    httponly=True,
+                    secure=False,  # set to True in production with HTTPS
+                    samesite='Lax',
+                    max_age=7 * 24 * 60 * 60  # or as needed
+                )
+            return response
+
+
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.contrib.auth import authenticate
+from datetime import timedelta
+
+class LoginView(APIView):
+    permission_classes = [AllowAny] 
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = authenticate(request, email=email, password=password)
+
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+
+            response = Response({"access": access_token})
+
+            # Set refresh token in HTTPOnly cookie
+            response.set_cookie(
+                key='refresh_token',
+                value=str(refresh),
+                httponly=True,
+                secure=False,  # use True in production with HTTPS
+                samesite='Lax',  # or 'Strict'
+                max_age=7 * 24 * 60 * 60  # 7 days
+                
+              
+            )
+
+            return response
+        return Response({"error": "Invalid credentials"}, status=401)
+    
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken, TokenError
+
+class RefreshTokenView(APIView):
+    permission_classes = [AllowAny] 
+    def post(self, request):
+        refresh_token = request.COOKIES.get('refresh_token')
+        print('refresh_token',refresh_token)
+
+        if refresh_token is None:
+            return Response({'error': 'Refresh token missing'}, status=401)
+
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access = str(refresh.access_token)
+
+            return Response({'access': new_access})
+        except TokenError:
+            return Response({'error': 'Invalid refresh token'}, status=401)
 

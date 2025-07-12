@@ -93,7 +93,7 @@ const SignUp = () => {
                         .then((res) => {
                             console.log("✅ Login Success", res.data);
                             localStorage.setItem("access", res.data.access);
-                            localStorage.setItem("refresh", res.data.refresh);
+
                             navigate("/");
                         })
                         .catch((err) => {

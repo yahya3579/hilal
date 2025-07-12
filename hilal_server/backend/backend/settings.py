@@ -9,10 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from corsheaders.defaults import default_headers
 from pathlib import Path # import libraries for file path handling 1
 from datetime import timedelta
 from dotenv import load_dotenv
+
+
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +41,7 @@ REST_FRAMEWORK = {
     ],
 }
 SIMPLE_JWT = {                                     # specific settings for JWT  3
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 # Application definition
@@ -156,7 +158,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Allow frontend development server
 ]
-CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
+# CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
+
+# Allow cookies to be sent
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow all headers
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'X-Requested-With',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
+# Optional: allow specific methods
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"
+]
 
 AUTH_USER_MODEL = "api.CustomUser"
 

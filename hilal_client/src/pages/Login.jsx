@@ -76,11 +76,11 @@ const Login = () => {
                     api
                         .post("http://localhost:8000/api/user/facebook-login/", {
                             access_token: accessToken,
-                        })
+                        }, { withCredentials: true })
                         .then((res) => {
                             console.log("✅ Login Success", res.data);
                             localStorage.setItem("access", res.data.access);
-                            localStorage.setItem("refresh", res.data.refresh);
+
                             navigate("/");
                         })
                         .catch((err) => {
@@ -99,10 +99,9 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const res = await api.post("/api/token/", { email, password })
+            const res = await api.post("/api/token/", { email, password }, { withCredentials: true });
             console.log(res.data)
             localStorage.setItem(ACCESS_TOKEN, res.data.access);
-            localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
             console.log(jwtDecode(res.data.access))
             navigate("/")
         } catch (error) {

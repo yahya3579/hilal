@@ -35,8 +35,8 @@ const App = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={
 
-          //   <ProtectedRoutes> <Home /></ProtectedRoutes>} />
-          <Home />} />
+          <ProtectedRoutes> <Home /></ProtectedRoutes>} />
+        {/* <Home />} /> */}
 
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
