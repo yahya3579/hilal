@@ -1,19 +1,56 @@
 
-import ManagementTable from '../../components/admin/ManagementTable'
+import ManagementTable from '../../../components/admin/ManagementTable'
 
 
-import articleCover from "../../assets/articles-cover.jpg";
-
+import articleCover from "../../../assets/articles-cover.jpg";
 const articles = [
-    { id: 1, title: "What have we given to....", created: "10-03-2025", count: 456, issueNews: "No", status: "Active" },
-    { id: 2, title: "What have we given to....", created: "10-03-2025", count: 274, issueNews: "No", status: "Active" },
-    // ...
+    {
+        id: 1,
+        title: "Preserving Cultural Heritage in Modern Times",
+        publishDate: "12-04-2025",
+        language: "English",
+        direction: "LTR",
+        status: "Active",
+    },
+    {
+        id: 2,
+        title: "اسلامی فن تعمیر کی خوبصورتی",
+        publishDate: "15-04-2025",
+        language: "Urdu",
+        direction: "RTL",
+        status: "Active",
+    },
+    {
+        id: 3,
+        title: "Youth and Digital Transformation",
+        publishDate: "18-04-2025",
+        language: "English",
+        direction: "LTR",
+        status: "Inactive",
+    },
+    {
+        id: 4,
+        title: "معاشرتی اصلاحات کے بنیادی اصول",
+        publishDate: "20-04-2025",
+        language: "Urdu",
+        direction: "RTL",
+        status: "Active",
+    },
+    {
+        id: 5,
+        title: "Innovation in Public Sector",
+        publishDate: "22-04-2025",
+        language: "English",
+        direction: "LTR",
+        status: "Active",
+    },
 ];
+
 
 const columns = [
     {
-        key: "preview",
-        label: "Preview",
+        key: "image",
+        label: "Image",
         render: () => (
             <img src={articleCover} alt="Article" className="w-[120px] h-[47px] object-cover rounded" />
         ),
@@ -26,27 +63,25 @@ const columns = [
         ),
     },
     {
-        key: "created",
-        label: "Created",
+        key: "publishDate",
+        label: "Publish Date",
         render: (value) => (
             <span className="font-medium text-[12.7px] font-poppins">{value}</span>
         ),
 
     },
     {
-        key: "count",
-        label: "Magazine  Count",
+        key: "language",
+        label: "Language",
         render: (value) => (
             <span className="font-medium text-[12.7px] font-poppins">{value}</span>
         ),
     },
     {
-        key: "issueNews",
-        label: "Issue News",
+        key: "direction",
+        label: "Direction",
         render: (value) => (
-            <button className="bg-black text-white px-3 py-1 text-[10.89px] font-bold rounded">
-                {value}
-            </button>
+            <span className="font-medium text-[12.7px] font-poppins">{value}</span>
         ),
     },
     {
@@ -77,6 +112,7 @@ const MagazineManagement = () => {
             data={articles}
             columns={columns}
             onAddNew={() => console.log("Add new article")}
+            route={"/admin/edit-magazine"}
         />
     )
 }

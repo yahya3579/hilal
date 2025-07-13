@@ -1,6 +1,7 @@
 import React from "react";
+import { Link, Links } from "react-router-dom";
 
-const ManagementTable = ({ title, columns, data = [], onAddNew }) => {
+const ManagementTable = ({ title, columns, data = [], route, onAddNew }) => {
     return (
         <div className="p-6 bg-white min-h-screen">
             {/* Header */}
@@ -23,6 +24,9 @@ const ManagementTable = ({ title, columns, data = [], onAddNew }) => {
 
             {/* Table */}
             <div className="overflow-x-auto">
+                <div className="border-t-[3px] border-[#DF1600] py-4">
+                    <h2 className="font-poppins font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase color-primary">EDIT Author</h2>
+                </div>
                 <table className="w-full border-collapse">
                     <thead>
                         <tr>
@@ -56,14 +60,15 @@ const ManagementTable = ({ title, columns, data = [], onAddNew }) => {
             </div>
 
             {/* New Item Button */}
-            {title != "Comment management" && <div className="flex justify-center mt-8">
+            {(title != "Comment management" && title != "Subscription Package  management") && <div className="flex justify-center mt-8">
 
-                <button
-                    onClick={onAddNew}
-                    className="bg-[#DF0404] text-white px-6 py-2 rounded hover:bg-red-700 transition-colors font-bold text-[16.1px] leading-[100%] tracking-[-0.01em] font-poppins"
-                >
-                    New {title?.split(" ")[0] ?? "Item"}
-                </button>
+                <Link to={route}>
+                    <button
+                        onClick={onAddNew}
+                        className="bg-[#DF0404] text-white px-6 py-2 rounded hover:bg-red-700 transition-colors font-bold text-[16.1px] leading-[100%] tracking-[-0.01em] font-poppins"
+                    >
+                        New {title?.split(" ")[0] ?? "Item"}
+                    </button></Link>
             </div>}
         </div>
     );

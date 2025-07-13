@@ -13,7 +13,8 @@ const AdminSidebar = () => {
         { label: "Article Comments", path: "comment-management" },
         { label: "Advertisements", path: "advertisements" },
         { label: "E-Books", path: "ebooks" },
-        { label: "Hilal Kids", path: "hilal-kids" },
+        { label: "Packages", path: "packages-management" },
+        { label: "Authors", path: "authors-management" },
     ];
 
     return (
