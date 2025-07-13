@@ -103,12 +103,18 @@ const Navbar = () => {
                     </div>
                     <div className="hidden lg:flex ml-auto space-x-2 text-[16px]">
                         {isLoggedIn ? (
-                            <button
+                            <>  <button
                                 onClick={handleLogout}
                                 className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer"
                             >
                                 Logout
                             </button>
+                                <Link to="/admin/dashboard">
+                                    <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                        Admin
+                                    </button>
+                                </Link>
+                            </>
                         ) : (
                             <>
                                 <Link to="/login">
