@@ -1,52 +1,36 @@
-import React from 'react'
-import ManagementTable from '../../components/admin/ManagementTable'
 
-
-import articleCover from "../../assets/articles-cover.jpg";
+import articleCover from "../../../assets/articles-cover.jpg";
+import ManagementTable from "../../../components/admin/ManagementTable";
 
 const articles = [
-    { id: 1, title: "What have we given to....", created: "10-03-2025", count: 456, issueNews: "No", status: "Active" },
-    { id: 2, title: "What have we given to....", created: "10-03-2025", count: 274, issueNews: "No", status: "Active" },
+    { id: 1, packageName: "Badar Babar", noOfMonths: "What have we given to....", cost: 8000, status: "Active" },
+    { id: 2, packageName: "Badar Babar", noOfMonths: "What have we given to....", cost: 8000, status: "Active" },
+    { id: 3, packageName: "Badar Babar", noOfMonths: "What have we given to....", cost: 8000, status: "Active" },
+    { id: 4, packageName: "Badar Babar", noOfMonths: "What have we given to....", cost: 8000, status: "Active" },
+    { id: 5, packageName: "Badar Babar", noOfMonths: "What have we given to....", cost: 8000, status: "Active" },
     // ...
 ];
 
 const columns = [
     {
-        key: "preview",
-        label: "Preview",
-        render: () => (
-            <img src={articleCover} alt="Article" className="w-[120px] h-[47px] object-cover rounded" />
-        ),
-    },
-    {
-        key: "title",
-        label: "Title",
+        key: "packageName",
+        label: "Package Name",
         render: (value) => (
             <span className="font-medium text-[12.7px] font-poppins">{value}</span>
         ),
     },
     {
-        key: "created",
-        label: "Created",
-        render: (value) => (
-            <span className="font-medium text-[12.7px] font-poppins">{value}</span>
-        ),
-
-    },
-    {
-        key: "count",
-        label: "Article Count",
+        key: "noOfMonths",
+        label: "No ofMonths",
         render: (value) => (
             <span className="font-medium text-[12.7px] font-poppins">{value}</span>
         ),
     },
     {
-        key: "issueNews",
-        label: "Issue News",
+        key: "cost",
+        label: "Cost",
         render: (value) => (
-            <button className="bg-black text-white px-3 py-1 text-[10.89px] font-bold rounded">
-                {value}
-            </button>
+            <span className="font-medium text-[12.7px] font-poppins">{value}</span>
         ),
     },
     {
@@ -69,12 +53,13 @@ const columns = [
             </select>
         ),
     },
+
 ];
 
-const ArticlesGallery = () => {
+const PackagesManagement = () => {
     return (
         <ManagementTable
-            title="Article Management"
+            title="Subscription Package  management"
             data={articles}
             columns={columns}
             onAddNew={() => console.log("Add new article")}
@@ -82,6 +67,4 @@ const ArticlesGallery = () => {
     )
 }
 
-export default ArticlesGallery
-
-
+export default PackagesManagement

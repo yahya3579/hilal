@@ -1,8 +1,6 @@
 
-import ManagementTable from '../../components/admin/ManagementTable'
+import ManagementTable from '../../../components/admin/ManagementTable'
 
-
-import articleCover from "../../assets/articles-cover.jpg";
 
 const articles = [
     { id: 1, author: "Zeeshan", title: "What have we given to....", comment: "This is a sample comment." },

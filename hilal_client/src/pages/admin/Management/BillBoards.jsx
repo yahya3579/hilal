@@ -1,9 +1,9 @@
 import React from 'react'
 
-import ManagementTable from '../../components/admin/ManagementTable'
+import ManagementTable from '../../../components/admin/ManagementTable'
 
 
-import articleCover from "../../assets/articles-cover.jpg";
+import articleCover from "../../../assets/articles-cover.jpg";
 
 const articles = [
     { id: 1, title: "What have we given to....", created: "10-03-2025", count: 456, location: "Islamabad", issueNews: "No", status: "Active" },
@@ -68,6 +68,7 @@ const BillBoards = () => {
             data={articles}
             columns={columns}
             onAddNew={() => console.log("Add new article")}
+            route={"/admin/edit-billboard"}
         />
     )
 }
