@@ -57,7 +57,7 @@ class CreateUserView(generics.CreateAPIView):
                 user.fname = fname or user.fname
                 user.lname = lname or user.lname
                 user.save()
-                
+
                 refresh = RefreshToken.for_user(user)
                 response = Response({
                     "access": str(refresh.access_token),
@@ -203,18 +203,8 @@ class FacebookLoginAPIView(APIView):
             user.set_unusable_password()
             user.save()
 
-        # refresh = RefreshToken.for_user(user)
-        # return Response({
-        #     "refresh": str(refresh),
-        #     "access": str(refresh.access_token),
-        #     "user": {
-        #         "email": user.email,
-        #         "first_name": user.fname,
-        #         "last_name": user.lname,
-        #     }
-        # })
-            refresh = RefreshToken.for_user(user)
-            response = Response({
+        refresh = RefreshToken.for_user(user)
+        response = Response({
                     "access": str(refresh.access_token),
                     "user": {
                         "email": user.email,
@@ -224,7 +214,7 @@ class FacebookLoginAPIView(APIView):
                 }, status=201)
 
                 # Set refresh token as HttpOnly cookie
-            response.set_cookie(
+        response.set_cookie(
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
@@ -232,7 +222,7 @@ class FacebookLoginAPIView(APIView):
                     samesite='Lax',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
-            return response
+        return response
 
 
 
@@ -279,6 +269,7 @@ class RefreshTokenView(APIView):
     permission_classes = [AllowAny] 
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
+      
         print('refresh_token',refresh_token)
 
         if refresh_token is None:
