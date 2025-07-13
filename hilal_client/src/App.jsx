@@ -16,7 +16,8 @@ import NotFound from "./pages/NotFound";
 import SignUp from "./pages/Signup";
 import Login from "./pages/Login";
 import ProtectedRoutes from "./layouts/ProtectedRoutes";
-
+import GoogleSignInButton from "./pages/Google";
+import ArticlePage from "./pages/ArticlePage";
 
 
 function Logout() {
@@ -34,14 +35,16 @@ const App = () => {
       <Route element={<MainLayout />}>
         <Route path="/" element={
 
-          //   <ProtectedRoutes> <Home /></ProtectedRoutes>} />
-          <Home />} />
+          <ProtectedRoutes> <Home /></ProtectedRoutes>} />
+        {/* <Home />} /> */}
 
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
         <Route path="/articles" element={<Articles />} />
+         <Route path="/articlepage" element={<ArticlePage />} /> {/*article page added */}
       </Route>
+
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route element={<AdminLayout />}>

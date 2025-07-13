@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import api from '../utils/api'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utils/constants'
+import axios from 'axios'
 const ProtectedRoutes = ({ children }) => {
     const [isAuthorized, setIsAuthorized] = useState(null)
 
@@ -13,41 +14,63 @@ const ProtectedRoutes = ({ children }) => {
         })
     }, [])
     const refreshToken = async () => {
-        const refreshToken = localStorage.getItem(REFRESH_TOKEN)
         try {
-            const response = await api.post('/api/token/refresh/', { refresh: refreshToken })
-            if (response.status == 200) {
-                localStorage.setItem(ACCESS_TOKEN, response.data.access)
-                setIsAuthorized(true)
+            const response = await axios.post('http://localhost:8000/api/token/refresh/', {}, {
+                withCredentials: true
+            });
+            console.log("response", response);
+            if (response.status === 200) {
+                localStorage.setItem(ACCESS_TOKEN, response.data.access);
+                setIsAuthorized(true);
+            } else {
+                setIsAuthorized(false);
             }
-            else {
-                setIsAuthorized(false)
-            }
-
+        } catch (error) {
+            console.error("Error refreshing token:", error?.response?.data || error.message);
+            setIsAuthorized(false);
         }
-        catch (error) {
-            console.error("Error refreshing token:", error)
-            setIsAuthorized(false)
-        }
+    };
 
-    }
+    // const auth = async () => {
+    //     const token = localStorage.getItem(ACCESS_TOKEN)
+    //     if (!token) {
+    //         setIsAuthorized(false)
+    //         return
+    //     }
+    //     const decodedToken = jwtDecode(token)
+    //     const expirationTime = decodedToken.exp;
+    //     const currentTime = Date.now() / 1000;
+    //     if (expirationTime < currentTime) {
+    //         await refreshToken();
+    //     }
+    //     else {
+    //         setIsAuthorized(true)
+    //     }
+
+    // }
     const auth = async () => {
         const token = localStorage.getItem(ACCESS_TOKEN)
         if (!token) {
             setIsAuthorized(false)
             return
         }
-        const decodedToken = jwtDecode(token)
-        const expirationTime = decodedToken.exp;
-        const currentTime = Date.now() / 1000;
-        if (expirationTime < currentTime) {
-            await refreshToken();
-        }
-        else {
-            setIsAuthorized(true)
-        }
 
+        try {
+            const decodedToken = jwtDecode(token)
+            const expirationTime = decodedToken.exp;
+            const currentTime = Date.now() / 1000;
+            if (expirationTime < currentTime) {
+                console.log("Token expired getting new")
+                await refreshToken();
+            } else {
+                setIsAuthorized(true)
+            }
+        } catch (error) {
+            console.error("Invalid token format, attempting refresh:", error);
+            await refreshToken();  // Attempt to refresh even if decode fails
+        }
     }
+
 
 
     if (isAuthorized == null) {
