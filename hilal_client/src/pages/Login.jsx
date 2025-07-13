@@ -7,6 +7,7 @@ import { FaFacebook, FaGoogle } from "react-icons/fa"
 import api from "../utils/api"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/constants"
 import { jwtDecode } from "jwt-decode"
+import GoogleSignInButton from "./Google"
 
 const Login = () => {
     const [email, setEmail] = useState("johndoe@email.com")
@@ -87,7 +88,7 @@ const Login = () => {
                         <p className="font-bold text-base sm:text-lg lg:text-[20px] leading-tight sm:leading-[37.5px] tracking-[-0.5px] text-center text-[#424242]">Login in your Account.</p>
 
                         {/* Google Sign Up Button */}
-                        <button
+                        {/* <button
                             onClick={handleGoogleSignUp}
                             className="w-full bg-[#D9D9D9] hover:bg-gray-300 font-zen font-normal text-sm sm:text-[16px] leading-tight sm:leading-[25.6px] tracking-[0px] text-[#424242] py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center mb-2 transition-colors duration-200"
                         >
@@ -99,7 +100,8 @@ const Login = () => {
                                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                             </svg>
                             Sign Up with Google
-                        </button>
+                        </button> */}
+                         <GoogleSignInButton />
                         {/* Facebook Log In Button */}
                         <button
                             onClick={() => console.log('Log in with Facebook')}
