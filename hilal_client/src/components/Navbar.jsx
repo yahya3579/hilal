@@ -21,6 +21,7 @@ const socialIcons = [
 ];
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
@@ -32,6 +33,10 @@ const Navbar = () => {
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const toggleCategory = () => {
+        setIsCategoryOpen((prev) => !prev);
     };
 
     const handleLogout = () => {
@@ -73,8 +78,16 @@ const Navbar = () => {
                             <li className="hover:underline cursor-pointer">Home</li>
                         </Link>
 
-                        <li className="relative group cursor-pointer">
+                        <li className="relative group cursor-pointer" onClick={toggleCategory}>
                             Category <FaChevronDown className="inline ml-1" />
+                            {isCategoryOpen && (
+                                <ul className="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-lg z-50">
+                                    <li>
+                                        <Link to="/articlepage" className="block px-4 py-2 hover:bg-gray-100">ArticlePage</Link>
+                                    </li>
+                                    {/* Add more dropdown items here if needed */}
+                                </ul>
+                            )}
                         </li>
                         <li className="relative group cursor-pointer">
                             Magazines <FaChevronDown className="inline ml-1" />
