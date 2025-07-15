@@ -105,11 +105,11 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hilal_backend',             # your database name
+        'NAME': 'newone',             # your database name
         'USER': 'root',             # your MySQL username
-        'PASSWORD':'Mysql123+++', # your MySQL password
+        'PASSWORD':'admin', # your MySQL password
         'HOST': 'localhost',        # or 127.0.0.1
-        'PORT': '3307',
+        'PORT': '3306',
     }
 }
 
