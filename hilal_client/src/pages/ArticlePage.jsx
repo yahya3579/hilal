@@ -1,6 +1,3 @@
-
-
-
 import React from "react";
 import { EnvelopeIcon } from "@heroicons/react/24/solid";
 import { ExternalLink, Star } from "lucide-react";
