@@ -95,8 +95,14 @@ const Navbar = () => {
                         <li className="relative group cursor-pointer">
                             E-Book <FaChevronDown className="inline ml-1" />
                         </li>
+                        <li className="relative group cursor-pointer">
+                            <Link to="/archives">Archives</Link>
+                        </li>
+                        <li className="relative group cursor-pointer">
+                            Advertise 
+                        </li>
                         <li className="hover:underline cursor-pointer">
-                            Our Contributors
+                            <Link to="/contributors">Our Contributors</Link>
                         </li>
                     </ul>
                 </div>
@@ -168,8 +174,16 @@ const Navbar = () => {
                         <FaChevronDown className="ml-1" />
                     </li>
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        Our Contributors
+                       <Link to="/archives">Archives</Link>
                     </li>
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
+                       Advertise
+                    </li>
+                    
+                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
+                        <Link to="/contributors">Our Contributors</Link>
+                    </li>
+                    
                 </ul>
 
                 <div className="flex flex-col space-y-2 p-4">
