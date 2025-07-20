@@ -9,7 +9,6 @@ import Articles from "./pages/admin/Articles";
 import Dashboard from "./pages/admin/Management/Dashboard";
 import CommentManagement from "./pages/admin/Management/CommentManagement";
 import MagazineManagement from "./pages/admin/Management/MagazineManagement";
-
 import BillBoards from "./pages/admin/Management/BillBoards";
 import NotFound from "./pages/NotFound";
 import SignUp from "./pages/Signup";
@@ -27,6 +26,8 @@ import EditMagazine from "./pages/admin/Edit/EditMagazine";
 import HilalArchives from "./pages/HilalArchives";
 import OurContributors from "./pages/OurContributors";
 import AboutUs from "./pages/AboutUs";
+import HilalEbooks from "./pages/HilalEbooks";
+import NationalInternationIssues from "./pages/National-Internation-Issues";
 
 const App = () => {
   return (
@@ -46,6 +47,8 @@ const App = () => {
         <Route path="/articles" element={<Articles />} />
         <Route path="/articlepage" element={<ArticlePage />} />
         <Route path="/archives" element={<HilalArchives />} />
+        <Route path="/ebooks" element={<HilalEbooks />} />
+        <Route path="/nation-international-issues" element={<NationalInternationIssues />} />
         <Route path="/contributors" element={<OurContributors />} />
         <Route path="/AboutUs" element={<AboutUs />} />
       </Route>

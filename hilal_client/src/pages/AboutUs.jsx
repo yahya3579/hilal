@@ -13,7 +13,7 @@ const AboutUs = () => {
       </h1>
 
       {/* Main Content */}
-      <div className="text-base sm:text-[19.32px] font-[400] text-[#292D32] leading-[160%] tracking-[-0.03em] capitalize font-[Poppins] space-y-6 sm:space-y-8">
+      <div className="text-base sm:text-[19.32px] font-[400] text-[#292D32] leading-[160%] tracking-[-0.03em] capitalize font-poppins space-y-6 sm:space-y-8">
         <p>
           ISPR Publications started as weekly Urdu Magazine in 1948 under the name 'Mujahid', that holds the distinction of featuring congratulatory messages from the Founder of Pakistan and other prominent civil and military leaders in its early editions. The magazine's evolution mirrors the trajectory of Pakistan, capturing historical events from the 1948 onwards. The archives of magazine offer a unique window into events that might have otherwise faded from historical memory. In 1951, another magazine with the name of Hilal started its publication as a bi-weekly frequency. It briefly became a daily publication in October 1952 before returning to a weekly format in 1964 where as `Mujahid` stopped its publication in 1952.
         </p>
