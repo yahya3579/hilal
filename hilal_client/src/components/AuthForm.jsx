@@ -10,7 +10,6 @@ const AuthForm = ({ route, method }) => {
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)
-
     const navigate = useNavigate();
 
 

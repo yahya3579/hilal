@@ -49,7 +49,7 @@ const Navbar = () => {
 
     return (
         <nav className="relative bg-[#DF1600] text-white shadow-md z-10">
-            <div className="px-4 flex justify-between items-center h-[75px] py-3 relative">
+            <div className="px-4 flex justify-between items-center  h-[75px] py-3 relative">
                 {/* Logo Section */}
                 <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
                     <img
@@ -60,7 +60,7 @@ const Navbar = () => {
                 </div>
                 {/* Mobile Menu Button */}
                 <button
-                    className="lg:hidden ml-auto z-20 text-white"
+                    className="lg:hidden absolute right-4 ml-auto z-20 text-white"
                     onClick={toggleMenu}
                     aria-label="Toggle menu"
                 >
@@ -72,12 +72,11 @@ const Navbar = () => {
                 </button>
 
                 {/* Desktop Navigation */}
-                <div className="hidden lg:flex items-center space-x-3 ml-60">
-                    <ul className="flex space-x-5 text-[18px] font-medium">
+                <div className="hidden lg:flex  items-center space-x-3 xl:space-x-6 ml-56 xl:ml-60">
+                    <ul className="flex space-x-2 xl:space-x-6 text-[16px] xl:text-[18px] font-medium">
                         <Link to="/">
                             <li className="hover:underline cursor-pointer">Home</li>
                         </Link>
-
                         <li className="relative group cursor-pointer" onClick={toggleCategory}>
                             Category <FaChevronDown className="inline ml-1" />
                             {isCategoryOpen && (
@@ -90,16 +89,17 @@ const Navbar = () => {
                             )}
                         </li>
                         <li className="relative group cursor-pointer">
-                            Magazines <FaChevronDown className="inline ml-1" />
+                            Magazines <FaChevronDown className="inline" />
                         </li>
                         <li className="relative group cursor-pointer">
-                            E-Book <FaChevronDown className="inline ml-1" />
+                            <Link to="/ebooks">E-Book</Link>  <FaChevronDown className="inline" />
                         </li>
                         <li className="relative group cursor-pointer">
                             <Link to="/archives">Archives</Link>
                         </li>
                         <li className="relative group cursor-pointer">
-                            Advertise 
+                            <Link to="/contributors">Advertise</Link>
+
                         </li>
                         <li className="hover:underline cursor-pointer">
                             <Link to="/contributors">Our Contributors</Link>
@@ -107,29 +107,30 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div className="flex items-center space-x-2  ml-auto">
+                <div className="flex items-center space-x-2 xl:space-x-4 ml-auto">
                     {/* Desktop Action Buttons */}
-                    <div className="flex items-center space-x-2  ml-auto">
+                    {/* <div className="flex items-center space-x-2 xl:space-x-4 ml-auto">
                         {socialIcons.map(({ Icon, href }, idx) => (
                             <a
                                 key={idx}
                                 href={href}
-                                className=" p-3 rounded hover:bg-red-700 transition-colors"
+                                className="p-3 xl:p-4 rounded hover:bg-red-700 transition-colors"
                             >
-                                <Icon className="w-4 h-4" />
+                                <Icon className="w-4 h-4 xl:w-5 xl:h-5" />
                             </a>
                         ))}
-                    </div>
-                    <div className="hidden lg:flex ml-auto space-x-2 text-[16px]">
+                    </div> */}
+                    <div className="hidden lg:flex ml-auto space-x-2 xl:space-x-4 text-[14px] xl:text-[16px]">
                         {isLoggedIn ? (
-                            <>  <button
-                                onClick={handleLogout}
-                                className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer"
-                            >
-                                Logout
-                            </button>
+                            <>
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer"
+                                >
+                                    Logout
+                                </button>
                                 <Link to="/admin/dashboard">
-                                    <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
                                         Admin
                                     </button>
                                 </Link>
@@ -137,12 +138,12 @@ const Navbar = () => {
                         ) : (
                             <>
                                 <Link to="/login">
-                                    <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
                                         Login
                                     </button>
                                 </Link>
                                 <Link to="/admin/dashboard">
-                                    <button className="w-32 bg-white text-[#DF1600] p-3 font-bold border border-white cursor-pointer">
+                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
                                         Admin
                                     </button>
                                 </Link>
@@ -174,16 +175,16 @@ const Navbar = () => {
                         <FaChevronDown className="ml-1" />
                     </li>
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                       <Link to="/archives">Archives</Link>
+                        <Link to="/archives">Archives</Link>
                     </li>
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                       Advertise
+                        Advertise
                     </li>
-                    
+
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
                         <Link to="/contributors">Our Contributors</Link>
                     </li>
-                    
+
                 </ul>
 
                 <div className="flex flex-col space-y-2 p-4">
