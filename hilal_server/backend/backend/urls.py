@@ -20,12 +20,13 @@ from api.views import CreateUserView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from api.views import GoogleLoginAPIView,LoginView,RefreshTokenView
 from api.views import FacebookLoginAPIView
+from api.views import CustomLoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/user/register/", CreateUserView.as_view(), name="register"),
     # path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     # path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-     path("api/token/", LoginView.as_view(), name="token_obtain_pair"),
+     path("api/token/", CustomLoginView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", RefreshTokenView.as_view(), name="token_refresh"),
     path("api/user/google-login/", GoogleLoginAPIView.as_view(), name="google-login"),
      path("api/user/facebook-login/", FacebookLoginAPIView.as_view(), name="facebook-login"),

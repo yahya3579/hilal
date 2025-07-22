@@ -231,6 +231,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from datetime import timedelta
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+class CustomLoginView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 class LoginView(APIView):
     permission_classes = [AllowAny] 
@@ -244,7 +249,10 @@ class LoginView(APIView):
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
 
-            response = Response({"access": access_token})
+            response = Response({
+                "access": access_token,
+                "user_id": user.id  # Include user ID in the response
+            })
 
             # Set refresh token in HTTPOnly cookie
             response.set_cookie(
@@ -254,8 +262,6 @@ class LoginView(APIView):
                 secure=False,  # use True in production with HTTPS
                 samesite='Lax',  # or 'Strict'
                 max_age=7 * 24 * 60 * 60  # 7 days
-                
-              
             )
 
             return response
