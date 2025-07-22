@@ -96,6 +96,16 @@ const Navbar = () => {
                                             Special Reports
                                         </Link>
                                     </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/in-focus`} className="w-full">
+                                            In Focus
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/misc`} className="w-full">
+                                            Misc
+                                        </Link>
+                                    </li>
 
 
 
