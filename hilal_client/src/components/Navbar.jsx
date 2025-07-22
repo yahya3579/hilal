@@ -80,10 +80,25 @@ const Navbar = () => {
                         <li className="relative group cursor-pointer" onClick={toggleCategory}>
                             Category <FaChevronDown className="inline ml-1" />
                             {isCategoryOpen && (
-                                <ul className="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-lg z-50">
-                                    <li>
-                                        <Link to="/articlepage" className="block px-4 py-2 hover:bg-gray-100">ArticlePage</Link>
+                                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/national-and-International-news`} className="w-full">
+                                            National-International-Issues
+                                        </Link>
                                     </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/war-on-terror`} className="w-full">
+                                            War on Terror
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/special-reports`} className="w-full">
+                                            Special Reports
+                                        </Link>
+                                    </li>
+
+
+
                                     {/* Add more dropdown items here if needed */}
                                 </ul>
                             )}

@@ -1,10 +1,29 @@
 import React from "react";
 import { EnvelopeIcon } from "@heroicons/react/24/solid";
 import { ExternalLink, Star } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import articleProfile from "../assets/articleprofile.png";
 import ArticlePageImage from "../assets/ArticlePageImage.png";
 
 export default function ArticlePage() {
+  const { articleId } = useParams();
+  console.log("Article ID:", articleId);
+
+  const fetchArticle = async (id) => {
+    console.log("Fetching article with ID:", id);
+    const res = await axios.get(`http://localhost:8000/api/article/${id}`);
+    console.log(res.data);
+    return res.data;
+  };
+
+  const { data: article, isLoading, error } = useQuery({
+    queryKey: ["article", articleId],
+    queryFn: () => fetchArticle(articleId),
+    enabled: !!articleId,
+  });
+
   const recentArticles = [
     "Foreigners Who Have Made Pakistan Their Home (Part III)",
     "Foreigners Who Made Pakistan Their Home (Part II)",
@@ -12,6 +31,9 @@ export default function ArticlePage() {
     "Is COP Still Fit For Purpose",
     "From The Rubble: The Struggle For Palestinian Survival Amidst Bombardment Of Gaza And Lebanon",
   ];
+
+  if (isLoading) return <p>Loading article...</p>;
+  if (error) return <p>Error fetching article</p>;
 
   return (
     <div className="w-full min-h-screen bg-white">
@@ -24,7 +46,7 @@ export default function ArticlePage() {
             {/* Profile Image */}
             <div className="w-[253px] h-[291px] max-w-full overflow-hidden">
               <img
-                src={articleProfile || "/placeholder.svg"}
+                src={article.cover_image || "/placeholder.svg"}
                 alt="Jennifer McKay"
                 className="w-full h-full object-cover"
               />
@@ -145,13 +167,13 @@ export default function ArticlePage() {
 
               {/* Heading with Date aligned to bottom right */}
               <div className="relative">
-                <h1 className="text-black font-poppins font-medium text-[24px] sm:text-[28px] md:text-[32px] lg:text-[64px] leading-[100%] tracking-[-0.03em] uppercase pr-20 sm:pr-24 lg:pr-0">
-                  FUNDING CLIMATE ACTION
+                <h1 className="text-black max-w-[80%] font-poppins font-medium line-clamp-2  text-[24px] sm:text-[28px]  lg:text-[52px] leading-[100%] tracking-[-0.03em] uppercase pr-20 sm:pr-24 lg:pr-0">
+                  {article.title || "FUNDING CLIMATE ACTION"}
                 </h1>
 
                 {/* Date positioned at bottom-right corner of the heading */}
                 <span className="absolute bottom-0 right-0 text-black font-poppins font-light text-[10px] sm:text-[12px] lg:text-[24px] leading-[100%] tracking-[-0.03em] uppercase z-10">
-                  5TH JULY 2025
+                  {new Date(article.publish_date).toLocaleDateString("en-GB") || "5TH JULY 2025"}
                 </span>
               </div>
             </div>
@@ -166,103 +188,49 @@ export default function ArticlePage() {
 
             {/* Content with proper spacing */}
             <div className="lg:pl-6 py-6">
-              <p className="text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize mb-6">
-                Since 1947, People From Across The Globe Have Chosen To Make
-                Pakistan Their Home, Drawn By Its Rich Culture, Stunning
-                Landscapes, And The Warmth Of Its People. Through Resilience,
-                Contribution, And Adaptation, They Have Become Integral To The
-                Nation's Fabric, Leaving Indelible Marks On Its Communities And
-                Industries.
+              {/* Display description up to the second full stop */}
+              {/* {article.description
+                .split(".")
+                .slice(0, 2)
+                .map((sentence, index) => (
+                  <p
+                    key={index}
+                    className="text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize mb-6"
+                  >
+                    {sentence.trim()}.
+                  </p>
+                ))} */}
+              <p className="text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize">
+                {article.description
+                  .split(".")
+                  .slice(0, 2)
+                  .filter((sentence) => sentence.trim().length > 0)
+                  .map((sentence) => sentence.trim())
+                  .join(". ")}
               </p>
 
               {/* Article Image */}
               <div className="w-full mb-6">
                 <img
-                  src={ArticlePageImage || "/placeholder.svg"}
+                  src={article.cover_image || "/placeholder.svg"}
                   alt="Article content"
                   className="w-full max-w-[1061.648px] h-auto lg:h-[430px] object-cover rounded opacity-100 rotate-0"
                 />
               </div>
 
-              {/* Additional article content */}
+              {/* Display remaining description below the image continuously */}
               <p className="text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize">
-                From the birth of Pakistan in 1947 to today, people from many
-                countries made the bold choice to settle in Pakistan and, in
-                doing so, became integral to the nation's fabric through their
-                contributions, resilience, and love for this land. Some just
-                came to visit and fell in love with the cultural diversity, the
-                extraordinary landscapes, and, most of all, the hospitality and
-                generosity of the people. For some, they saw ways to contribute
-                to society through education, healthcare, community welfare, and
-                work for the environment and wildlife. Some came because they
-                married Pakistanis and then saw how they could make meaningful
-                contributions through entrepreneurial businesses, increasing
-                skills and employment for locals. Everyone has a different story
-                of why they came and why they stayed. No matter the reason,
-                moving to a new country is challenging, regardless of where you
-                go. Millions of people around the world have discovered that,
-                after the initial excitement wears off, relocating to a new
-                country is not always what they expected. Assimilating into a
-                different culture and system is hard. And often foreigners are
-                treated with an element of suspicion because of their different
-                ways and the countries from which they come. But in time, mostly
-                their lives settle into the culture of their adopted land but
-                always keeping a piece of their homeland in their heart. After
-                Partition, numerous non-Muslim foreigners who were stationed in
-                British India moved across to Pakistan. Some were already here,
-                posted in cities like Peshawar and Rawalpindi, and chose to
-                remain. These included British and European civilians who worked
-                in the bureaucracy, and missionaries who had run schools in
-                British India. Other early arrivals came directly to Pakistan
-                from their home countries and stayed most of their lives. To
-                this day, there are foreigners who are choosing Pakistan as
-                their home, and their stories are often inspirational. But
-                first, it is some of the earlier arrivals that we look at in
-                this article and their extraordinary contributions to a new
-                nation. Others and more recent arrivals will be covered in part
-                two of this story. Amongst those who came when Pakistan was in
-                its infancy were some remarkable people, including three
-                extraordinary women who stayed for 60 years, and others who left
-                an indelible mark on the nation through their commitment to
-                education and health, their resilience and courage, and their
-                love of the people. Their legacies live on to this day.
+                {article.description
+                  .split(".")
+                  .slice(2)
+                  .filter((sentence) => sentence.trim().length > 0)
+                  .map((sentence) => sentence.trim())
+                  .join(". ")}
               </p>
-
-              {/* Rating Component */}
-              <div className="mt-8">
-                {/* Rate this article section */}
-                <div className="w-full flex justify-center mb-4">
-                  <p className="font-poppins font-medium text-[14px] sm:text-[16px] leading-[150%] tracking-[-0.03em] text-center capitalize text-black">
-                    ( Rate This Article )
-                  </p>
-                </div>
-
-                {/* Stars */}
-                <div className="flex justify-center mb-4 gap-1">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <svg
-                      key={idx}
-                      className="w-6 h-6 sm:w-8 sm:h-8 lg:w-12 lg:h-12"
-                      fill="#D9D9D9"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2l2.4 7.4h7.8l-6.3 4.6 2.4 7.4-6.3-4.6-6.3 4.6 2.4-7.4-6.3-4.6h7.8z" />
-                    </svg>
-                  ))}
-                </div>
-
-                {/* Write a comment heading */}
-                <p className="font-poppins font-bold text-[14px] sm:text-[16px] leading-[150%] tracking-[-0.03em] uppercase text-black text-left mb-4">
-                  WRITE A COMMENT TO EXPRESS YOUR THOUGHTS
-                </p>
-
-                {/* Rectangle for comment */}
-                <div className="border border-black w-full h-[80px] sm:h-[111px] bg-white" />
-              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

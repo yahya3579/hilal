@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom'
 import HilalDigital from '../assets/hilal-logo.svg'
 import { FaFacebook } from 'react-icons/fa'
 import GoogleSignInButton from '../pages/Google'
+
 const AuthForm = ({ route, method }) => {
+
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)

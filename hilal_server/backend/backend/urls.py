@@ -23,6 +23,8 @@ from api.views import FacebookLoginAPIView
 from api.views import CustomLoginView
 from adminpanel.views import SingleArticleView
 from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticlesView
+from adminpanel.views import GetArticlesByCategoryView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/user/register/", CreateUserView.as_view(), name="register"),
@@ -40,6 +42,5 @@ urlpatterns = [
     path('api/create-article/', CreateArticleView.as_view(), name='create-article'), # create article with post method
     path('api/get-articles/', GetAllArticlesView.as_view(), name='get-articles'),# get all articles with get method
     path('api/create-comment/', CreateCommentView.as_view(), name='create-comment'), # create comment with post method
-
-    
+    path('api/articles/category/<str:category>/', GetArticlesByCategoryView.as_view(), name='articles-by-category'), # get articles by category
 ]

@@ -252,9 +252,14 @@ export default function EditArticle() {
                                             className="w-full px-3 py-2 border color-border rounded-md appearance-none bg-white font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle"
                                         >
                                             <option value="">Select category</option>
-                                            <option value="politics">Politics</option>
-                                            <option value="sports">Sports</option>
-                                            <option value="technology">Technology</option>
+
+                                            <option value="in-focus">In-Focus</option>
+                                            <option value="trending1">Trending1</option>
+                                            <option value="trending2">Trending2</option>
+                                            <option value="digital">Digital</option>
+                                            <option value="war-on-terror">War on Terror</option>
+                                            <option value="special-reports">Special Reports</option>
+                                            <option value="national-and-international-news">National and International News</option>
                                         </select>
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                                     </div>

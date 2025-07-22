@@ -73,3 +73,14 @@ class SingleArticleView(APIView):
             return Response({"message": "Article deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Articles.DoesNotExist:
             return Response({"error": "Article not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetArticlesByCategoryView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, category):
+        articles = Articles.objects.filter(category=category)
+        if articles.exists():
+            serializer = ArticleSerializer(articles, many=True)
+            return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        return Response({"message": "No articles found for the given category"}, status=status.HTTP_404_NOT_FOUND)

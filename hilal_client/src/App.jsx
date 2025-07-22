@@ -45,10 +45,11 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
         <Route path="/articles" element={<Articles />} />
-        <Route path="/articlepage" element={<ArticlePage />} />
+        <Route path="/articlepage/:articleId" element={<ArticlePage />} />
+        <Route path="/article/:articleId" element={<ArticlePage />} />
         <Route path="/archives" element={<HilalArchives />} />
         <Route path="/ebooks" element={<HilalEbooks />} />
-        <Route path="/nation-international-issues" element={<NationalInternationIssues />} />
+        <Route path="/category/:category" element={<NationalInternationIssues />} />
         <Route path="/contributors" element={<OurContributors />} />
         <Route path="/AboutUs" element={<AboutUs />} />
       </Route>
