@@ -27,7 +27,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'fname', 'lname', 'email', 'password', 'contact_no', 'cnic', 'dob', 
             'gender', 'country', 'state', 'postal_address', 'email_verification', 
-            'image', 'login_datetime', 'status'
+            'image', 'login_datetime', 'status', 'role'
         ]
         extra_kwargs = {
             'pass_field': {'write_only': True},
