@@ -29,5 +29,6 @@ urlpatterns = [
     path("api/token/refresh/", RefreshTokenView.as_view(), name="token_refresh"),
     path("api/user/google-login/", GoogleLoginAPIView.as_view(), name="google-login"),
      path("api/user/facebook-login/", FacebookLoginAPIView.as_view(), name="facebook-login"),
-    path("api-auth/",include("rest_framework.urls"))
+    path("api-auth/",include("rest_framework.urls")),
+      path('adminpanel/', include('adminpanel.urls')),  # ← Link your app
 ]
