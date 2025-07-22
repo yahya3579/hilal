@@ -16,7 +16,10 @@ class Articles(models.Model):
     visits = models.IntegerField(blank=True, null=True)
     issue_new = models.CharField(max_length=3, blank=True, null=True)
     status = models.CharField(max_length=8, blank=True, null=True)
-
+    writer = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=100, blank=True, null=True)
+    
     class Meta:
         managed = False
         db_table = 'articles'
