@@ -24,9 +24,9 @@ const ManagementTable = ({ title, columns, data = [], route, onAddNew }) => {
 
             {/* Table */}
             <div className="overflow-x-auto">
-                <div className="border-t-[3px] border-[#DF1600] py-4">
+                {/* <div className="border-t-[3px] border-[#DF1600] py-4">
                     <h2 className="font-poppins font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase color-primary">EDIT Author</h2>
-                </div>
+                </div> */}
                 <table className="w-full border-collapse">
                     <thead>
                         <tr>
