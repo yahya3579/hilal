@@ -41,3 +41,35 @@ class GetAllArticlesView(APIView):
         articles = Articles.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
+class SingleArticleView(APIView):
+    permission_classes = [AllowAny]
+    
+
+    def get(self, request, pk):
+        try:
+            article = Articles.objects.get(pk=pk)
+            serializer = ArticleSerializer(article)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Articles.DoesNotExist:
+            return Response({"error": "Article not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk):
+        try:
+            article = Articles.objects.get(pk=pk)
+            serializer = ArticleSerializer(article, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Articles.DoesNotExist:
+            return Response({"error": "Article not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        try:
+            article = Articles.objects.get(pk=pk)
+            article.delete()
+            return Response({"message": "Article deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Articles.DoesNotExist:
+            return Response({"error": "Article not found"}, status=status.HTTP_404_NOT_FOUND)

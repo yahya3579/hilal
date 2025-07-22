@@ -21,6 +21,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from api.views import GoogleLoginAPIView,LoginView,RefreshTokenView
 from api.views import FacebookLoginAPIView
 from api.views import CustomLoginView
+from adminpanel.views import SingleArticleView
+from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticlesView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/user/register/", CreateUserView.as_view(), name="register"),
@@ -29,7 +31,15 @@ urlpatterns = [
      path("api/token/", CustomLoginView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", RefreshTokenView.as_view(), name="token_refresh"),
     path("api/user/google-login/", GoogleLoginAPIView.as_view(), name="google-login"),
-     path("api/user/facebook-login/", FacebookLoginAPIView.as_view(), name="facebook-login"),
+    path("api/user/facebook-login/", FacebookLoginAPIView.as_view(), name="facebook-login"),
     path("api-auth/",include("rest_framework.urls")),
-      path('adminpanel/', include('adminpanel.urls')),  # ← Link your app
+    path('author_management/', include('author_management.urls')),  # Add this line
+
+    # article management URLs
+    path('api/article/<int:pk>/', SingleArticleView.as_view(), name='single-article'), #get the single article with post delete up and get methods
+    path('api/create-article/', CreateArticleView.as_view(), name='create-article'), # create article with post method
+    path('api/get-articles/', GetAllArticlesView.as_view(), name='get-articles'),# get all articles with get method
+    path('api/create-comment/', CreateCommentView.as_view(), name='create-comment'), # create comment with post method
+
+    
 ]

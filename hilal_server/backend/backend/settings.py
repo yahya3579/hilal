@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "corsheaders",  # CORS headers for cross-origin requests
     "social_django",
     "adminpanel",  # Your custom admin panel apps
+    "author_management",  # Your custom author management app
 ]
 
 MIDDLEWARE = [

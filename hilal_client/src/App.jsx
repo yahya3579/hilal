@@ -36,10 +36,10 @@ const App = () => {
         <Route
           path="/"
           element={
-            // <ProtectedRoutes> <Home /></ProtectedRoutes>} />
-            <Home />
+            <ProtectedRoutes> <Home /></ProtectedRoutes>} />
+        {/* <Home />
           }
-        />
+        /> */}
 
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
@@ -82,7 +82,9 @@ const App = () => {
         />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
+      <Route path="/admin/new-article/:articleId" element={<EditArticle />} />
       <Route path="/admin/new-article" element={<EditArticle />} />
+
       <Route path="/admin/edit-author" element={<EditAuthor />} />
       <Route path="/admin/edit-billboard" element={<EditBillBoard />} />
       <Route path="/admin/edit-magazine" element={<EditMagazine />} />

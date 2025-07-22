@@ -149,7 +149,7 @@ const columns = [
             <img
                 src={value}
                 alt="Article"
-                className="w-[120px] h-[47px] object-cover rounded"
+                className="w-[120px] h-[47px] object-cover "
             />
         ),
     },
@@ -216,7 +216,7 @@ const columns = [
 
 // API call
 const fetchArticles = async () => {
-    const res = await axios.get('http://localhost:8000/adminpanel/get-articles/');
+    const res = await axios.get('http://localhost:8000/api/get-articles/');
     return res.data.data;
 };
 

@@ -38,8 +38,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
+# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     def validate(self, attrs):
+#         data = super().validate(attrs)
+#         data['user_id'] = self.user.id  # Add user ID to the token response
+#         data["role"] = self.user.role  # Add user role to the token response
+#         print(f"Authenticated user: {type(self.user)}")
+#         return data
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        data['user_id'] = self.user.id  # Add user ID to the token response
+        user = self.user  # <-- This should be your CustomUser instance
+        print("DEBUG: Authenticated user:", user)
+        print("DEBUG: User role:", getattr(user, 'role', 'ROLE NOT FOUND'))
+        data['user_id'] = user.id
+        data['role'] = user.role  # Make sure this line doesn't crash
         return data
