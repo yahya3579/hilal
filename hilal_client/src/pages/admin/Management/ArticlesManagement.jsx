@@ -2,6 +2,8 @@ import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '../../../utils/store';
+import { jwtDecode } from 'jwt-decode';
 
 // Table columns configuration
 const columns = [
@@ -16,9 +18,14 @@ const columns = [
 ];
 
 // API calls
-const fetchArticles = async () => {
-    const res = await axios.get('http://localhost:8000/api/get-articles/');
-    return res.data.data;
+const fetchArticles = async (userRole, userId) => {
+    if (userRole === "admin") {
+        const res = await axios.get('http://localhost:8000/api/get-articles/');
+        return res.data.data;
+    } else if (userRole === "author") {
+        const res = await axios.get(`http://localhost:8000/api/articles/user/1/`);
+        return res.data.data;
+    }
 };
 
 const deleteArticle = async (id) => {
@@ -28,10 +35,15 @@ const deleteArticle = async (id) => {
 const ArticleManagement = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient(); // Initialize query client for refetching
+    const userRole = useAuthStore((state) => state.userRole);
+    const accessToken = useAuthStore((state) => state.accessToken);
+
+    // const decodedToken = accessToken ? jwtDecode(accessToken) : null;
+    // const userId = decodedToken?.user_id;
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ['articles'],
-        queryFn: fetchArticles,
+        queryKey: ['articles', userRole, userId],
+        queryFn: () => fetchArticles(userRole, userId),
     });
 
     const mutation = useMutation({

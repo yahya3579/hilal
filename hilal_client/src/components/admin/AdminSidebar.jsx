@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
+import useAuthStore from "../../utils/store";
 
 const AdminSidebar = () => {
     const location = useLocation();
-
+    const userRole = useAuthStore((state) => state.userRole);
     const isDashboardActive =
         location.pathname === "/admin" || location.pathname === "/admin/dashboard";
 
@@ -16,6 +17,14 @@ const AdminSidebar = () => {
         { label: "Packages", path: "packages-management" },
         { label: "Authors", path: "authors-management" },
     ];
+
+    const filteredMenuItems =
+        userRole === "author"
+            ? menuItems.filter(
+                (item) =>
+                    item.label === "Article Gallery" || item.label === "Article Comments"
+            )
+            : menuItems;
 
     return (
         <div className="w-64 h-screen bg-gray-300 p-4">
@@ -32,7 +41,7 @@ const AdminSidebar = () => {
             {/* Sidebar Menu Items */}
             <nav>
                 <ul className="space-y-4 w-[95%] mx-auto">
-                    {menuItems.map((item, index) => {
+                    {filteredMenuItems.map((item, index) => {
                         const isActive = location.pathname.includes(item.path);
                         return (
                             <li key={index}>
