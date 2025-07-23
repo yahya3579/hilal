@@ -14,6 +14,7 @@ const TrendingHilalPublications = () => {
     queryFn: fetchAllArticles,
   });
 
+
   if (isLoading) return <p>Loading articles...</p>;
   if (error) return <p>Error fetching articles</p>;
 

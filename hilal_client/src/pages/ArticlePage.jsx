@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { EnvelopeIcon } from "@heroicons/react/24/solid";
 import { ExternalLink, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
@@ -9,12 +9,12 @@ import ArticlePageImage from "../assets/ArticlePageImage.png";
 
 export default function ArticlePage() {
   const { articleId } = useParams();
-  console.log("Article ID:", articleId);
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const fetchArticle = async (id) => {
-    console.log("Fetching article with ID:", id);
     const res = await axios.get(`http://localhost:8000/api/article/${id}`);
-    console.log(res.data);
     return res.data;
   };
 
@@ -23,6 +23,23 @@ export default function ArticlePage() {
     queryFn: () => fetchArticle(articleId),
     enabled: !!articleId,
   });
+
+  console.log("Article data:", article);
+  const handleSubmitComment = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/create-comment/", {
+        comment,
+        user: article.user, // Replace with the actual user ID
+        article: article.id,
+        rating,
+      });
+      setSuccessMessage("Comment and rating submitted successfully!");
+      setComment("");
+      setRating(0);
+    } catch (err) {
+      console.error("Error submitting comment:", err);
+    }
+  };
 
   const recentArticles = [
     "Foreigners Who Have Made Pakistan Their Home (Part III)",
@@ -199,7 +216,7 @@ export default function ArticlePage() {
                   >
                     {sentence.trim()}.
                   </p>
-                ))} */}
+                )) */}
               <p className="text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize">
                 {article.description
                   .split(".")
@@ -227,6 +244,55 @@ export default function ArticlePage() {
                   .map((sentence) => sentence.trim())
                   .join(". ")}
               </p>
+              <div className="mt-8">
+                {/* Rate this article section */}
+                <div className="w-full flex justify-center mb-4">
+                  <p className="font-poppins font-medium text-[14px] sm:text-[16px] leading-[150%] tracking-[-0.03em] text-center capitalize text-black">
+                    ( Rate This Article )
+                  </p>
+                </div>
+
+                {/* Stars */}
+                <div className="flex justify-center mb-4 gap-1">
+                  {Array.from({ length: 5 }).map((_, idx) => (
+                    <svg
+                      key={idx}
+                      onClick={() => setRating(idx + 1)}
+                      className={`w-6 h-6 sm:w-8 sm:h-8 lg:w-12 lg:h-12 cursor-pointer ${rating > idx ? "fill-yellow-500" : "fill-gray-300"
+                        }`}
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 2l2.4 7.4h7.8l-6.3 4.6 2.4 7.4-6.3-4.6-6.3 4.6 2.4-7.4-6.3-4.6h7.8z" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Write a comment heading */}
+                <p className="font-poppins font-bold text-[14px] sm:text-[16px] leading-[150%] tracking-[-0.03em] uppercase text-black text-left mb-4">
+                  WRITE A COMMENT TO EXPRESS YOUR THOUGHTS
+                </p>
+
+                {/* Comment input */}
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className="border border-black w-full h-[80px] sm:h-[111px] bg-white p-2"
+                  placeholder="Write your comment here..."
+                />
+
+                {/* Submit button */}
+                <button
+                  onClick={handleSubmitComment}
+                  className="mt-4 bg-red-600 text-white px-4 py-2 rounded"
+                >
+                  Submit
+                </button>
+
+                {/* Success message */}
+                {successMessage && (
+                  <p className="mt-4 text-green-600 font-medium">{successMessage}</p>
+                )}
+              </div>
             </div>
           </div>
         </div>

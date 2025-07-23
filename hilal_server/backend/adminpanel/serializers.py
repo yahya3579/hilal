@@ -2,9 +2,13 @@ from rest_framework import serializers
 from .models import Comments, Articles
 
 class CommentSerializer(serializers.ModelSerializer):
+    user_first_name = serializers.CharField(source="user.fname", read_only=True)
+    user_last_name = serializers.CharField(source="user.lname", read_only=True)
+    article_title = serializers.CharField(source="article.title", read_only=True)
+
     class Meta:
         model = Comments
-        fields = ['id', 'comment', 'user', 'article', 'created_at']
+        fields = ['id', 'comment', 'user', 'user_first_name', 'user_last_name', 'article', 'article_title', 'created_at', 'rating']
         read_only_fields = ['id', 'created_at']
 
 class ArticleSerializer(serializers.ModelSerializer):

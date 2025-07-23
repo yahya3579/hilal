@@ -12,6 +12,9 @@ def home(request):
     return HttpResponse("Welcome to MyApp!")
 
 
+
+
+#  Comments Related Views
 class CreateCommentView(APIView):
     permission_classes = [AllowAny]
 
@@ -22,7 +25,17 @@ class CreateCommentView(APIView):
             return Response({"message": "Comment created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class GetAllCommentsView(APIView):
+    permission_classes = [AllowAny]
 
+    def get(self, request):
+        comments = Comments.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response({"message": "Comments retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
+
+#  Articles Related Views
 class CreateArticleView(APIView):
     permission_classes = [AllowAny]
 
@@ -84,3 +97,5 @@ class GetArticlesByCategoryView(APIView):
             serializer = ArticleSerializer(articles, many=True)
             return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
         return Response({"message": "No articles found for the given category"}, status=status.HTTP_404_NOT_FOUND)
+
+

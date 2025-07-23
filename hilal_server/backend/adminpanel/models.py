@@ -7,7 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from api.models import CustomUser
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 class Articles(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING)
     cover_image = models.CharField(max_length=255, blank=True, null=True)
@@ -30,6 +30,10 @@ class Comments(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING)
     article = models.ForeignKey(Articles, models.DO_NOTHING)
     created_at = models.DateTimeField(blank=True, null=True)
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        default=1
+    )
 
     class Meta:
         managed = False
