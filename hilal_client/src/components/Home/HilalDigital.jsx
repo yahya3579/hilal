@@ -82,21 +82,31 @@ const HilalDigital = () => {
     <div className="bg-white relative max-lg:px-4 flex font-poppins flex-col">
       {/* Header */}
       <div className="bg-white">
-        <div className="h-1 w-full bg-red-600 mt-2 mb-4" />
-        <h2 className="text-red-600 font-[500] text-[24px] leading-[100%] uppercase font-poppins" style={{ letterSpacing: "-0.03em" }}>
+        {/* Thin Red Line */}
+        <div className="border-t-[3px] border-red-600 w-full mb-4 mt-2" />
+
+        {/* Heading */}
+        <h2
+          className="text-red-600 font-[500] text-[24px] leading-[100%] uppercase font-poppins -mt-2"
+          style={{ letterSpacing: "-0.03em" }}
+        >
           HILAL DIGITAL
         </h2>
       </div>
 
-      {/* Scroll Up Button */}
-      <div className="bg-white py-2 px-4 flex justify-center">
-        <button onClick={handleScrollUp} className="bg-gray-800 rounded-full p-1">
-          <ChevronUp className="text-white w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Video List */}
-      <div style={{ scrollbarWidth: "none" }} ref={listRef} className="flex-1 overflow-y-auto  max-h-screen">
+      {/* Video List - align first thumbnail with TrendingHilalPublications */}
+      <div
+        ref={listRef}
+        className="flex-1 overflow-y-auto max-h-screen " // negative margin to move video list up
+        onScroll={async (e) => {
+          const { scrollTop, scrollHeight, clientHeight } = e.target;
+          if (scrollTop + clientHeight >= scrollHeight - 10) {
+            // Simulate infinite scroll by repeating the list
+            setNewsItems((prev) => [...prev, ...prev.map((item, i) => ({ ...item, id: prev.length + i + 1 }))]);
+          }
+        }}
+        style={{ scrollbarWidth: "none" }}
+      >
         {newsItems.map((item, index) => (
           <div key={item.id} className="relative border-b my-2 border-gray-200">
             <div className="relative">
@@ -128,13 +138,6 @@ const HilalDigital = () => {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Scroll Down Button */}
-      <div className="bg-white py-2 px-4 flex justify-center">
-        <button onClick={handleScrollDown} className="bg-gray-800 rounded-full p-1">
-          <ChevronDown className="text-white w-4 h-4" />
-        </button>
       </div>
     </div>
   );
