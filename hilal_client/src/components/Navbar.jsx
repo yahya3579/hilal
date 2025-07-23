@@ -128,7 +128,7 @@ const Navbar = () => {
 
                         </li>
                         <li className="hover:underline cursor-pointer">
-                            <Link to="/contributors">Our Contributors</Link>
+                            <Link to="/ourcontributors">Our Contributors</Link>
                         </li>
                     </ul>
                 </div>
@@ -216,7 +216,7 @@ const Navbar = () => {
                     </li>
 
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        <Link to="/contributors">Our Contributors</Link>
+                        <Link to="/ourcontributors">Our Contributors</Link>
                     </li>
 
                 </ul>
