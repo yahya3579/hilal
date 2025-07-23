@@ -8,6 +8,8 @@ const ProtectedRoutes = ({ children }) => {
     const [isAuthorized, setIsAuthorized] = useState(null)
     const accessToken = useAuthStore((state) => state.accessToken)
     const setAccessToken = useAuthStore((state) => state.setAccessToken)
+    const setUserRole = useAuthStore((state) => state.setUserRole)
+
 
     useEffect(() => {
         console.log("Checking authentication status")
@@ -16,6 +18,16 @@ const ProtectedRoutes = ({ children }) => {
             setIsAuthorized(false)
         })
     }, [])
+    const fetchUserRole = async (userId) => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/user/${userId}/role/`);
+            setUserRole(response.data.role);
+            console.log("User role fetched and stored:", response.data.role);
+        } catch (error) {
+            console.error("Error fetching user role:", error?.response?.data || error.message);
+        }
+    };
+
     const refreshToken = async () => {
         try {
             console.log("Refreshing token")
@@ -26,6 +38,8 @@ const ProtectedRoutes = ({ children }) => {
             if (response.status === 200) {
                 setAccessToken(response.data.access);
                 setIsAuthorized(true);
+                const decodedToken = jwtDecode(response.data.access);
+                await fetchUserRole(decodedToken.user_id); // Fetch role after refreshing token
             } else {
                 setIsAuthorized(false);
             }
@@ -38,7 +52,6 @@ const ProtectedRoutes = ({ children }) => {
     const auth = async () => {
         console.log("Access Token:", accessToken);
         if (!accessToken) {
-            // setIsAuthorized(false);
             const refreshed = await refreshToken()
             if (!refreshed) {
                 return // Already handled inside refreshToken
@@ -55,6 +68,7 @@ const ProtectedRoutes = ({ children }) => {
                     await refreshToken();
                 } else {
                     setIsAuthorized(true)
+                    await fetchUserRole(decodedToken.user_id); // Fetch role if token is valid
                 }
             } catch (error) {
                 console.error("Invalid token format, attempting refresh:", error);

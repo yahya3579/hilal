@@ -9,12 +9,13 @@ function GoogleSignInButton() {
     const setRefreshToken = useAuthStore((state) => state.setRefreshToken);
 
     const handleSuccess = async (credentialResponse) => {
+        console.log("Credential Response:", credentialResponse.credential);
         try {
             const res = await axios.post("http://localhost:8000/api/user/google-login/", {
                 id_token: credentialResponse.credential
-            });
+            }, { withCredentials: true });
 
-            console.log("Login Success", res.data);
+            console.log("Login Success", res.data.access);
             setAccessToken(res.data.access);
             setRefreshToken(res.data.refresh);
             navigate("/");

@@ -10,6 +10,7 @@ import {
     ChevronRight,
 
 } from "lucide-react";
+import useAuthStore from '../utils/store';
 
 
 
@@ -22,14 +23,11 @@ const socialIcons = [
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const accessToken = useAuthStore((state) => state.accessToken);
+    const clearTokens = useAuthStore((state) => state.clearTokens);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Check if access token exists in local storage
-        const accessToken = localStorage.getItem("access");
-        setIsLoggedIn(!!accessToken);
-    }, []);
+    const userRole = useAuthStore((state) => state.userRole);
+    console.log("User Role:", userRole);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -40,9 +38,7 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        setIsLoggedIn(false);
+        clearTokens();
         navigate("/login");
 
     };
@@ -151,7 +147,7 @@ const Navbar = () => {
                         ))}
                     </div> */}
                     <div className="hidden lg:flex ml-auto space-x-2 xl:space-x-4 text-[14px] xl:text-[16px]">
-                        {isLoggedIn ? (
+                        {accessToken ? (
                             <>
                                 <button
                                     onClick={handleLogout}
@@ -159,11 +155,19 @@ const Navbar = () => {
                                 >
                                     Logout
                                 </button>
-                                <Link to="/admin/dashboard">
-                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
-                                        Admin
-                                    </button>
-                                </Link>
+                                {userRole === "admin" ? (
+                                    <Link to="/admin/dashboard">
+                                        <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
+                                            Admin
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <Link to="/admin/dashboard">
+                                        <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
+                                            Author
+                                        </button>
+                                    </Link>
+                                )}
                             </>
                         ) : (
                             <>
@@ -218,7 +222,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex flex-col space-y-2 p-4">
-                    {isLoggedIn ? (
+                    {accessToken ? (
                         <button
                             onClick={handleLogout}
                             className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer"
@@ -232,11 +236,15 @@ const Navbar = () => {
                                     Login
                                 </button>
                             </Link>
-                            <Link to="/admin/dashboard" className="w-full">
+                            {userRole == "admin" ? <Link to="/admin/dashboard" className="w-full">
                                 <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
                                     Admin
                                 </button>
-                            </Link>
+                            </Link> : <Link to="/admin/dashboard" className="w-full">
+                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                    Author
+                                </button>
+                            </Link>}
                         </>
                     )}
                 </div>

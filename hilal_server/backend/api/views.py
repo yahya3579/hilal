@@ -159,7 +159,8 @@ class GoogleLoginAPIView(APIView):
                         "last_name": user.lname,
                     }
                 }, status=201)
-
+            print("DEBUG: User created or retrieved:", response)
+            print("refresh",refresh)
                 # Set refresh token as HttpOnly cookie
             response.set_cookie(
                     key='refresh_token',
@@ -179,6 +180,7 @@ class FacebookLoginAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        print("DEBUG: GoogleLoginAPIView POST method triggered")
         access_token = request.data.get('access_token')
         if not access_token:
             return Response({"error": "Access token required"}, status=400)
@@ -251,6 +253,8 @@ class CustomLoginView(TokenObtainPairView):
                 samesite='Lax',
                 max_age=7 * 24 * 60 * 60
             )
+
+            
             # Remove refresh token from body if you want
             # del response.data['refresh']
         return response
@@ -306,4 +310,28 @@ class RefreshTokenView(APIView):
             return Response({'access': new_access})
         except TokenError:
             return Response({'error': 'Invalid refresh token'}, status=401)
+
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+
+@api_view(['GET'])
+def get_user_role(request, user_id):
+    """
+    API to get the role of a user based on their ID.
+    """
+    user = get_object_or_404(CustomUser, id=user_id)
+    return Response({"role": user.role}, status=200)
+
+class UserRoleAPIView(APIView):
+    """
+    API to get the role of a user based on their ID.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, user_id):
+        user = CustomUser.objects.filter(id=user_id).first()
+        if not user:
+            return Response({"error": "User not found"}, status=404)
+        return Response({"role": user.role}, status=200)
 

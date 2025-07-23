@@ -24,6 +24,7 @@ from api.views import CustomLoginView
 from adminpanel.views import SingleArticleView
 from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticlesView
 from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetTopArticlesView
+from api.views import UserRoleAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,4 +46,5 @@ urlpatterns = [
     path('api/articles/category/<str:category>/', GetArticlesByCategoryView.as_view(), name='articles-by-category'), # get articles by category
     path('api/get-comments/', GetAllCommentsView.as_view(), name='get-comments'), # get all comments with get method
     path('api/get-recent-articles/', GetTopArticlesView.as_view(), name='get-top-articles'), # get top 10 recent articles
+    path("api/user/<int:user_id>/role/", UserRoleAPIView.as_view(), name="user-role"),
 ]
