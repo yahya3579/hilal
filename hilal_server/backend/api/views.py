@@ -237,6 +237,24 @@ from .serializers import CustomTokenObtainPairSerializer
 class CustomLoginView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
+    
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        refresh = response.data.get("refresh")
+
+        if refresh:
+            response.set_cookie(
+                key='refresh_token',
+                value=str(refresh),
+                httponly=True,
+                secure=False,  # set True in production
+                samesite='Lax',
+                max_age=7 * 24 * 60 * 60
+            )
+            # Remove refresh token from body if you want
+            # del response.data['refresh']
+        return response
+
 class LoginView(APIView):
     permission_classes = [AllowAny] 
     def post(self, request):
@@ -263,7 +281,7 @@ class LoginView(APIView):
                 samesite='Lax',  # or 'Strict'
                 max_age=7 * 24 * 60 * 60  # 7 days
             )
-
+            
             return response
         return Response({"error": "Invalid credentials"}, status=401)
     

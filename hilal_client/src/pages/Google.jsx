@@ -1,9 +1,13 @@
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../utils/store';
 
 function GoogleSignInButton() {
     const navigate = useNavigate();
+    const setAccessToken = useAuthStore((state) => state.setAccessToken);
+    const setRefreshToken = useAuthStore((state) => state.setRefreshToken);
+
     const handleSuccess = async (credentialResponse) => {
         try {
             const res = await axios.post("http://localhost:8000/api/user/google-login/", {
@@ -11,8 +15,8 @@ function GoogleSignInButton() {
             });
 
             console.log("Login Success", res.data);
-            localStorage.setItem("access", res.data.access);
-            localStorage.setItem("refresh", res.data.refresh);
+            setAccessToken(res.data.access);
+            setRefreshToken(res.data.refresh);
             navigate("/");
         } catch (err) {
             console.error("Login Failed", err.response?.data);
