@@ -10,6 +10,7 @@ import axios from 'axios'
 
 const AuthForm = ({ route, method }) => {
     const setAccessToken = useAuthStore((state) => state.setAccessToken);
+    const setUserId = useAuthStore((state) => state.setUserId);
     const setRefreshToken = useAuthStore((state) => state.setRefreshToken);
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
@@ -78,7 +79,9 @@ const AuthForm = ({ route, method }) => {
                         })
                         .then((res) => {
                             console.log("✅ Login Success", res.data);
-                            localStorage.setItem("access", res.data.access);
+                            setUserId(res.data.user_id); // Store user ID in the store
+                            setAccessToken(res.data.access);
+
 
                             navigate("/");
                         })
@@ -102,6 +105,7 @@ const AuthForm = ({ route, method }) => {
             if (method === "login") {
                 setAccessToken(res.data.access);
                 setRefreshToken(res.data.refresh);
+                setUserId(res.data.user_id); // Store user ID in the store
                 navigate("/")
             } else {
                 navigate("/login")

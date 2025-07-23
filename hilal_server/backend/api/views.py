@@ -157,7 +157,8 @@ class GoogleLoginAPIView(APIView):
                         "email": user.email,
                         "first_name": user.fname,
                         "last_name": user.lname,
-                    }
+                    },
+                    "user_id": user.id  # Include user ID in the response
                 }, status=201)
             print("DEBUG: User created or retrieved:", response)
             print("refresh",refresh)
@@ -212,7 +213,8 @@ class FacebookLoginAPIView(APIView):
                         "email": user.email,
                         "first_name": user.fname,
                         "last_name": user.lname,
-                    }
+                    },
+                    "user_id": user.id  # Include user ID in the response   
                 }, status=201)
 
                 # Set refresh token as HttpOnly cookie

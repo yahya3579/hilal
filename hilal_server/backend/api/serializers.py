@@ -55,3 +55,4 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['user_id'] = user.id
         data['role'] = user.role  # Make sure this line doesn't crash
         return data
+    
