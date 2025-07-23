@@ -24,7 +24,7 @@ const TrendingHilalPublications = () => {
     <div className="py-2 px-4 font-poppins">
       {/* Header */}
       <div className="border-t-[3px] border-red-600">
-        <div className="bg-white py-2">
+        <div className="bg-white py-2 mb-2">
           <h2 className="heading-text-primary">TRENDING - HILAL PUBLICATIONS</h2>
         </div>
 
@@ -54,9 +54,11 @@ const TrendingHilalPublications = () => {
                   <span>{new Date(article.publish_date).toLocaleDateString("en-GB")}</span>
                 </div>
                 {/* Title */}
-                <h3 className="text-xs font-semibold line-clamp-4 text-black leading-[1.8]">
-                  {article.title}
-                </h3>
+                <Link to={`/article/${article.id}`}>
+                  <h3 className="text-xs font-semibold line-clamp-4 text-black leading-[1.8]">
+                    {article.title}
+                  </h3>
+                </Link>
               </div>
             </div>
           ))}

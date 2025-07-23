@@ -1,49 +1,37 @@
-
-
 import React from 'react';
-import Books5 from './Books5';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+const fetchArticlesByCategory = async (category) => {
+  const res = await axios.get(`http://localhost:8000/api/articles/category/${category}`);
+  return res.data.data;
+};
 
 const ArmedForcesNews = () => {
-  const newsItems = [
-    {
-      id: 1,
-      image: 'https://picsum.photos/80/60?random=1',
-      title: 'Chief of Army Staff (COAS), General Syed Asim Munir, NI (M), chaired the'
-    },
-    {
-      id: 2,
-      image: 'https://picsum.photos/80/60?random=2',
-      title: 'On February 5, 2025, Chief of the Army Staff (COAS), General Syed Asim'
-    },
-    {
-      id: 3,
-      image: 'https://picsum.photos/80/60?random=3',
-      title: 'General Syed Asim Munir, NI (M), Chief of Army Staff, visited Wana in So'
-    },
-    {
-      id: 4,
-      image: 'https://picsum.photos/80/60?random=4',
-      title: 'A high-level delegation from the United States, led by Mr. Eric Meyer, S'
-    },
-    {
-      id: 5,
-      image: 'https://picsum.photos/80/60?random=5',
-      title: 'On night 6/7 April 2025, an intelligence based operation was conducted'
-    }
-  ];
+  const { data: articles, isLoading, error } = useQuery({
+    queryKey: ['articles', 'armed-forces-news'],
+    queryFn: () => fetchArticlesByCategory('armed-forces-news'),
+  });
+
+  if (isLoading) return <p>Loading articles...</p>;
+  if (error) return <p>Error fetching articles</p>;
 
   return (
     <>
       <div className='px-4 pb-3'>
 
         <div className="flex max-md:flex-wrap gap-2 py-3 justify-center">
-          {[1, 2, 3, 4, 5].map((item, index) => (
-            <img
-              key={index}
-              src="https://www.nbf.org.pk/sites/default/files/book_covers/WhatsApp%20Image%202024-01-25%20at%2011.46.36%20AM.jpeg"
-              className="w-15 "
-              alt={`Book ${index + 1}`}
-            />
+          {articles.slice(0, 4).map((article, index) => (
+            <Link to={`/article/${article.id}`}>
+              <img
+                key={index}
+                src={article.cover_image}
+
+                alt={`Book ${index + 1}`}
+                className="w-20 h-13 object-cover flex-shrink-0 "
+              />
+            </Link>
           ))}
         </div>
 
@@ -52,24 +40,26 @@ const ArmedForcesNews = () => {
           {/* Header */}
           <div className="text-center py-1 mb-2 outline-none">
             <span className="bg-red-600 text-white px-8 py-2 font-bold text-sm outline-none">
-              Arm Forces News
+              Armed Forces News
             </span>
           </div>
 
           <div className=" pb-2 mt-5 outline-none">
             {/* News Items */}
             <div className="space-y-5 outline-none">
-              {newsItems.map((item) => (
-                <div key={item.id} className="flex items-start gap-2 hover:bg-gray-50  rounded cursor-pointer outline-none">
+
+              {articles.map((article) => (
+                <Link to={`/article/${article.id}`} key={article.id} className='flex items-start gap-2 hover:bg-gray-50  rounded cursor-pointer outline-none'>
                   <img
-                    src={item.image}
-                    alt={`News ${item.id}`}
+                    src={article.cover_image}
+                    alt={article.title}
                     className="w-16 h-10 object-cover flex-shrink-0  outline-none"
                   />
                   <p className="text-gray-500 text-xs    outline-none font-bold">
-                    {item.title}
+                    {article.title}
                   </p>
-                </div>
+
+                </Link>
               ))}
             </div>
 

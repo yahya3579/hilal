@@ -259,6 +259,7 @@ export default function EditArticle() {
                                             <option value="digital">Digital</option>
                                             <option value="war-on-terror">War on Terror</option>
                                             <option value="special-reports">Special Reports</option>
+                                            <option value="armed-forces-news">Armed Forces News</option>
                                             <option value="national-and-international-news">National and International News</option>
                                         </select>
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
