@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
+// export default Navbar;
+import React, { useState, useEffect, useRef } from "react";
+import { FaChevronDown } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/hilal-logo.svg";
 import {
@@ -8,7 +9,9 @@ import {
     Music2,
     Instagram,
     ChevronRight,
-
+    Menu,
+    X,
+    ChevronDown,
 } from "lucide-react";
 import useAuthStore from '../utils/store';
 
@@ -20,6 +23,7 @@ const socialIcons = [
     { Icon: Music2, href: "#" },
     { Icon: Instagram, href: "#" },
 ];
+
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -29,12 +33,53 @@ const Navbar = () => {
     const userRole = useAuthStore((state) => state.userRole);
     console.log("User Role:", userRole);
 
+    // Enhanced click outside handler - only closes dropdowns when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Only close if clicking completely outside the navbar area
+            const navbar = document.querySelector("nav");
+            if (navbar && !navbar.contains(event.target)) {
+                setIsCategoryOpen(false);
+                setIsMagazinesOpen(false);
+                setIsEbookOpen(false);
+            }
+
+            // Individual dropdown close logic
+            if (categoryRef.current && !categoryRef.current.contains(event.target)) {
+                setIsCategoryOpen(false);
+            }
+            if (
+                magazinesRef.current &&
+                !magazinesRef.current.contains(event.target)
+            ) {
+                setIsMagazinesOpen(false);
+            }
+            if (ebookRef.current && !ebookRef.current.contains(event.target)) {
+                setIsEbookOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+        // Reset mobile dropdowns when closing menu
+        if (isMenuOpen) {
+            setMobileCategoryOpen(false);
+            setMobileMagazinesOpen(false);
+            setMobileEbookOpen(false);
+        }
     };
 
-    const toggleCategory = () => {
-        setIsCategoryOpen((prev) => !prev);
+    const closeMobileMenu = () => {
+        setIsMenuOpen(false);
+        setMobileCategoryOpen(false);
+        setMobileMagazinesOpen(false);
+        setMobileEbookOpen(false);
     };
 
     const handleLogout = () => {
@@ -44,26 +89,29 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="relative bg-[#DF1600] text-white shadow-md z-10">
-            <div className="px-4 flex justify-between items-center  h-[75px] py-3 relative">
+        <nav className="relative bg-red-600 text-white shadow-lg z-10">
+            <div className="px-4 flex justify-between items-center h-20 py-3 relative">
                 {/* Logo Section */}
                 <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
-                    <img
-                        src={Logo}
-                        alt="Hilal Publications"
-                        className="h-14 w-auto"
-                    />
+                    <img src={Logo} alt="Hilal Publications" className="h-14 w-auto" />
                 </div>
-                {/* Mobile Menu Button */}
+
+                {/* Enhanced Mobile Menu Button - Premium White Design */}
                 <button
-                    className="lg:hidden absolute right-4 ml-auto z-20 text-white"
+                    className="lg:hidden absolute right-4 ml-auto z-30 bg-white text-red-600 p-3 rounded-2xl hover:bg-red-50 active:bg-red-100 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-red-300 focus:ring-opacity-30 shadow-2xl border-2 border-red-100 backdrop-blur-sm"
                     onClick={toggleMenu}
                     aria-label="Toggle menu"
                 >
                     {isMenuOpen ? (
-                        <FaTimes className="h-6 w-6" />
+                        <X
+                            size={22}
+                            className="transition-all duration-300 transform rotate-0"
+                        />
                     ) : (
-                        <FaBars className="h-6 w-6" />
+                        <Menu
+                            size={22}
+                            className="transition-all duration-300 transform rotate-0"
+                        />
                     )}
                 </button>
 
@@ -187,68 +235,223 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Enhanced Mobile Menu with Modern Clean Design */}
             <div
-                className={`lg:hidden ${isMenuOpen ? "block" : "hidden"
-                    } bg-[#DF1600] absolute top-[75px] left-0 right-0 z-50 shadow-lg transition-all duration-300`}
+                className={`lg:hidden absolute top-20 left-0 right-0 z-50 transition-all duration-500 ease-in-out transform ${isMenuOpen
+                        ? "opacity-100 translate-y-0 max-h-screen visible"
+                        : "opacity-0 -translate-y-4 max-h-0 overflow-hidden invisible"
+                    }`}
             >
-                <ul className="flex flex-col px-4 py-2 text-[16px] font-medium">
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        Home
-                    </li>
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2 flex justify-between items-center">
-                        <span>Category</span>
-                        <FaChevronDown className="ml-1" />
-                    </li>
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2 flex justify-between items-center">
-                        <span>Magazines</span>
-                        <FaChevronDown className="ml-1" />
-                    </li>
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2 flex justify-between items-center">
-                        <span>E-Book</span>
-                        <FaChevronDown className="ml-1" />
-                    </li>
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        <Link to="/archives">Archives</Link>
-                    </li>
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        Advertise
-                    </li>
+                {/* Modern backdrop with subtle gradient */}
+                <div className="bg-gradient-to-b from-white via-gray-50 to-gray-100 shadow-2xl border-t-4 border-red-500">
+                    {/* Clean separator line */}
+                    <div className="h-1 bg-gradient-to-r from-red-500 via-red-400 to-red-500"></div>
 
-                    <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        <Link to="/contributors">Our Contributors</Link>
-                    </li>
-
-                </ul>
-
-                <div className="flex flex-col space-y-2 p-4">
-                    {accessToken ? (
-                        <button
-                            onClick={handleLogout}
-                            className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer"
+                    <ul className="flex flex-col px-6 py-4 text-base font-medium">
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.1s" }}
                         >
-                            Logout
-                        </button>
-                    ) : (
-                        <>
-                            <Link to="/login" className="w-full">
-                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
-                                    Login
-                                </button>
+                            <Link
+                                to="/"
+                                onClick={closeMobileMenu}
+                                className="block w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                            >
+                                Home
                             </Link>
-                            {userRole == "admin" ? <Link to="/admin/dashboard" className="w-full">
-                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
-                                    Admin
-                                </button>
-                            </Link> : <Link to="/admin/dashboard" className="w-full">
-                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
-                                    Author
-                                </button>
-                            </Link>}
-                        </>
-                    )}
+                        </li>
+
+                        {/* Mobile Category Dropdown with Modern Clean Design */}
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.2s" }}
+                        >
+                            <div
+                                className="flex justify-between items-center cursor-pointer w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                                onClick={() => setMobileCategoryOpen(!mobileCategoryOpen)}
+                            >
+                                <span>Category</span>
+                                <FaChevronDown
+                                    className={`ml-2 transition-transform duration-300 text-red-500 ${mobileCategoryOpen ? "rotate-180" : "rotate-0"
+                                        }`}
+                                />
+                            </div>
+                            <div
+                                className={`overflow-hidden transition-all duration-500 ease-in-out ${mobileCategoryOpen
+                                        ? "max-h-40 opacity-100 mt-4"
+                                        : "max-h-0 opacity-0 mt-0"
+                                    }`}
+                            >
+                                <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/articlepage"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            ArticlePage
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/nation-international-issues"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            National and International Issue
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {/* Mobile Magazines Dropdown */}
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.3s" }}
+                        >
+                            <div
+                                className="flex justify-between items-center cursor-pointer w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                                onClick={() => setMobileMagazinesOpen(!mobileMagazinesOpen)}
+                            >
+                                <span>Magazines</span>
+                                <FaChevronDown
+                                    className={`ml-2 transition-transform duration-300 text-red-500 ${mobileMagazinesOpen ? "rotate-180" : "rotate-0"
+                                        }`}
+                                />
+                            </div>
+                            <div
+                                className={`overflow-hidden transition-all duration-500 ease-in-out ${mobileMagazinesOpen
+                                        ? "max-h-40 opacity-100 mt-4"
+                                        : "max-h-0 opacity-0 mt-0"
+                                    }`}
+                            >
+                                <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
+                                    {/* No options for now - will be added in future */}
+                                </ul>
+                            </div>
+                        </li>
+
+                        {/* Mobile E-Book Dropdown */}
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.4s" }}
+                        >
+                            <div
+                                className="flex justify-between items-center cursor-pointer w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                                onClick={() => setMobileEbookOpen(!mobileEbookOpen)}
+                            >
+                                <Link
+                                    to="/ebooks"
+                                    onClick={closeMobileMenu}
+                                    className="flex-1 hover:text-red-600"
+                                >
+                                    E-Book
+                                </Link>
+                                <FaChevronDown
+                                    className={`ml-2 transition-transform duration-300 text-red-500 ${mobileEbookOpen ? "rotate-180" : "rotate-0"
+                                        }`}
+                                />
+                            </div>
+                            <div
+                                className={`overflow-hidden transition-all duration-500 ease-in-out ${mobileEbookOpen
+                                        ? "max-h-40 opacity-100 mt-4"
+                                        : "max-h-0 opacity-0 mt-0"
+                                    }`}
+                            >
+                                <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
+                                    {/* No options - removed as requested */}
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.5s" }}
+                        >
+                            <Link
+                                to="/archives"
+                                onClick={closeMobileMenu}
+                                className="block w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                            >
+                                Archives
+                            </Link>
+                        </li>
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.6s" }}
+                        >
+                            <Link
+                                to="/advertise"
+                                onClick={closeMobileMenu}
+                                className="block w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                            >
+                                Advertise
+                            </Link>
+                        </li>
+                        <li
+                            className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen
+                                    ? "translate-x-0 opacity-100"
+                                    : "-translate-x-4 opacity-0"
+                                }`}
+                            style={{ transitionDelay: "0.7s" }}
+                        >
+                            <Link
+                                to="/ourcontributors"
+                                onClick={closeMobileMenu}
+                                className="block w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
+                            >
+                                Our Contributors
+                            </Link>
+                        </li>
+                    </ul>
+
+                    <div className="flex flex-col space-y-2 p-4">
+                        {accessToken ? (
+                            <button
+                                onClick={handleLogout}
+                                className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer"
+                            >
+                                Logout
+                            </button>
+                        ) : (
+                            <>
+                                <Link to="/login" className="w-full">
+                                    <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                        Login
+                                    </button>
+                                </Link>
+                                {userRole == "admin" ? <Link to="/admin/dashboard" className="w-full">
+                                    <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                        Admin
+                                    </button>
+                                </Link> : <Link to="/admin/dashboard" className="w-full">
+                                    <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                        Author
+                                    </button>
+                                </Link>}
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
         </nav>
     );
 };

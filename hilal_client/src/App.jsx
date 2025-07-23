@@ -24,10 +24,11 @@ import EditAuthor from "./pages/admin/Edit/EditAuthor";
 import EditBillBoard from "./pages/admin/Edit/EditBillBoard";
 import EditMagazine from "./pages/admin/Edit/EditMagazine";
 import HilalArchives from "./pages/HilalArchives";
-import OurContributors from "./pages/OurContributors";
 import AboutUs from "./pages/AboutUs";
 import HilalEbooks from "./pages/HilalEbooks";
 import NationalInternationIssues from "./pages/National-Internation-Issues";
+import Advertise from "./pages/Advertise";
+import OurContributors from "./pages/OurContributors";
 
 const App = () => {
   return (
@@ -52,6 +53,8 @@ const App = () => {
         <Route path="/category/:category" element={<NationalInternationIssues />} />
         <Route path="/contributors" element={<OurContributors />} />
         <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/advertise" element={<Advertise />} />
+
       </Route>
 
       <Route path="/sign-up" element={<SignUp />} />
