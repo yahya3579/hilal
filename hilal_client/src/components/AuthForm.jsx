@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import api from '../utils/api'
 import { useNavigate } from 'react-router-dom'
-import { REFRESH_TOKEN, ACCESS_TOKEN } from '../utils/constants'
+import useAuthStore from '../utils/store'
 import { Link } from 'react-router-dom'
 import HilalDigital from '../assets/hilal-logo.svg'
 import { FaFacebook } from 'react-icons/fa'
 import GoogleSignInButton from '../pages/Google'
+import axios from 'axios'
+
 const AuthForm = ({ route, method }) => {
+    const setAccessToken = useAuthStore((state) => state.setAccessToken);
+    const setUserId = useAuthStore((state) => state.setUserId);
+    const setRefreshToken = useAuthStore((state) => state.setRefreshToken);
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)
@@ -74,7 +79,9 @@ const AuthForm = ({ route, method }) => {
                         })
                         .then((res) => {
                             console.log("✅ Login Success", res.data);
-                            localStorage.setItem("access", res.data.access);
+                            setUserId(res.data.user_id); // Store user ID in the store
+                            setAccessToken(res.data.access);
+
 
                             navigate("/");
                         })
@@ -90,23 +97,21 @@ const AuthForm = ({ route, method }) => {
     };
 
     const handleSubmit = async (e) => {
-        // setLoading(true);
         e.preventDefault();
 
         try {
-            const res = await api.post(route, { email, password })
+            const res = await api.post(route, { email, password }, { withCredentials: true })
             console.log(res.data)
             if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+                setAccessToken(res.data.access);
+                setRefreshToken(res.data.refresh);
+                setUserId(res.data.user_id); // Store user ID in the store
                 navigate("/")
             } else {
                 navigate("/login")
             }
         } catch (error) {
             alert(error)
-        } finally {
-            //    setLoading(false)
         }
     };
 

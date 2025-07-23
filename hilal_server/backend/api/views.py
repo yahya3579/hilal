@@ -157,9 +157,11 @@ class GoogleLoginAPIView(APIView):
                         "email": user.email,
                         "first_name": user.fname,
                         "last_name": user.lname,
-                    }
+                    },
+                    "user_id": user.id  # Include user ID in the response
                 }, status=201)
-
+            print("DEBUG: User created or retrieved:", response)
+            print("refresh",refresh)
                 # Set refresh token as HttpOnly cookie
             response.set_cookie(
                     key='refresh_token',
@@ -179,6 +181,7 @@ class FacebookLoginAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        print("DEBUG: GoogleLoginAPIView POST method triggered")
         access_token = request.data.get('access_token')
         if not access_token:
             return Response({"error": "Access token required"}, status=400)
@@ -210,7 +213,8 @@ class FacebookLoginAPIView(APIView):
                         "email": user.email,
                         "first_name": user.fname,
                         "last_name": user.lname,
-                    }
+                    },
+                    "user_id": user.id  # Include user ID in the response   
                 }, status=201)
 
                 # Set refresh token as HttpOnly cookie
@@ -231,6 +235,31 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from datetime import timedelta
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import CustomTokenObtainPairSerializer
+
+class CustomLoginView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        refresh = response.data.get("refresh")
+
+        if refresh:
+            response.set_cookie(
+                key='refresh_token',
+                value=str(refresh),
+                httponly=True,
+                secure=False,  # set True in production
+                samesite='Lax',
+                max_age=7 * 24 * 60 * 60
+            )
+
+            
+            # Remove refresh token from body if you want
+            # del response.data['refresh']
+        return response
 
 class LoginView(APIView):
     permission_classes = [AllowAny] 
@@ -244,7 +273,10 @@ class LoginView(APIView):
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
 
-            response = Response({"access": access_token})
+            response = Response({
+                "access": access_token,
+                "user_id": user.id  # Include user ID in the response
+            })
 
             # Set refresh token in HTTPOnly cookie
             response.set_cookie(
@@ -254,10 +286,8 @@ class LoginView(APIView):
                 secure=False,  # use True in production with HTTPS
                 samesite='Lax',  # or 'Strict'
                 max_age=7 * 24 * 60 * 60  # 7 days
-                
-              
             )
-
+            
             return response
         return Response({"error": "Invalid credentials"}, status=401)
     
@@ -282,4 +312,28 @@ class RefreshTokenView(APIView):
             return Response({'access': new_access})
         except TokenError:
             return Response({'error': 'Invalid refresh token'}, status=401)
+
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+
+@api_view(['GET'])
+def get_user_role(request, user_id):
+    """
+    API to get the role of a user based on their ID.
+    """
+    user = get_object_or_404(CustomUser, id=user_id)
+    return Response({"role": user.role}, status=200)
+
+class UserRoleAPIView(APIView):
+    """
+    API to get the role of a user based on their ID.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, user_id):
+        user = CustomUser.objects.filter(id=user_id).first()
+        if not user:
+            return Response({"error": "User not found"}, status=404)
+        return Response({"role": user.role}, status=200)
 

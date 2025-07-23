@@ -10,6 +10,7 @@ import {
     ChevronRight,
 
 } from "lucide-react";
+import useAuthStore from '../utils/store';
 
 
 
@@ -22,14 +23,11 @@ const socialIcons = [
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const accessToken = useAuthStore((state) => state.accessToken);
+    const clearTokens = useAuthStore((state) => state.clearTokens);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Check if access token exists in local storage
-        const accessToken = localStorage.getItem("access");
-        setIsLoggedIn(!!accessToken);
-    }, []);
+    const userRole = useAuthStore((state) => state.userRole);
+    console.log("User Role:", userRole);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -40,9 +38,7 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        setIsLoggedIn(false);
+        clearTokens();
         navigate("/login");
 
     };
@@ -80,10 +76,40 @@ const Navbar = () => {
                         <li className="relative group cursor-pointer" onClick={toggleCategory}>
                             Category <FaChevronDown className="inline ml-1" />
                             {isCategoryOpen && (
-                                <ul className="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-lg z-50">
-                                    <li>
-                                        <Link to="/articlepage" className="block px-4 py-2 hover:bg-gray-100">ArticlePage</Link>
+                                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/national-and-International-news`} className="w-full">
+                                            National-International-Issues
+                                        </Link>
                                     </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/war-on-terror`} className="w-full">
+                                            War on Terror
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/special-reports`} className="w-full">
+                                            Special Reports
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/in-focus`} className="w-full">
+                                            In Focus
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/armed-forces-news`} className="w-full">
+                                            Armed Forces News
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/misc`} className="w-full">
+                                            Misc
+                                        </Link>
+                                    </li>
+
+
+
                                     {/* Add more dropdown items here if needed */}
                                 </ul>
                             )}
@@ -121,7 +147,7 @@ const Navbar = () => {
                         ))}
                     </div> */}
                     <div className="hidden lg:flex ml-auto space-x-2 xl:space-x-4 text-[14px] xl:text-[16px]">
-                        {isLoggedIn ? (
+                        {accessToken ? (
                             <>
                                 <button
                                     onClick={handleLogout}
@@ -129,11 +155,19 @@ const Navbar = () => {
                                 >
                                     Logout
                                 </button>
-                                <Link to="/admin/dashboard">
-                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
-                                        Admin
-                                    </button>
-                                </Link>
+                                {userRole === "admin" ? (
+                                    <Link to="/admin/dashboard">
+                                        <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
+                                            Admin
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <Link to="/admin/dashboard">
+                                        <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
+                                            Author
+                                        </button>
+                                    </Link>
+                                )}
                             </>
                         ) : (
                             <>
@@ -188,7 +222,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex flex-col space-y-2 p-4">
-                    {isLoggedIn ? (
+                    {accessToken ? (
                         <button
                             onClick={handleLogout}
                             className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer"
@@ -202,11 +236,15 @@ const Navbar = () => {
                                     Login
                                 </button>
                             </Link>
-                            <Link to="/admin/dashboard" className="w-full">
+                            {userRole == "admin" ? <Link to="/admin/dashboard" className="w-full">
                                 <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
                                     Admin
                                 </button>
-                            </Link>
+                            </Link> : <Link to="/admin/dashboard" className="w-full">
+                                <button className="w-full bg-white text-[#DF1600] p-2 font-bold border border-white cursor-pointer">
+                                    Author
+                                </button>
+                            </Link>}
                         </>
                     )}
                 </div>

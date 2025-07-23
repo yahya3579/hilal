@@ -35,10 +35,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     login_datetime = models.DateTimeField(null=True, blank=True)
     status = models.BooleanField(default=True)
 
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('author', 'Author'),
+        ('editor', 'Editor'),
+
+    ]
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='author')
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     class Meta:
+        managed= False
         db_table = "users"

@@ -56,7 +56,9 @@ INSTALLED_APPS = [
     'rest_framework',  # Django REST Framework for building APIs   4
     "api",
     "corsheaders",  # CORS headers for cross-origin requests
-    "social_django"
+    "social_django",
+    "adminpanel",  # Your custom admin panel apps
+    "author_management",  # Your custom author management app
 ]
 
 MIDDLEWARE = [
