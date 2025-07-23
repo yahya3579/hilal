@@ -6,6 +6,7 @@ from .models import Comments, Articles
 from .serializers import CommentSerializer, ArticleSerializer
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny
+from django.utils.timezone import now
 
 
 def home(request):
@@ -97,5 +98,14 @@ class GetArticlesByCategoryView(APIView):
             serializer = ArticleSerializer(articles, many=True)
             return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
         return Response({"message": "No articles found for the given category"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetTopArticlesView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        articles = Articles.objects.filter(publish_date__lte=now()).order_by('-publish_date')[:10]
+        serializer = ArticleSerializer(articles, many=True)
+        return Response({"message": "Top 10 recent articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
 
 
