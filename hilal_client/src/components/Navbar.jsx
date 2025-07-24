@@ -176,9 +176,9 @@ const Navbar = () => {
                                         Login
                                     </button>
                                 </Link>
-                                <Link to="/admin/dashboard">
+                                <Link to="*">
                                     <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
-                                        Admin
+                                        Subscribe
                                     </button>
                                 </Link>
                             </>
