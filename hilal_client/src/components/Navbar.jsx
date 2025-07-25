@@ -550,6 +550,61 @@ const Navbar = () => {
                             </Link>
                         </li>
                     </ul>
+                    <div
+                        className={`flex flex-col space-y-4 p-6 transition-all duration-500 transform ${isMenuOpen
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-4 opacity-0"
+                            }`}
+                        style={{ transitionDelay: "0.8s" }}
+                    >
+                        {accessToken ? (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        handleLogout();
+                                        closeMobileMenu();
+                                    }}
+                                    className="w-full bg-gradient-to-r from-[#DF1600] to-red-700 text-white p-4 font-bold border-2 border-[#DF1600] cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-2xl hover:from-red-700 hover:to-red-800 text-lg"
+                                >
+                                    Logout
+                                </button>
+                                {userRole === "admin" ? (
+                                    <Link
+                                        to="/admin/dashboard"
+                                        className="w-full"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        <button className="w-full bg-gradient-to-r from-[#DF1600] to-red-700 text-white p-4 font-bold border-2 border-[#DF1600] cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-2xl hover:from-red-700 hover:to-red-800 text-lg">
+                                            Admin
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        to="/admin/dashboard"
+                                        className="w-full"
+                                        onClick={closeMobileMenu}
+                                    >
+                                        <button className="w-full bg-gradient-to-r from-[#DF1600] to-red-700 text-white p-4 font-bold border-2 border-[#DF1600] cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-2xl hover:from-red-700 hover:to-red-800 text-lg">
+                                            Author
+                                        </button>
+                                    </Link>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/login" className="w-full" onClick={closeMobileMenu}>
+                                    <button className="w-full bg-gradient-to-r from-[#DF1600] to-red-700 text-white p-4 font-bold border-2 border-[#DF1600] cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-2xl hover:from-red-700 hover:to-red-800 text-lg">
+                                        Login
+                                    </button>
+                                </Link>
+                                <Link to="/subscribe" className="w-full" onClick={closeMobileMenu}>
+                                    <button className="w-full bg-gradient-to-r from-[#DF1600] to-red-700 text-white p-4 font-bold border-2 border-[#DF1600] cursor-pointer transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-2xl hover:from-red-700 hover:to-red-800 text-lg">
+                                        Subscribe
+                                    </button>
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </nav>
