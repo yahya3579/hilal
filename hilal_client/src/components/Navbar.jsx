@@ -11,6 +11,7 @@ import {
 
 } from "lucide-react";
 import useAuthStore from '../utils/store';
+import axios from "axios";
 
 
 
@@ -37,10 +38,15 @@ const Navbar = () => {
         setIsCategoryOpen((prev) => !prev);
     };
 
-    const handleLogout = () => {
-        clearTokens();
-        navigate("/login");
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:8000/api/logout/", {}, { withCredentials: true });
 
+            clearTokens();
+            navigate("/login");
+        } catch (error) {
+            console.error("Error during logout:", error?.response?.data || error.message);
+        }
     };
 
     return (
@@ -124,7 +130,7 @@ const Navbar = () => {
                             <Link to="/archives">Archives</Link>
                         </li>
                         <li className="relative group cursor-pointer">
-                            <Link to="/contributors">Advertise</Link>
+                            <Link to="/advertise">Advertise</Link>
 
                         </li>
                         <li className="hover:underline cursor-pointer">
@@ -176,7 +182,7 @@ const Navbar = () => {
                                         Login
                                     </button>
                                 </Link>
-                                <Link to="*">
+                                <Link to="/subscribe">
                                     <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
                                         Subscribe
                                     </button>
@@ -212,7 +218,7 @@ const Navbar = () => {
                         <Link to="/archives">Archives</Link>
                     </li>
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">
-                        Advertise
+                        <Link to={"/advertise"}>Advertise</Link>
                     </li>
 
                     <li className="py-3 border-b border-red-400 hover:bg-red-700 px-2">

@@ -26,6 +26,7 @@ from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticle
 from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetTopArticlesView
 from api.views import UserRoleAPIView
 from adminpanel.views import GetArticlesByUserView
+from api.views import LogoutAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -49,4 +50,5 @@ urlpatterns = [
     path('api/get-recent-articles/', GetTopArticlesView.as_view(), name='get-top-articles'), # get top 10 recent articles
     path("api/user/<int:user_id>/role/", UserRoleAPIView.as_view(), name="user-role"),
     path("api/articles/user/<int:user_id>/", GetArticlesByUserView.as_view(), name="articles-by-user"),
+    path("api/logout/", LogoutAPIView.as_view(), name="logout"),
 ]

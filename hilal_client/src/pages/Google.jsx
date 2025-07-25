@@ -8,6 +8,7 @@ function GoogleSignInButton() {
     const setAccessToken = useAuthStore((state) => state.setAccessToken);
     const setRefreshToken = useAuthStore((state) => state.setRefreshToken);
     const setUserId = useAuthStore((state) => state.setUserId);
+    const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
     const handleSuccess = async (credentialResponse) => {
         console.log("Credential Response:", credentialResponse.credential);
         try {
@@ -19,6 +20,7 @@ function GoogleSignInButton() {
             setAccessToken(res.data.access);
             setRefreshToken(res.data.refresh);
             setUserId(res.data.user_id); // Store user ID in the store
+            setIsAuthorized(true);
             navigate("/");
         } catch (err) {
             console.error("Login Failed", err.response?.data);

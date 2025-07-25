@@ -337,3 +337,18 @@ class UserRoleAPIView(APIView):
             return Response({"error": "User not found"}, status=404)
         return Response({"role": user.role}, status=200)
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
+class LogoutAPIView(APIView):
+    """
+    API to log out the user by clearing refresh and access tokens.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        response = Response({"message": "Logged out successfully"}, status=200)
+        response.delete_cookie('refresh_token')  # Clear refresh token cookie
+        return response
+
