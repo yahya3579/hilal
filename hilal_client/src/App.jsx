@@ -24,23 +24,17 @@ import EditAuthor from "./pages/admin/Edit/EditAuthor";
 import EditBillBoard from "./pages/admin/Edit/EditBillBoard";
 import EditMagazine from "./pages/admin/Edit/EditMagazine";
 import HilalArchives from "./pages/HilalArchives";
-import OurContributors from "./pages/OurContributors";
 import AboutUs from "./pages/AboutUs";
 import HilalEbooks from "./pages/HilalEbooks";
 import NationalInternationIssues from "./pages/National-Internation-Issues";
+import Advertise from "./pages/Advertise";
+import OurContributors from "./pages/OurContributors";
 
 const App = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoutes> <Home /></ProtectedRoutes>} />
-        {/* <Home />
-          }
-        /> */}
-
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
@@ -50,8 +44,9 @@ const App = () => {
         <Route path="/archives" element={<HilalArchives />} />
         <Route path="/ebooks" element={<HilalEbooks />} />
         <Route path="/category/:category" element={<NationalInternationIssues />} />
-        <Route path="/contributors" element={<OurContributors />} />
+        <Route path="/ourcontributors" element={<OurContributors />} />
         <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/advertise" element={<Advertise />} />
       </Route>
 
       <Route path="/sign-up" element={<SignUp />} />
@@ -61,31 +56,20 @@ const App = () => {
       <Route element={<AdminLayout />}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bill-boards-management" element={<BillBoards />} />
-        <Route
-          path="/admin/articles-management"
-          element={<ArticleManagement />}
+        <Route path="/admin/articles-management" element={<ArticleManagement />}
         />
-        <Route
-          path="/admin/magazine-management"
-          element={<MagazineManagement />}
+        <Route path="/admin/magazine-management" element={<MagazineManagement />}
         />
-        <Route
-          path="/admin/comment-management"
-          element={<CommentManagement />}
+        <Route path="/admin/comment-management" element={<CommentManagement />}
         />
-        <Route
-          path="/admin/packages-management"
-          element={<PackagesManagement />}
+        <Route path="/admin/packages-management" element={<PackagesManagement />}
         />
-        <Route
-          path="/admin/authors-management"
-          element={<AuthorsManagement />}
+        <Route path="/admin/authors-management" element={<AuthorsManagement />}
         />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
       <Route path="/admin/new-article/:articleId" element={<EditArticle />} />
       <Route path="/admin/new-article" element={<EditArticle />} />
-
       <Route path="/admin/edit-author" element={<EditAuthor />} />
       <Route path="/admin/edit-billboard" element={<EditBillBoard />} />
       <Route path="/admin/edit-magazine" element={<EditMagazine />} />

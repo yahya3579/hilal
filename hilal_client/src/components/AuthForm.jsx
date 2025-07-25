@@ -15,6 +15,8 @@ const AuthForm = ({ route, method }) => {
     const [email, setEmail] = useState("johndoe@email.com")
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)
+    const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
+    const triggerAuth = useAuthStore((state) => state.triggerAuth);
     const navigate = useNavigate();
 
 
@@ -81,8 +83,8 @@ const AuthForm = ({ route, method }) => {
                             console.log("✅ Login Success", res.data);
                             setUserId(res.data.user_id); // Store user ID in the store
                             setAccessToken(res.data.access);
-
-
+                            setIsAuthorized(true);
+                            triggerAuth(); // Trigger auth to update state
                             navigate("/");
                         })
                         .catch((err) => {
@@ -106,6 +108,8 @@ const AuthForm = ({ route, method }) => {
                 setAccessToken(res.data.access);
                 setRefreshToken(res.data.refresh);
                 setUserId(res.data.user_id); // Store user ID in the store
+                setIsAuthorized(true);
+                triggerAuth(); // Trigger auth to update state
                 navigate("/")
             } else {
                 navigate("/login")
