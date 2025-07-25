@@ -11,7 +11,7 @@ const ProtectedRoutes = ({ children }) => {
     const setUserRole = useAuthStore((state) => state.setUserRole)
     const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized)
     const isAuthorized = useAuthStore((state) => state.isAuthorized)
-
+    const authTrigger = useAuthStore((state) => state.authTrigger); // 🔥
 
     useEffect(() => {
         console.log("Checking authentication status")
@@ -19,7 +19,7 @@ const ProtectedRoutes = ({ children }) => {
             console.error("Error during authentication:", error)
             setIsAuthorized(false)
         })
-    }, [])
+    }, [authTrigger])
     const fetchUserRole = async (userId) => {
         try {
             const response = await axios.get(`http://localhost:8000/api/user/${userId}/role/`);

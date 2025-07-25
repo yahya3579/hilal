@@ -16,6 +16,7 @@ const AuthForm = ({ route, method }) => {
     const [password, setPassword] = useState("••••••••••••")
     const [showPassword, setShowPassword] = useState(false)
     const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
+    const triggerAuth = useAuthStore((state) => state.triggerAuth);
     const navigate = useNavigate();
 
 
@@ -83,7 +84,7 @@ const AuthForm = ({ route, method }) => {
                             setUserId(res.data.user_id); // Store user ID in the store
                             setAccessToken(res.data.access);
                             setIsAuthorized(true);
-
+                            triggerAuth(); // Trigger auth to update state
                             navigate("/");
                         })
                         .catch((err) => {
@@ -108,6 +109,7 @@ const AuthForm = ({ route, method }) => {
                 setRefreshToken(res.data.refresh);
                 setUserId(res.data.user_id); // Store user ID in the store
                 setIsAuthorized(true);
+                triggerAuth(); // Trigger auth to update state
                 navigate("/")
             } else {
                 navigate("/login")
