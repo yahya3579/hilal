@@ -5,6 +5,8 @@ const useAuthStore = create((set) => ({
     userId: null,
     refreshToken: null,
     userRole: null,
+    isAuthorized: null,
+    setIsAuthorized: (status) => set({ isAuthorized: status }),
     setAccessToken: (token) => set({ accessToken: token }),
     setRefreshToken: (token) => set({ refreshToken: token }),
     setUserRole: (role) => set({ userRole: role }),

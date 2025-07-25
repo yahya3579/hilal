@@ -5,10 +5,12 @@ import axios from 'axios'
 import useAuthStore from '../utils/store'
 
 const ProtectedRoutes = ({ children }) => {
-    const [isAuthorized, setIsAuthorized] = useState(null)
+
     const accessToken = useAuthStore((state) => state.accessToken)
     const setAccessToken = useAuthStore((state) => state.setAccessToken)
     const setUserRole = useAuthStore((state) => state.setUserRole)
+    const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized)
+    const isAuthorized = useAuthStore((state) => state.isAuthorized)
 
 
     useEffect(() => {
@@ -80,11 +82,12 @@ const ProtectedRoutes = ({ children }) => {
 
 
 
-    if (isAuthorized == null) {
-        return <div>Loading...</div>
-    }
+    // if (isAuthorized == null) {
+    //     return <div>Loading...</div>
+    // }
 
-    return isAuthorized ? children : <Navigate to="/login" />
+    // return isAuthorized ? children : <Navigate to="/login" />
+    return children
 }
 
 export default ProtectedRoutes
