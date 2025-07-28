@@ -22,7 +22,7 @@ const ProtectedRoutes = ({ children }) => {
     }, [authTrigger])
     const fetchUserRole = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/user/${userId}/role/`);
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/user/${userId}/role/`);
             setUserRole(response.data.role);
             console.log("User role fetched and stored:", response.data.role);
         } catch (error) {
@@ -33,7 +33,7 @@ const ProtectedRoutes = ({ children }) => {
     const refreshToken = async () => {
         try {
             console.log("Refreshing token")
-            const response = await axios.post('http://localhost:8000/api/token/refresh/', {}, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/token/refresh/`, {}, {
                 withCredentials: true
             });
             console.log("response", response);

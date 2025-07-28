@@ -20,16 +20,16 @@ const columns = [
 // API calls
 const fetchArticles = async (userRole, userId) => {
     if (userRole === "admin") {
-        const res = await axios.get('http://localhost:8000/api/get-articles/');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
         return res.data.data;
     } else if (userRole === "author") {
-        const res = await axios.get(`http://localhost:8000/api/articles/user/${userId}/`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/user/${userId}/`);
         return res.data.data;
     }
 };
 
 const deleteArticle = async (id) => {
-    await axios.delete(`http://localhost:8000/api/article/${id}/`);
+    await axios.delete(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
 };
 
 const ArticleManagement = () => {

@@ -7,7 +7,7 @@ import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import { useParams } from "react-router-dom"; // Import useParams to get URL parameters
 
 const fetchArticleById = async (id) => {
-    const res = await axios.get(`http://localhost:8000/api/article/${id}/`);
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
     return res.data;
 };
 
@@ -118,11 +118,11 @@ export default function EditArticle() {
 
         if (articleId) {
             // Update existing article
-            const response = await axios.put(`http://localhost:8000/api/article/${articleId}/`, data);
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/article/${articleId}/`, data);
             return response.data;
         } else {
             // Create new article
-            const response = await axios.post("http://localhost:8000/api/create-article/", data);
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-article/`, data);
             return response.data;
         }
     };

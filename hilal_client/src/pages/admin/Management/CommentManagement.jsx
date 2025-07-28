@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const fetchComments = async () => {
-    const response = await axios.get("http://localhost:8000/api/get-comments/");
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-comments/`);
     return response.data.data;
 };
 
