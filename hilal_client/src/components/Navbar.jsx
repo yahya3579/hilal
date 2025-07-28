@@ -191,64 +191,18 @@ const Navbar = () => {
                         <li className="relative group cursor-pointer" onClick={handleMagazinesClick}>
                             Magazines <FaChevronDown className="inline" />
                             {isMagazinesOpen && (
-                                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/magazine/defense-and-security`} className="w-full">
-                                            Defense and Security
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/magazine/economy-and-business`} className="w-full">
-                                            Economy and Business
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/magazine/science-and-technology`} className="w-full">
-                                            Science and Technology
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/magazine/culture-and-society`} className="w-full">
-                                            Culture and Society
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/magazine/misc`} className="w-full">
-                                            Misc
-                                        </Link>
-                                    </li>
+                                // Removed all dropdown options for Magazines
+                                <ul>
+                                    {/* No options for now - dropdown intentionally left empty */}
                                 </ul>
                             )}
                         </li>
                         <li className="relative group cursor-pointer" onClick={handleEbookClick}>
                             <Link to="/ebooks">E-Book</Link>  <FaChevronDown className="inline" />
                             {isEbookOpen && (
-                                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/ebooks/latest-releases`} className="w-full">
-                                            Latest Releases
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/ebooks/best-sellers`} className="w-full">
-                                            Best Sellers
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/ebooks/genre-fiction`} className="w-full">
-                                            Genre Fiction
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/ebooks/genre-non-fiction`} className="w-full">
-                                            Genre Non-Fiction
-                                        </Link>
-                                    </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/ebooks/misc`} className="w-full">
-                                            Misc
-                                        </Link>
-                                    </li>
+                                // Removed all dropdown options for E-Book
+                                <ul>
+                                    {/* No options for now - dropdown intentionally left empty */}
                                 </ul>
                             )}
                         </li>
@@ -327,6 +281,13 @@ const Navbar = () => {
                 <div className="bg-gradient-to-b from-white via-gray-50 to-gray-100 shadow-2xl border-t-4 border-red-500">
                     <div className="h-1 bg-gradient-to-r from-red-500 via-red-400 to-red-500"></div>
                     <ul className="flex flex-col px-6 py-4 text-base font-medium">
+                        {/* Mobile Home Link */}
+                        <li className="py-4 border-b border-gray-200 hover:bg-red-50 px-4 rounded-xl transition-all duration-300">
+                            <Link to="/" className="block text-gray-700 hover:text-red-600 font-semibold text-lg" onClick={closeMobileMenu}>
+                                Home
+                            </Link>
+                        </li>
+                        
                         {/* Mobile Category Dropdown */}
                         <li
                             className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
@@ -419,51 +380,7 @@ const Navbar = () => {
                                     }`}
                             >
                                 <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/magazine/defense-and-security"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Defense and Security
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/magazine/economy-and-business"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Economy and Business
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/magazine/science-and-technology"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Science and Technology
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/magazine/culture-and-society"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Culture and Society
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/magazine/misc"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Misc
-                                        </Link>
-                                    </li>
+                                    {/* No options for now - dropdown intentionally left empty */}
                                 </ul>
                             </div>
                         </li>
@@ -477,7 +394,13 @@ const Navbar = () => {
                                 className="flex justify-between items-center cursor-pointer w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
                                 onClick={() => setMobileEbookOpen(!mobileEbookOpen)}
                             >
-                                <span>E-Book</span>
+                                <Link
+                                    to="/ebooks"
+                                    onClick={closeMobileMenu}
+                                    className="flex-1 hover:text-red-600"
+                                >
+                                    E-Book
+                                </Link>
                                 <FaChevronDown className={`ml-2 transition-transform duration-300 text-red-500 ${mobileEbookOpen ? "rotate-180" : "rotate-0"}`} />
                             </div>
                             <div
@@ -485,51 +408,7 @@ const Navbar = () => {
                                     }`}
                             >
                                 <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/ebooks/latest-releases"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Latest Releases
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/ebooks/best-sellers"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Best Sellers
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/ebooks/genre-fiction"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Genre Fiction
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/ebooks/genre-non-fiction"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Genre Non-Fiction
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/ebooks/misc"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Misc
-                                        </Link>
-                                    </li>
+                                    {/* No options for now - dropdown intentionally left empty */}
                                 </ul>
                             </div>
                         </li>
