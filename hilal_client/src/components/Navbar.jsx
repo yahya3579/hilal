@@ -112,7 +112,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:8000/api/logout/", {}, { withCredentials: true });
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/logout/`, {}, { withCredentials: true });
 
             clearTokens();
             navigate("/login");
@@ -287,7 +287,7 @@ const Navbar = () => {
                                 Home
                             </Link>
                         </li>
-                        
+
                         {/* Mobile Category Dropdown */}
                         <li
                             className={`py-4 border-b border-gray-200/60 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-25 px-4 rounded-xl transition-all duration-300 transform ${isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"

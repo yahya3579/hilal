@@ -9,12 +9,12 @@ import ArticlePageImage from "../assets/ArticlePageImage.png";
 import useAuthStore from "../utils/store";
 
 const fetchArticle = async (id) => {
-  const res = await axios.get(`http://localhost:8000/api/article/${id}`);
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}`);
   return res.data;
 };
 
 const fetchRecentArticles = async () => {
-  const res = await axios.get("http://localhost:8000/api/get-recent-articles/");
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-recent-articles/`);
   return res.data.data;
 };
 
@@ -41,7 +41,7 @@ export default function ArticlePage() {
 
   const handleSubmitComment = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/api/create-comment/", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-comment/`, {
         comment,
         user: article.user, // Replace with the actual user ID
         article: article.id,

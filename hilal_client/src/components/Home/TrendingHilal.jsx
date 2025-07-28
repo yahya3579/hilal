@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const fetchAllArticles = async () => {
-    const res = await axios.get("http://localhost:8000/api/get-articles/");
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
     return res.data.data;
 };
 

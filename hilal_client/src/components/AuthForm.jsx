@@ -76,7 +76,7 @@ const AuthForm = ({ route, method }) => {
                     const accessToken = response.authResponse.accessToken;
 
                     api
-                        .post("http://localhost:8000/api/user/facebook-login/", {
+                        .post(`${import.meta.env.VITE_API_URL}/api/user/facebook-login/`, {
                             access_token: accessToken,
                         })
                         .then((res) => {

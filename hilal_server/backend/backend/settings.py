@@ -169,7 +169,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "https://hilalclient.vercel.app/",  # Allow frontend development server
+    "https://hilalclient.vercel.app",  # Allow frontend development server
 ]
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:5173",  # Allow frontend development server,  # Allow frontend development server
@@ -189,7 +189,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://hilalclient.vercel.app/",
+    "https://hilalclient.vercel.app",
 ]
 # Optional: allow specific methods
 CORS_ALLOW_METHODS = [
