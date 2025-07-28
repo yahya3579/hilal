@@ -104,16 +104,16 @@ DATABASES = {
 }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hilal_backend',             # your database name
-        'USER': 'root',             # your MySQL username
-        'PASSWORD':'admin', # your MySQL password
-        'HOST': 'localhost',        # or 127.0.0.1
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'hilal_backend',             # your database name
+#         'USER': 'root',             # your MySQL username
+#         'PASSWORD':'admin', # your MySQL password
+#         'HOST': 'localhost',        # or 127.0.0.1
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation

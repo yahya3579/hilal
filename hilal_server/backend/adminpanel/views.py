@@ -122,4 +122,5 @@ class GetArticlesByUserView(APIView):
             return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
         return Response({"message": "No articles found for the given user ID"}, status=status.HTTP_404_NOT_FOUND)
 
-
+def hello_view(request):
+    return HttpResponse("Hello")

@@ -25,7 +25,7 @@ from adminpanel.views import SingleArticleView
 from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticlesView
 from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetTopArticlesView
 from api.views import UserRoleAPIView
-from adminpanel.views import GetArticlesByUserView
+from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
 
 urlpatterns = [
@@ -51,4 +51,5 @@ urlpatterns = [
     path("api/user/<int:user_id>/role/", UserRoleAPIView.as_view(), name="user-role"),
     path("api/articles/user/<int:user_id>/", GetArticlesByUserView.as_view(), name="articles-by-user"),
     path("api/logout/", LogoutAPIView.as_view(), name="logout"),
+    path("api/hello/", hello_view, name="hello"),
 ]
