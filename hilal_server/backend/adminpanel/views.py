@@ -33,6 +33,17 @@ class GetAllCommentsView(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response({"message": "Comments retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
 
+class DeleteCommentView(APIView):
+    permission_classes = [AllowAny]
+
+    def delete(self, request, pk):
+        try:
+            comment = Comments.objects.get(pk=pk)
+            comment.delete()
+            return Response({"message": "Comment deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Comments.DoesNotExist:
+            return Response({"error": "Comment not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 
 #  Articles Related Views
@@ -128,10 +139,19 @@ class CreateBillboardView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        location = request.data.get("location")
+        if Billboards.objects.filter(location=location).exists():
+            return Response(
+                {"error": f"A billboard already exists at this location."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         serializer = BillboardSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Billboard created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"message": "Billboard created successfully", "data": serializer.data},
+                status=status.HTTP_201_CREATED,
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -158,6 +178,12 @@ class SingleBillboardView(APIView):
     def put(self, request, pk):
         try:
             billboard = Billboards.objects.get(pk=pk)
+            location = request.data.get("location")
+            if location and Billboards.objects.filter(location=location).exclude(pk=pk).exists():
+                return Response(
+                    {"error": f"A billboard already exists at this location."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             serializer = BillboardSerializer(billboard, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

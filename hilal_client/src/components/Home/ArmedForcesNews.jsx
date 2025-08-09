@@ -94,4 +94,3 @@ const ArmedForcesNews = () => {
 };
 
 export default ArmedForcesNews;
-export default ArmedForcesNews;

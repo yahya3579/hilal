@@ -23,7 +23,7 @@ from api.views import FacebookLoginAPIView
 from api.views import CustomLoginView
 from adminpanel.views import SingleArticleView
 from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticlesView
-from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetTopArticlesView
+from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetTopArticlesView , DeleteCommentView
 from api.views import UserRoleAPIView
 from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
@@ -62,4 +62,7 @@ urlpatterns = [
     path('api/get-billboards/', GetAllBillboardsView.as_view(), name='get-billboards'),  # Get all billboards
     path('api/delete-billboard/<int:pk>/', DeleteBillboardView.as_view(), name='delete-billboard'),  # Delete billboard
     path('api/billboard/location/<str:location>/', GetBillboardByPositionView.as_view(), name='billboard-by-location'),  # Get billboard by location
+
+    # comment management URLs
+    path('api/comment/<int:pk>/', DeleteCommentView.as_view(), name='delete-comment'),  # Delete comment
 ]

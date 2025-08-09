@@ -47,7 +47,7 @@ class Billboards(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING)
     image = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=255)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     issue_news = models.CharField(
         max_length=3,  # "Yes" or "No"

@@ -3,11 +3,13 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../utils/store';
+import { create } from 'zustand';
 
 // Table columns configuration
 const columns = [
-    { key: "image", label: "Billboard Image" },
-    { key: "title", label: "Billboard Title" },
+    { key: "image", label: "Image" },
+    { key: "title", label: "Title" },
+    { key: "created", label: "Created" },
     { key: "location", label: "Location" },
     { key: "status", label: "Status" },
     { key: "actions", label: "Actions" },
@@ -16,6 +18,7 @@ const columns = [
 // API calls
 const fetchBillboards = async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-billboards/`);
+    console.log("Fetched billboards:", res.data.data);
     return res.data.data;
 };
 
@@ -109,8 +112,12 @@ const BillboardsManagement = () => {
                                             className="w-[120px] h-[47px] object-cover"
                                         />
                                     </td>
+
                                     <td className="py-4 px-4 text-gray-700">
                                         <span className="font-medium text-[12.7px] font-poppins">{item.title}</span>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <span className="font-medium text-[12.7px] font-poppins">{item.created}</span>
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
                                         <span className="font-medium text-[12.7px] font-poppins">
@@ -123,10 +130,13 @@ const BillboardsManagement = () => {
                                         </button>
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
+
                                         <select
+                                            defaultValue=""
                                             className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins"
                                             onChange={(e) => {
                                                 const action = e.target.value;
+
                                                 if (action === "edit") {
                                                     navigate(`/admin/edit-billboard/${item.id}`);
                                                 } else if (action === "preview") {
@@ -136,13 +146,18 @@ const BillboardsManagement = () => {
                                                         mutation.mutate(item.id);
                                                     }
                                                 }
+
+                                                // Reset select so next selection always fires onChange
+                                                e.target.value = "";
                                             }}
                                         >
                                             <option disabled value="">Action</option>
-                                            <option value="preview">Preview</option>
+                                            {/* Uncomment if needed */}
+                                            {/* <option value="preview">Preview</option> */}
                                             <option value="edit">Edit</option>
                                             <option value="delete">Delete</option>
                                         </select>
+
                                     </td>
                                 </tr>
                             ))}

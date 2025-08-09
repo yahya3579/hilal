@@ -33,4 +33,4 @@ class BillboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Billboards
         fields = ['id', 'user', 'image', 'title', 'created', 'location', 'issue_news', 'status']
-        read_only_fields = ['id', 'created']
+        read_only_fields = ['id']

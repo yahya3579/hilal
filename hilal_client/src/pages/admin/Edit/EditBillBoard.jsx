@@ -173,15 +173,24 @@ export default function EditBillBoard() {
         const updatedData = {
             user: 1, // Add userId to the data
             title: formData.title,
-            location: formData.location, // Pass location as value (1, 2, etc.)
+            location: formData.location,
             status: formData.status,
             issue_news: formData.category,
             created: formData.date,
             image: imageUrl,
         };
-        // console.log("Submitting data:", updatedData);
-        mutation.mutate({ id: billboardId, data: updatedData });
-        setIsSubmitting(false);
+
+        mutation.mutate({ id: billboardId, data: updatedData }, {
+            onSuccess: () => {
+                alert(billboardId ? "Billboard updated successfully!" : "Billboard created successfully!");
+                navigate("/admin/bill-boards-management");
+            },
+            onError: (error) => {
+                const errorMessage = error.response?.data?.error || "An unexpected error occurred.";
+                alert(errorMessage); // Show error if location is already occupied
+                setIsSubmitting(false);
+            },
+        });
     };
 
     if (isLoading) return <p>Loading billboard...</p>;
