@@ -2,8 +2,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Comments, Articles, Billboards
-from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer
+from .models import Comments, Articles, Billboards, Magazines
+from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
@@ -127,11 +127,11 @@ class GetArticlesByUserView(APIView):
 
     def get(self, request, user_id):
         articles = Articles.objects.filter(user_id=user_id)
-        if articles.exists():
-            serializer = ArticleSerializer(articles, many=True)
-            return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
-        return Response({"message": "No articles found for the given user ID"}, status=status.HTTP_404_NOT_FOUND)
-
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(
+            {"message": "Articles retrieved successfully", "data": serializer.data},
+            status=status.HTTP_200_OK
+        )
 
 
 # Billboards Related Views
@@ -223,6 +223,56 @@ class GetBillboardByPositionView(APIView):
             return Response({"message": "Billboard retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
         except Billboards.DoesNotExist:
             return Response({"error": f"No billboard found at location {location}"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Magazines Related Views
+class GetAllMagazinesView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        magazines = Magazines.objects.all()
+        serializer = MagazineSerializer(magazines, many=True)
+        return Response({"message": "Magazines retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class SingleMagazineView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            magazine = Magazines.objects.get(pk=pk)
+            serializer = MagazineSerializer(magazine)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Magazines.DoesNotExist:
+            return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        try:
+            magazine = Magazines.objects.get(pk=pk)
+            magazine.delete()
+            return Response({"message": "Magazine deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Magazines.DoesNotExist:
+            return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class CreateOrUpdateMagazineView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = MagazineSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Magazine created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        try:
+            magazine = Magazines.objects.get(pk=pk)
+            serializer = MagazineSerializer(magazine, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Magazine updated successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Magazines.DoesNotExist:
+            return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 def hello_view(request):

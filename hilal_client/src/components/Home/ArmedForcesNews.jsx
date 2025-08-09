@@ -23,11 +23,11 @@ const ArmedForcesNews = () => {
   const { data: billboard, isLoading: billboardLoading, error: billboardError } = useQuery({
     queryKey: ['billboard', 'location-6'],
     queryFn: () => fetchBillboardByLocation(1),
+    onError: () => { }, // Handle errors silently
   });
 
-  if (articlesLoading || billboardLoading) return <p>Loading...</p>;
+  if (articlesLoading) return <p>Loading...</p>;
   if (articlesError) return <p>Error fetching articles</p>;
-  if (billboardError) return <p>Error fetching billboard</p>;
 
   return (
     <>
@@ -71,18 +71,15 @@ const ArmedForcesNews = () => {
 
             {/* Advertisement Banner */}
             <div className="mt-6 relative outline-none">
-              {billboard.image ? (
+              {billboard && billboard.image ? (
                 <img
-                  src={billboard?.image || "https://via.placeholder.com/552x100?text=No+Billboard+Available"}
-                  alt="Advertisement"
+                  src={billboard.image}
+                  alt={billboard.title || "Advertisement"}
                   className="w-full h-[100px] object-fill rounded outline-none"
                 />
               ) : (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded outline-none">
-                  <div className="text-white text-center outline-none">
-                    <div className="text-xl font-bold outline-none">{billboard?.title || "Ad space"}</div>
-                    <div className="text-sm outline-none">552*100</div>
-                  </div>
+                <div className="w-full h-[100px] bg-black flex items-center justify-center rounded outline-none">
+                  <p className="text-white font-medium">Ad Space</p>
                 </div>
               )}
             </div>

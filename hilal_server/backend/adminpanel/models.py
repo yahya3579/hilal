@@ -1,4 +1,3 @@
-
 from django.db import models
 from api.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -64,3 +63,16 @@ class Billboards(models.Model):
     class Meta:
         managed = False
         db_table = 'billboards'
+
+
+class Magazines(models.Model):
+    title = models.CharField(max_length=255)
+    publish_date = models.CharField(max_length=255, blank=True, null=True)
+    language = models.CharField(max_length=50)
+    direction = models.CharField(max_length=3, choices=[('LTR', 'Left-to-Right'), ('RTL', 'Right-to-Left')])
+    status = models.CharField(max_length=8, choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active')
+    cover_image = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'magazines'

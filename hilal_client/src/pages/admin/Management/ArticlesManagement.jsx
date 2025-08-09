@@ -23,7 +23,8 @@ const fetchArticles = async (userRole, userId) => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
         return res.data.data;
     } else if (userRole === "author") {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/user/${userId}/`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/user/2/`);
+        console.log("Fetched articles for author:", res.data.data);
         return res.data.data;
     }
 };
@@ -76,10 +77,8 @@ const ArticleManagement = () => {
 
             {/* Table */}
             <div className="overflow-x-auto">
-                {(!data || data.length === 0) && !error ? (
+                {(!data || data.length === 0) ? (
                     <p className="text-center text-gray-500 font-poppins text-lg">No articles found.</p>
-                ) : error ? (
-                    <p className="text-center text-red-500 font-poppins text-lg">Error fetching articles</p>
                 ) : (
                     <table className="w-full border-collapse">
                         <thead>

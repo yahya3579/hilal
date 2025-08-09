@@ -10,7 +10,7 @@ const NewsLetter = () => {
     };
 
     return (
-        <div className="bg-white font-poppins">
+        <div className="bg-white px-4 font-poppins">
             <div className="border-t-[3px] border-red-600">
                 <div className="py-2 mb-1">
                     <h2 className="heading-text-primary">Get Newsletter</h2>

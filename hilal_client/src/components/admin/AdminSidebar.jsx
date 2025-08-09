@@ -12,7 +12,6 @@ const AdminSidebar = () => {
         { label: "Article Gallery", path: "articles-management" },
         { label: "Magazines", path: "magazine-management" },
         { label: "Article Comments", path: "comment-management" },
-        { label: "Advertisements", path: "advertisements" },
         { label: "E-Books", path: "ebooks" },
         { label: "Packages", path: "packages-management" },
         { label: "Authors", path: "authors-management" },
