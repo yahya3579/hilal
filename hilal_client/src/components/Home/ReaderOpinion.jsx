@@ -11,31 +11,49 @@ const ReaderOpinion = () => {
     const { data: billboard1, isLoading: loading1, error: error1 } = useQuery({
         queryKey: ["billboard", "location-5"],
         queryFn: () => fetchBillboardByLocation(5),
+        onError: () => { }, // Handle errors silently
     });
 
     const { data: billboard2, isLoading: loading2, error: error2 } = useQuery({
         queryKey: ["billboard", "location-6"],
         queryFn: () => fetchBillboardByLocation(6),
+        onError: () => { }, // Handle errors silently
     });
-
-    if (loading1 || loading2) return <p>Loading...</p>;
-    if (error1 || error2) return <p>Error fetching billboards</p>;
 
     return (
         <>
-
-
             <div className="space-y-4 lg:col-span-3 font-poppins">
                 {/* Advertisement Boxes */}
                 <div className="space-y-2 max-lg:mt-2 justify-around flex mx-auto w-[90%] gap-x-6">
-                    {[billboard1, billboard2].map((billboard, idx) => (
+                    {/* Billboard 1 */}
+                    {billboard1 && billboard1.image ? (
                         <img
-                            key={idx}
-                            src={billboard?.image || "https://via.placeholder.com/120x120?text=No+Billboard"}
-                            alt={`Reader Billboard ${idx + 1}`}
+                            src={billboard1.image}
+                            alt="Reader Billboard 1"
                             className="w-[120px] h-[120px] object-fill"
                         />
-                    ))}
+                    ) : (
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
+                            alt="Default Reader Billboard 1"
+                            className="w-[120px] h-[120px] object-cover"
+                        />
+                    )}
+
+                    {/* Billboard 2 */}
+                    {billboard2 && billboard2.image ? (
+                        <img
+                            src={billboard2.image}
+                            alt="Reader Billboard 2"
+                            className="w-[120px] h-[120px] object-fill"
+                        />
+                    ) : (
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
+                            alt="Default Reader Billboard 2"
+                            className="w-[120px] h-[120px] object-cover"
+                        />
+                    )}
                 </div>
 
                 {/* Readers Opinion Section */}
@@ -69,9 +87,8 @@ const ReaderOpinion = () => {
                     </div>
                 </div>
             </div>
-
         </>
-    )
-}
+    );
+};
 
 export default ReaderOpinion;

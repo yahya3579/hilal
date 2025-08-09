@@ -1,4 +1,5 @@
 import React from 'react';
+import advertisementImage from '../../assets/advertisment2.png';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -11,10 +12,8 @@ const Advertisement2 = () => {
     const { data: billboard, isLoading, error } = useQuery({
         queryKey: ['billboard', 'location-3'],
         queryFn: () => fetchBillboardByLocation(3),
+        onError: () => { }, // Handle errors silently
     });
-
-    if (isLoading) return <p>Loading advertisement...</p>;
-    if (error) return <p>Error fetching advertisement</p>;
 
     return (
         <div className="border-t-[3px] border-red-600 mt-10">
@@ -22,11 +21,21 @@ const Advertisement2 = () => {
                 <h3 className="heading-text-primary">ADVERTISEMENT</h3>
             </div>
             <div className="relative mt-6">
-                <img
-                    src={billboard?.image || "https://via.placeholder.com/300x250?text=No+Advertisement"}
-                    alt={billboard?.title || "Advertisement"}
-                    className="w-[300px] h-[250px] object-fill"
-                />
+                {billboard && billboard.image ? (
+                    <img
+                        src={billboard.image}
+                        alt={billboard.title || "Advertisement"}
+                        className="w-[300px] h-[250px] object-fill"
+                    />
+                ) : (
+                    <div className="relative mt-6">
+                        <img
+                            src={advertisementImage}
+                            alt="Default Advertisement"
+                            className="w-[300px] h-[250px] object-cover"
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );
