@@ -1,10 +1,4 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
+
 from django.db import models
 from api.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -47,3 +41,26 @@ class Roles(models.Model):
     class Meta:
         managed = False
         db_table = 'roles'
+
+
+class Billboards(models.Model):
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
+    image = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255)
+    created = models.CharField(max_length=255, blank=True, null=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    issue_news = models.CharField(
+        max_length=3,  # "Yes" or "No"
+        choices=[('Yes', 'Yes'), ('No', 'No')],
+        blank=True,
+        null=True
+    )
+    status = models.CharField(
+        max_length=8,  # "Active" or "Disabled"
+        choices=[('Active', 'Active'), ('Disabled', 'Disabled')],
+        default='Active'
+    )
+
+    class Meta:
+        managed = False
+        db_table = 'billboards'

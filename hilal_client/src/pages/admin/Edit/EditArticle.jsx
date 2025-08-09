@@ -41,7 +41,7 @@ export default function EditArticle() {
                 description: articleData.description || "",
                 category: articleData.category || "",
                 publish_date: articleData.publish_date ? articleData.publish_date.split("T")[0] : "",
-                cover_image: null, // Reset cover_image for now
+                cover_image: articleData.cover_image || null, // Populate existing image
             });
         }
     }, [articleData]);
@@ -119,6 +119,7 @@ export default function EditArticle() {
         if (articleId) {
             // Update existing article
             const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/article/${articleId}/`, data);
+            console.log("Article updated successfully:", response.data);
             return response.data;
         } else {
             // Create new article
@@ -202,7 +203,15 @@ export default function EditArticle() {
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                             >
-                                <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] color-primary mb-4" />
+                                {formData.cover_image && typeof formData.cover_image === "string" ? (
+                                    <img
+                                        src={formData.cover_image}
+                                        alt="Article Cover"
+                                        className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4 object-cover"
+                                    />
+                                ) : (
+                                    <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4" />
+                                )}
                                 <input
                                     type="file"
                                     accept="image/png, image/jpeg"
@@ -210,7 +219,6 @@ export default function EditArticle() {
                                     style={{ display: 'none' }}
                                     onChange={handleFileChange}
                                 />
-
                                 <p className="text-gray-600 mb-2">
                                     <span className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle">Drag & drop files or </span>
                                     <button onClick={handleBrowseClick} className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle color-primary underline">Browse</button>

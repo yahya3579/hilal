@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const fetchComments = async () => {
@@ -7,10 +7,27 @@ const fetchComments = async () => {
     return response.data.data;
 };
 
+const deleteComment = async (id) => {
+    await axios.delete(`${import.meta.env.VITE_API_URL}/api/comment/${id}/`);
+};
+
 const CommentManagement = () => {
+    const queryClient = useQueryClient();
+
     const { data: comments, isLoading, isError } = useQuery({
         queryKey: ["comments"],
         queryFn: fetchComments,
+    });
+
+    const mutation = useMutation({
+        mutationFn: deleteComment,
+        onSuccess: () => {
+            alert("Comment deleted successfully!");
+            queryClient.invalidateQueries(["comments"]); // Refetch comments data
+        },
+        onError: (error) => {
+            alert(`Error deleting comment: ${error.response?.data || error.message}`);
+        },
     });
 
     if (isLoading) {
@@ -71,9 +88,19 @@ const CommentManagement = () => {
                                     <span className="font-medium text-[12.7px] font-poppins">{item.comment}</span>
                                 </td>
                                 <td className="py-4 px-4 text-gray-700">
-                                    <select className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins">
-                                        <option value="disapprove">Disapprove</option>
-                                        <option value="edit">Edit</option>
+                                    <select
+                                        defaultValue="" className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins"
+                                        onChange={(e) => {
+                                            const action = e.target.value;
+                                            if (action === "delete") {
+                                                if (window.confirm("Are you sure you want to delete this comment?")) {
+                                                    mutation.mutate(item.id); // Ensure correct ID is passed
+                                                }
+                                            }
+                                            e.target.value = ""; // Reset the dropdown
+                                        }}
+                                    >
+                                        <option disabled value="">Action</option>
                                         <option value="delete">Delete</option>
                                     </select>
                                 </td>
@@ -82,8 +109,6 @@ const CommentManagement = () => {
                     </tbody>
                 </table>
             </div>
-
-
         </div>
     );
 };
