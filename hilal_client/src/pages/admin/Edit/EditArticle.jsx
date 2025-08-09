@@ -119,6 +119,7 @@ export default function EditArticle() {
         if (articleId) {
             // Update existing article
             const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/article/${articleId}/`, data);
+            console.log("Article updated successfully:", response.data);
             return response.data;
         } else {
             // Create new article

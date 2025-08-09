@@ -27,6 +27,8 @@ from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetT
 from api.views import UserRoleAPIView
 from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
+from adminpanel.views import SingleBillboardView, CreateBillboardView, GetAllBillboardsView
+from adminpanel.views import DeleteBillboardView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,4 +54,10 @@ urlpatterns = [
     path("api/articles/user/<int:user_id>/", GetArticlesByUserView.as_view(), name="articles-by-user"),
     path("api/logout/", LogoutAPIView.as_view(), name="logout"),
     path("api/hello/", hello_view, name="hello"),
+
+    # billboard management URLs
+    path('api/billboard/<int:pk>/', SingleBillboardView.as_view(), name='single-billboard'),  # Get, update, delete single billboard
+    path('api/create-billboard/', CreateBillboardView.as_view(), name='create-billboard'),  # Create billboard
+    path('api/get-billboards/', GetAllBillboardsView.as_view(), name='get-billboards'),  # Get all billboards
+    path('api/delete-billboard/<int:pk>/', DeleteBillboardView.as_view(), name='delete-billboard'),  # Delete billboard
 ]

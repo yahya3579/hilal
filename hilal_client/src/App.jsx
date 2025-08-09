@@ -29,6 +29,7 @@ import HilalEbooks from "./pages/HilalEbooks";
 import NationalInternationIssues from "./pages/National-Internation-Issues";
 import Advertise from "./pages/Advertise";
 import OurContributors from "./pages/OurContributors";
+import BillboardsManagement from "./pages/admin/Management/BillboardsManagement";
 
 const App = () => {
   return (
@@ -55,7 +56,7 @@ const App = () => {
       {/* admin routes start*/}
       <Route element={<AdminLayout />}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/bill-boards-management" element={<BillBoards />} />
+        <Route path="/admin/bill-boards-management" element={<BillboardsManagement />} />
         <Route path="/admin/articles-management" element={<ArticleManagement />}
         />
         <Route path="/admin/magazine-management" element={<MagazineManagement />}
@@ -69,6 +70,8 @@ const App = () => {
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
       <Route path="/admin/new-article/:articleId" element={<EditArticle />} />
+      <Route path="/admin/edit-billboard/:billboardId" element={<EditBillBoard />} />
+
       <Route path="/admin/new-article" element={<EditArticle />} />
       <Route path="/admin/edit-author" element={<EditAuthor />} />
       <Route path="/admin/edit-billboard" element={<EditBillBoard />} />
