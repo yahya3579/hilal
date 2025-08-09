@@ -30,6 +30,7 @@ from api.views import LogoutAPIView
 from adminpanel.views import SingleBillboardView, CreateBillboardView, GetAllBillboardsView
 from adminpanel.views import DeleteBillboardView
 from adminpanel.views import GetBillboardByPositionView
+from adminpanel.views import GetAllMagazinesView, SingleMagazineView, CreateOrUpdateMagazineView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -65,4 +66,10 @@ urlpatterns = [
 
     # comment management URLs
     path('api/comment/<int:pk>/', DeleteCommentView.as_view(), name='delete-comment'),  # Delete comment
+
+    # Magazine management URLs
+    path('api/magazines/', GetAllMagazinesView.as_view(), name='get-all-magazines'),  # Get all magazines
+    path('api/magazine/<int:pk>/', SingleMagazineView.as_view(), name='single-magazine'),  # Get or delete a single magazine
+    path('api/magazine/create/', CreateOrUpdateMagazineView.as_view(), name='create-magazine'),  # Create a new magazine
+    path('api/magazine/update/<int:pk>/', CreateOrUpdateMagazineView.as_view(), name='update-magazine'),  # Update a magazine
 ]
