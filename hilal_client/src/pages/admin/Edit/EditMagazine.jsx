@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
+import useAuthStore from "../../../utils/store";
 
 const fetchMagazineById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/magazine/${id}/`);
@@ -25,6 +26,7 @@ const saveMagazine = async ({ id, data }) => {
 
 export default function EditMagazine() {
     const { magazineId } = useParams();
+    const userId = useAuthStore((state) => state.userId)
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({

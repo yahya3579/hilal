@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query"; // Import React Q
 import axios from "axios"; // Import Axios for API calls
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import { useParams } from "react-router-dom"; // Import useParams to get URL parameters
+import useAuthStore from "../../../utils/store";
 
 const fetchArticleById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
@@ -13,6 +14,7 @@ const fetchArticleById = async (id) => {
 
 export default function EditArticle() {
     const { articleId } = useParams(); // Get articleId from URL
+    const userId = useAuthStore((state) => state.userId)
     const { data: articleData, isLoading: isFetching, error: fetchError } = useQuery({
         queryKey: ["article", articleId],
         queryFn: () => fetchArticleById(articleId),
@@ -104,7 +106,7 @@ export default function EditArticle() {
         }
 
         const data = new FormData();
-        data.append("user", 1);
+        data.append("user", userId);
         data.append("cover_image", imageUrl || articleData?.cover_image); // Use existing image if not updated
         data.append("title", formData.title);
         data.append("writer", formData.writer);

@@ -171,7 +171,7 @@ export default function EditBillBoard() {
         }
 
         const updatedData = {
-            user: 1, // Add userId to the data
+            user: userId, // Add userId to the data
             title: formData.title,
             location: formData.location,
             status: formData.status,

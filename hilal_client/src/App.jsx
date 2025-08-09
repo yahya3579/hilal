@@ -54,7 +54,8 @@ const App = () => {
       <Route path="/login" element={<Login />} />
 
       {/* admin routes start*/}
-      <Route element={<AdminLayout />}>
+      <Route element={
+        <ProtectedRoutes><AdminLayout /></ProtectedRoutes>}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/bill-boards-management" element={<BillboardsManagement />} />
         <Route path="/admin/articles-management" element={<ArticleManagement />}
@@ -69,14 +70,13 @@ const App = () => {
         />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
-      <Route path="/admin/new-article/:articleId" element={<EditArticle />} />
-      <Route path="/admin/edit-billboard/:billboardId" element={<EditBillBoard />} />
-      <Route path="/admin/edit-magazine/:magazineId" element={<EditMagazine />} />
-
-      <Route path="/admin/new-article" element={<EditArticle />} />
-      <Route path="/admin/edit-author" element={<EditAuthor />} />
-      <Route path="/admin/edit-billboard" element={<EditBillBoard />} />
-      <Route path="/admin/edit-magazine" element={<EditMagazine />} />
+      <Route path="/admin/new-article/:articleId" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
+      <Route path="/admin/edit-billboard/:billboardId" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />
+      <Route path="/admin/edit-magazine/:magazineId" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
+      <Route path="/admin/new-article" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
+      <Route path="/admin/edit-author" element={<ProtectedRoutes><EditAuthor /></ProtectedRoutes>} />
+      <Route path="/admin/edit-billboard" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />
+      <Route path="/admin/edit-magazine" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
       {/* admin routes end */}
 
       <Route path="*" element={<NotFound />} />
