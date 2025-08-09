@@ -187,5 +187,17 @@ class DeleteBillboardView(APIView):
             return Response({"error": "Billboard not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
+class GetBillboardByPositionView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, location):
+        try:
+            billboard = Billboards.objects.get(location=location)
+            serializer = BillboardSerializer(billboard)
+            return Response({"message": "Billboard retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        except Billboards.DoesNotExist:
+            return Response({"error": f"No billboard found at location {location}"}, status=status.HTTP_404_NOT_FOUND)
+
+
 def hello_view(request):
     return HttpResponse("Hello")

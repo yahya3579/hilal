@@ -1,17 +1,39 @@
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+const fetchBillboardByLocation = async (location) => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/billboard/location/${location}/`);
+    return res.data.data;
+};
 
 const ReaderOpinion = () => {
+    const { data: billboard1, isLoading: loading1, error: error1 } = useQuery({
+        queryKey: ["billboard", "location-5"],
+        queryFn: () => fetchBillboardByLocation(5),
+    });
+
+    const { data: billboard2, isLoading: loading2, error: error2 } = useQuery({
+        queryKey: ["billboard", "location-6"],
+        queryFn: () => fetchBillboardByLocation(6),
+    });
+
+    if (loading1 || loading2) return <p>Loading...</p>;
+    if (error1 || error2) return <p>Error fetching billboards</p>;
+
     return (
         <>
 
 
             <div className="space-y-4 lg:col-span-3 font-poppins">
                 {/* Advertisement Boxes */}
-                <div className="space-y-2 max-lg:mt-2  justify-around flex mx-auto w-[90%] gap-x-6">
-                    {[1, 2].map((_, idx) => (
+                <div className="space-y-2 max-lg:mt-2 justify-around flex mx-auto w-[90%] gap-x-6">
+                    {[billboard1, billboard2].map((billboard, idx) => (
                         <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                            alt="Reader"
-                            className="w-[120px] h-[120px]  object-cover"
+                            key={idx}
+                            src={billboard?.image || "https://via.placeholder.com/120x120?text=No+Billboard"}
+                            alt={`Reader Billboard ${idx + 1}`}
+                            className="w-[120px] h-[120px] object-fill"
                         />
                     ))}
                 </div>
@@ -52,4 +74,4 @@ const ReaderOpinion = () => {
     )
 }
 
-export default ReaderOpinion
+export default ReaderOpinion;

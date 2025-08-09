@@ -29,6 +29,7 @@ from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
 from adminpanel.views import SingleBillboardView, CreateBillboardView, GetAllBillboardsView
 from adminpanel.views import DeleteBillboardView
+from adminpanel.views import GetBillboardByPositionView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -60,4 +61,5 @@ urlpatterns = [
     path('api/create-billboard/', CreateBillboardView.as_view(), name='create-billboard'),  # Create billboard
     path('api/get-billboards/', GetAllBillboardsView.as_view(), name='get-billboards'),  # Get all billboards
     path('api/delete-billboard/<int:pk>/', DeleteBillboardView.as_view(), name='delete-billboard'),  # Delete billboard
+    path('api/billboard/location/<str:location>/', GetBillboardByPositionView.as_view(), name='billboard-by-location'),  # Get billboard by location
 ]
