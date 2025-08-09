@@ -1,6 +1,6 @@
 import { Upload, ChevronDown } from "lucide-react"
 import UploadIcon from "../../../assets/UploadIcon.jpg"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -8,12 +8,14 @@ import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 
 const fetchMagazineById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/magazine/${id}/`);
+    console.log("Fetched magazine data:", res.data);
     return res.data;
 };
 
 const saveMagazine = async ({ id, data }) => {
     if (id) {
         const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/magazine/update/${id}/`, data);
+        console.log("Magazine updated successfully:", res.data);
         return res.data;
     } else {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/magazine/create/`, data);
@@ -37,6 +39,9 @@ export default function EditMagazine() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isDragActive, setIsDragActive] = useState(false);
+
+
+
 
     const { data: magazineData, isLoading } = useQuery({
         queryKey: ["magazine", magazineId],
@@ -70,6 +75,20 @@ export default function EditMagazine() {
         setFormData((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: "" }));
     };
+
+
+    useEffect(() => {
+        if (magazineId && magazineData) { // ✅ Only run when data exists
+            setFormData({
+                title: magazineData.title || "",
+                publish_date: magazineData.publish_date ? magazineData.publish_date.split("T")[0] : "",
+                language: magazineData.language || "", // Ensure language is populated
+                direction: magazineData.direction || "", // Ensure direction is populated
+                status: magazineData.status || "Active",
+                cover_image: magazineData.cover_image || null,
+            });
+        }
+    }, [magazineId, magazineData]);
 
     const handleBrowseClick = (e) => {
         e.preventDefault();
@@ -105,23 +124,32 @@ export default function EditMagazine() {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const validateForm = () => {
         const newErrors = {};
         if (!formData.title.trim()) newErrors.title = "Title is required.";
-        if (!formData.publish_date.trim()) newErrors.publish_date = "Publish date is required.";
+        if (!formData.publish_date.trim()) {
+            newErrors.publish_date = "Publish date is required.";
+        } else if (!/^\d{4}-\d{2}-\d{2}$/.test(formData.publish_date)) {
+            newErrors.publish_date = "Publish date must be in yyyy-mm-dd format.";
+        }
         if (!formData.language.trim()) newErrors.language = "Language is required.";
         if (!formData.direction.trim()) newErrors.direction = "Direction is required.";
+        if (!formData.cover_image) newErrors.cover_image = "Cover image is required.";
         setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
-        if (Object.keys(newErrors).length > 0) return;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
 
         setIsSubmitting(true);
-        let imageUrl = magazineData?.cover_image;
+        let imageUrl = formData.cover_image;
 
-        if (formData.cover_image && typeof formData.cover_image !== "string") {
+        // Handle image upload if a new file is selected
+        if (selectedFile) {
             try {
-                imageUrl = await uploadToCloudinary(formData.cover_image);
+                imageUrl = await uploadToCloudinary(selectedFile);
                 if (!imageUrl) {
                     setErrors((prev) => ({ ...prev, cover_image: "Image upload failed." }));
                     setIsSubmitting(false);
@@ -136,8 +164,10 @@ export default function EditMagazine() {
 
         const updatedData = {
             ...formData,
-            cover_image: imageUrl,
+            cover_image: imageUrl, // Use the uploaded image URL or existing image
         };
+
+        console.log("Updated Data:", updatedData); // Debugging: Check the updated data before submission
 
         mutation.mutate({ id: magazineId, data: updatedData });
     };
@@ -174,7 +204,17 @@ export default function EditMagazine() {
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                             >
-                                <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] color-primary mb-4" />
+                                {/* <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] color-primary mb-4" /> */}
+                                {formData.cover_image && typeof formData.cover_image === "string" ? (
+                                    <img
+                                        src={formData.cover_image}
+                                        alt="Article Cover"
+                                        className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4 object-cover"
+                                    />
+                                ) : (
+                                    <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4" />
+                                )}
+
                                 <input
                                     type="file"
                                     accept="image/png, image/jpeg"
@@ -253,14 +293,16 @@ export default function EditMagazine() {
                                     <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">
                                         Language
                                     </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Language"
+                                    <select
                                         name="language"
                                         value={formData.language}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600]"
-                                    />
+                                        className="w-full px-3 py-2 border color-border rounded-md bg-white font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F]"
+                                    >
+                                        <option value="">Select Language</option>
+                                        <option value="English">English</option>
+                                        <option value="Urdu">Urdu</option>
+                                    </select>
                                     {errors.language && <p className="text-red-600 text-xs mt-1">{errors.language}</p>}
                                 </div>
 
@@ -275,7 +317,7 @@ export default function EditMagazine() {
                                         name="publish_date"
                                         value={formData.publish_date}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600]"
+                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] placeholder:text-[#DF1600]"
                                     />
                                     {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
                                 </div>

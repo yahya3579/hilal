@@ -71,6 +71,7 @@ const App = () => {
       </Route>
       <Route path="/admin/new-article/:articleId" element={<EditArticle />} />
       <Route path="/admin/edit-billboard/:billboardId" element={<EditBillBoard />} />
+      <Route path="/admin/edit-magazine/:magazineId" element={<EditMagazine />} />
 
       <Route path="/admin/new-article" element={<EditArticle />} />
       <Route path="/admin/edit-author" element={<EditAuthor />} />

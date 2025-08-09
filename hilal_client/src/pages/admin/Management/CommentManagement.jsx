@@ -59,55 +59,59 @@ const CommentManagement = () => {
 
             {/* Table */}
             <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                    <thead>
-                        <tr>
-                            <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">No</th>
-                            <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Author Name</th>
-                            <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Article Title</th>
-                            <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Comment</th>
-                            <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {comments.map((item, index) => (
-                            <tr
-                                key={item.id}
-                                className="border-b-[0.5px] border-[#292D32] hover:bg-gray-50"
-                            >
-                                <td className="py-4 px-4 text-gray-700">{index + 1}</td>
-                                <td className="py-4 px-4 text-gray-700">
-                                    <span className="font-medium text-[12.7px] font-poppins">
-                                        {item.user_first_name} {item.user_last_name}
-                                    </span>
-                                </td>
-                                <td className="py-4 px-4 text-gray-700">
-                                    <span className="font-medium text-[12.7px] font-poppins">{item.article_title}</span>
-                                </td>
-                                <td className="py-4 px-4 text-gray-700">
-                                    <span className="font-medium text-[12.7px] font-poppins">{item.comment}</span>
-                                </td>
-                                <td className="py-4 px-4 text-gray-700">
-                                    <select
-                                        defaultValue="" className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins"
-                                        onChange={(e) => {
-                                            const action = e.target.value;
-                                            if (action === "delete") {
-                                                if (window.confirm("Are you sure you want to delete this comment?")) {
-                                                    mutation.mutate(item.id); // Ensure correct ID is passed
-                                                }
-                                            }
-                                            e.target.value = ""; // Reset the dropdown
-                                        }}
-                                    >
-                                        <option disabled value="">Action</option>
-                                        <option value="delete">Delete</option>
-                                    </select>
-                                </td>
+                {(!comments || comments.length === 0) ? (
+                    <p className="text-center text-gray-500 font-poppins text-lg">No comments found.</p>
+                ) : (
+                    <table className="w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">No</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Author Name</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Article Title</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Comment</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {comments.map((item, index) => (
+                                <tr
+                                    key={item.id}
+                                    className="border-b-[0.5px] border-[#292D32] hover:bg-gray-50"
+                                >
+                                    <td className="py-4 px-4 text-gray-700">{index + 1}</td>
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <span className="font-medium text-[12.7px] font-poppins">
+                                            {item.user_first_name} {item.user_last_name}
+                                        </span>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <span className="font-medium text-[12.7px] font-poppins">{item.article_title}</span>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <span className="font-medium text-[12.7px] font-poppins">{item.comment}</span>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <select
+                                            defaultValue="" className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins"
+                                            onChange={(e) => {
+                                                const action = e.target.value;
+                                                if (action === "delete") {
+                                                    if (window.confirm("Are you sure you want to delete this comment?")) {
+                                                        mutation.mutate(item.id); // Ensure correct ID is passed
+                                                    }
+                                                }
+                                                e.target.value = ""; // Reset the dropdown
+                                            }}
+                                        >
+                                            <option disabled value="">Action</option>
+                                            <option value="delete">Delete</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
             </div>
         </div>
     );

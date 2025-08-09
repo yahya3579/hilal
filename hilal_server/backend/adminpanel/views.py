@@ -127,11 +127,11 @@ class GetArticlesByUserView(APIView):
 
     def get(self, request, user_id):
         articles = Articles.objects.filter(user_id=user_id)
-        if articles.exists():
-            serializer = ArticleSerializer(articles, many=True)
-            return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
-        return Response({"message": "No articles found for the given user ID"}, status=status.HTTP_404_NOT_FOUND)
-
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(
+            {"message": "Articles retrieved successfully", "data": serializer.data},
+            status=status.HTTP_200_OK
+        )
 
 
 # Billboards Related Views

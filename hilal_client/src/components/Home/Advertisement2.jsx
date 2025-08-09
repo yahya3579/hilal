@@ -16,7 +16,7 @@ const Advertisement2 = () => {
     });
 
     return (
-        <div className="border-t-[3px] border-red-600 mt-10">
+        <div className="border-t-[3px] mx-4 border-red-600 mt-10">
             <div className="">
                 <h3 className="heading-text-primary">ADVERTISEMENT</h3>
             </div>

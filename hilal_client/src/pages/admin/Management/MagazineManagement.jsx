@@ -107,6 +107,8 @@ const MagazineManagement = () => {
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
                                         <select
+                                            defaultValue=""
+
                                             className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins"
                                             onChange={(e) => {
                                                 const action = e.target.value;
