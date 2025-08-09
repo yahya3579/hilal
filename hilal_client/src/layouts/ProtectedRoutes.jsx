@@ -99,7 +99,7 @@
 // export default ProtectedRoutes
 
 import React, { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import useAuthStore from '../utils/store';
@@ -113,6 +113,9 @@ const ProtectedRoutes = ({ children }) => {
     const authTrigger = useAuthStore((state) => state.authTrigger);
     const setUserId = useAuthStore((state) => state.setUserId);
     const navigate = useNavigate();
+    const location = useLocation(); // ✅ detect current path
+
+
 
     const [loading, setLoading] = useState(true);
 
@@ -183,7 +186,10 @@ const ProtectedRoutes = ({ children }) => {
             if (!refreshed) {
 
                 setIsAuthorized(false);
-                navigate('/login');
+                if (location.pathname !== '/') {
+                    navigate('/login');
+                }
+
             }
             return;
         }
