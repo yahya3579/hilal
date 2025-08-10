@@ -2,8 +2,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Comments, Articles, Billboards, Magazines
-from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer
+from .models import Comments, Articles, Billboards, Magazines, Authors
+from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer, AuthorSerializer
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
@@ -273,6 +273,56 @@ class CreateOrUpdateMagazineView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Magazines.DoesNotExist:
             return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Authors Related Views
+class CreateAuthorView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Author created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetAllAuthorsView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        authors = Authors.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        return Response({"message": "Authors retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class SingleAuthorView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            author = Authors.objects.get(pk=pk)
+            serializer = AuthorSerializer(author)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Authors.DoesNotExist:
+            return Response({"error": "Author not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk):
+        try:
+            author = Authors.objects.get(pk=pk)
+            serializer = AuthorSerializer(author, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Author updated successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Authors.DoesNotExist:
+            return Response({"error": "Author not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        try:
+            author = Authors.objects.get(pk=pk)
+            author.delete()
+            return Response({"message": "Author deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Authors.DoesNotExist:
+            return Response({"error": "Author not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 def hello_view(request):

@@ -73,6 +73,7 @@ const App = () => {
       <Route path="/admin/new-article/:articleId" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
       <Route path="/admin/edit-billboard/:billboardId" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />
       <Route path="/admin/edit-magazine/:magazineId" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
+      <Route path="/admin/edit-author/:authorId" element={<ProtectedRoutes><EditAuthor /></ProtectedRoutes>} />
       <Route path="/admin/new-article" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
       <Route path="/admin/edit-author" element={<ProtectedRoutes><EditAuthor /></ProtectedRoutes>} />
       <Route path="/admin/edit-billboard" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />

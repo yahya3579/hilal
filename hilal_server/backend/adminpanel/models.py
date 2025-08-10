@@ -76,3 +76,18 @@ class Magazines(models.Model):
     class Meta:
         managed = False
         db_table = 'magazines'
+
+
+class Authors(models.Model):
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
+    author_image = models.CharField(max_length=255, blank=True, null=True)
+    author_name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    contact_no = models.CharField(max_length=15)
+    no_of_articles = models.PositiveIntegerField(default=0)
+    status = models.CharField(max_length=50, choices=[("Approved", "Approved"), ("Pending", "Pending"), ("Rejected", "Rejected")], default="Pending")
+    category = models.CharField(max_length=100)
+    introduction = models.TextField()
+
+    def __str__(self):
+        return self.author_name

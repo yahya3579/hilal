@@ -31,6 +31,7 @@ from adminpanel.views import SingleBillboardView, CreateBillboardView, GetAllBil
 from adminpanel.views import DeleteBillboardView
 from adminpanel.views import GetBillboardByPositionView
 from adminpanel.views import GetAllMagazinesView, SingleMagazineView, CreateOrUpdateMagazineView
+from adminpanel.views import CreateAuthorView, GetAllAuthorsView, SingleAuthorView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -72,4 +73,9 @@ urlpatterns = [
     path('api/magazine/<int:pk>/', SingleMagazineView.as_view(), name='single-magazine'),  # Get or delete a single magazine
     path('api/magazine/create/', CreateOrUpdateMagazineView.as_view(), name='create-magazine'),  # Create a new magazine
     path('api/magazine/update/<int:pk>/', CreateOrUpdateMagazineView.as_view(), name='update-magazine'),  # Update a magazine
+
+    # Author management URLs
+    path('api/authors/', GetAllAuthorsView.as_view(), name='get-all-authors'),  # Get all authors
+    path('api/author/<int:pk>/', SingleAuthorView.as_view(), name='single-author'),  # Get, update, delete a single author
+    path('api/author/create/', CreateAuthorView.as_view(), name='create-author'),  # Create a new author
 ]
