@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const fetchArticlesByCategory = async (category) => {
-  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}`);
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/hilal-english`);
+  console.log(res.data)
   return res.data.data;
 };
 

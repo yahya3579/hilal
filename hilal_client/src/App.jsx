@@ -30,12 +30,23 @@ import NationalInternationIssues from "./pages/National-Internation-Issues";
 import Advertise from "./pages/Advertise";
 import OurContributors from "./pages/OurContributors";
 import BillboardsManagement from "./pages/admin/Management/BillboardsManagement";
+import HilalUrdu from "./pages/HilalUrdu";
+import HilalKids from "./pages/HilalKids";
+import HilalUrduKids from "./pages/HilalKidsUrdu";
+import HilalHer from "./pages/HilalHer";
 
 const App = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
+
+        {/* Hilal English */}
+        <Route path="/hilal-urdu" element={<HilalUrdu />} />
+        <Route path="/hilal-kids" element={<HilalKids />} />
+        <Route path="/hilal-urdu-kids" element={<HilalUrduKids />} />
+        <Route path="/hilal-her" element={<HilalHer />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />

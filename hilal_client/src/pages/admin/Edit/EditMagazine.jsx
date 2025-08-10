@@ -345,7 +345,7 @@ export default function EditMagazine() {
                             </div>
 
                             {/* Add to Archive Checkbox */}
-                            <div>
+                            <div className="flex gap-2">
                                 <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">
                                     Add to Archive
                                 </label>
