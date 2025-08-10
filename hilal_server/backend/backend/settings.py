@@ -112,8 +112,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'PASSWORD':'Mysql123+++', # your MySQL password
 #         'HOST': 'localhost',        # or 127.0.0.1
 #         'PORT': '3307',
-#     }
-# }
+#     }dd
+# } 
 
 
 DATABASES = {

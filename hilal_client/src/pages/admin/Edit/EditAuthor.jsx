@@ -133,7 +133,8 @@ export default function EditAuthor() {
             return response.data;
         } else {
             // Create new author
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/create/`, data);
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/author/create/`, data);
+            console.log("Author created successfully:", response.data);
             return response.data;
         }
     };

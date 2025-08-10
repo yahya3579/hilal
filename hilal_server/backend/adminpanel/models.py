@@ -12,6 +12,7 @@ class Articles(models.Model):
     writer = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=100, blank=True, null=True)
+    section = models.CharField(max_length=100, blank=True, null=True)  # New field for section
     
     class Meta:
         managed = False
@@ -72,10 +73,25 @@ class Magazines(models.Model):
     direction = models.CharField(max_length=3, choices=[('LTR', 'Left-to-Right'), ('RTL', 'Right-to-Left')])
     status = models.CharField(max_length=8, choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active')
     cover_image = models.CharField(max_length=255, blank=True, null=True)
+    is_archived = models.BooleanField(default=False)  # New field to indicate if the magazine is archived
 
     class Meta:
         managed = False
         db_table = 'magazines'
+
+
+class Ebook(models.Model):
+    title = models.CharField(max_length=255)
+    publish_date = models.CharField(max_length=255, blank=True, null=True)
+    language = models.CharField(max_length=50)
+    direction = models.CharField(max_length=3, choices=[('LTR', 'Left-to-Right'), ('RTL', 'Right-to-Left')])
+    status = models.CharField(max_length=8, choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active')
+    cover_image = models.CharField(max_length=255, blank=True, null=True)
+    is_archived = models.BooleanField(default=False)  # New field to indicate if the ebook is archived
+
+    class Meta:
+        managed = False
+        db_table = 'ebooks'
 
 
 class Authors(models.Model):

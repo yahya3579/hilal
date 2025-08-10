@@ -29,9 +29,10 @@ from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
 from adminpanel.views import SingleBillboardView, CreateBillboardView, GetAllBillboardsView
 from adminpanel.views import DeleteBillboardView
-from adminpanel.views import GetBillboardByPositionView
+from adminpanel.views import GetBillboardByPositionView,GetAllEbooksView,SingleEbookView,CreateOrUpdateEbookView,GetArchivedEbooksView
 from adminpanel.views import GetAllMagazinesView, SingleMagazineView, CreateOrUpdateMagazineView
 from adminpanel.views import CreateAuthorView, GetAllAuthorsView, SingleAuthorView
+from adminpanel.views import GetArchivedMagazinesView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -73,9 +74,21 @@ urlpatterns = [
     path('api/magazine/<int:pk>/', SingleMagazineView.as_view(), name='single-magazine'),  # Get or delete a single magazine
     path('api/magazine/create/', CreateOrUpdateMagazineView.as_view(), name='create-magazine'),  # Create a new magazine
     path('api/magazine/update/<int:pk>/', CreateOrUpdateMagazineView.as_view(), name='update-magazine'),  # Update a magazine
+    path('api/magazines/archived/', GetArchivedMagazinesView.as_view(), name='get-archived-magazines'),  # New URL for archived magazines
 
     # Author management URLs
     path('api/authors/', GetAllAuthorsView.as_view(), name='get-all-authors'),  # Get all authors
     path('api/author/<int:pk>/', SingleAuthorView.as_view(), name='single-author'),  # Get, update, delete a single author
     path('api/author/create/', CreateAuthorView.as_view(), name='create-author'),  # Create a new author
+
+
+
+
+       # Ebook management URLs
+    path('api/ebooks/', GetAllEbooksView.as_view(), name='get-all-ebooks'),  # Get all ebooks
+    path('api/ebook/<int:pk>/', SingleEbookView.as_view(), name='single-ebook'),  # Get or delete a single ebook
+    path('api/ebook/create/', CreateOrUpdateEbookView.as_view(), name='create-ebook'),  # Create a new ebook
+    path('api/ebook/update/<int:pk>/', CreateOrUpdateEbookView.as_view(), name='update-ebook'),  # Update a ebook
+    path('api/ebooks/archived/', GetArchivedEbooksView.as_view(), name='get-archived-ebooks'),  # New URL for archived ebooks
+
 ]

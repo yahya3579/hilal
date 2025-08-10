@@ -29,6 +29,7 @@ export default function EditArticle() {
         writer: "",
         description: "",
         category: "",
+
         publish_date: "",
         cover_image: null,
     });
@@ -42,6 +43,7 @@ export default function EditArticle() {
                 writer: articleData.writer || "",
                 description: articleData.description || "",
                 category: articleData.category || "",
+
                 publish_date: articleData.publish_date ? articleData.publish_date.split("T")[0] : "",
                 cover_image: articleData.cover_image || null, // Populate existing image
             });
@@ -102,6 +104,7 @@ export default function EditArticle() {
             console.log("Uploading cover image:", formData.cover_image);
             imageUrl = await uploadToCloudinary(formData.cover_image);
             console.log("Uploaded cover image URL:", imageUrl);
+
             if (!imageUrl) {
                 throw new Error("Image upload failed");
             }
@@ -273,6 +276,8 @@ export default function EditArticle() {
                                             <option value="special-reports">Special Reports</option>
                                             <option value="armed-forces-news">Armed Forces News</option>
                                             <option value="national-and-international-news">National and International News</option>
+                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+                                            <option value="hilal-her">Hilal Her</option>
                                         </select>
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                                     </div>
@@ -311,6 +316,8 @@ export default function EditArticle() {
                                     />
                                     {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
                                 </div>
+
+
                             </div>
 
                             {/* Article Content */}
