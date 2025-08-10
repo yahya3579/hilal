@@ -38,7 +38,7 @@ class BillboardSerializer(serializers.ModelSerializer):
 class MagazineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Magazines
-        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image']
+        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived']
         read_only_fields = ['id']
 
 class AuthorSerializer(serializers.ModelSerializer):

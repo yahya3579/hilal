@@ -36,6 +36,7 @@ export default function EditMagazine() {
         direction: "",
         status: "Active",
         cover_image: null,
+        is_archived: false, // Added is_archived field
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,6 +58,7 @@ export default function EditMagazine() {
                 direction: data.direction || "",
                 status: data.status || "Active",
                 cover_image: data.cover_image || null,
+                is_archived: data.is_archived || false, // Populate is_archived
             });
         },
     });
@@ -84,10 +86,11 @@ export default function EditMagazine() {
             setFormData({
                 title: magazineData.title || "",
                 publish_date: magazineData.publish_date ? magazineData.publish_date.split("T")[0] : "",
-                language: magazineData.language || "", // Ensure language is populated
-                direction: magazineData.direction || "", // Ensure direction is populated
+                language: magazineData.language || "",
+                direction: magazineData.direction || "",
                 status: magazineData.status || "Active",
                 cover_image: magazineData.cover_image || null,
+                is_archived: magazineData.is_archived || false, // Populate is_archived
             });
         }
     }, [magazineId, magazineData]);
@@ -102,7 +105,9 @@ export default function EditMagazine() {
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setSelectedFile(e.target.files[0]);
+
         }
+        console.log("Selected file:", e.target.files[0]);
     };
 
     const handleDragOver = (e) => {
@@ -141,33 +146,47 @@ export default function EditMagazine() {
         return Object.keys(newErrors).length === 0;
     };
 
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: checked }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
-
         setIsSubmitting(true);
+
         let imageUrl = formData.cover_image;
 
         // Handle image upload if a new file is selected
         if (selectedFile) {
             try {
                 imageUrl = await uploadToCloudinary(selectedFile);
+                console.log("Image uploaded successfully:", imageUrl);
                 if (!imageUrl) {
                     setErrors((prev) => ({ ...prev, cover_image: "Image upload failed." }));
                     setIsSubmitting(false);
                     return;
                 }
             } catch (error) {
+                console.error("Error uploading image:", error);
                 setErrors((prev) => ({ ...prev, cover_image: "Error uploading image." }));
                 setIsSubmitting(false);
                 return;
             }
         }
 
+        // Update formData with the uploaded image URL
         const updatedData = {
             ...formData,
             cover_image: imageUrl, // Use the uploaded image URL or existing image
         };
+
+        // Validate the form after updating the cover_image
+        setFormData(updatedData); // Ensure formData is updated before validation
+        if (!validateForm()) {
+            setIsSubmitting(false);
+            return;
+        }
 
         console.log("Updated Data:", updatedData); // Debugging: Check the updated data before submission
 
@@ -323,6 +342,20 @@ export default function EditMagazine() {
                                     />
                                     {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
                                 </div>
+                            </div>
+
+                            {/* Add to Archive Checkbox */}
+                            <div>
+                                <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">
+                                    Add to Archive
+                                </label>
+                                <input
+                                    type="checkbox"
+                                    name="is_archived"
+                                    checked={formData.is_archived}
+                                    onChange={handleCheckboxChange}
+                                    className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                />
                             </div>
                         </div>
 

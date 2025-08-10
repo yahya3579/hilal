@@ -7,6 +7,7 @@ from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializ
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
+from rest_framework.generics import ListAPIView
 
 
 def home(request):
@@ -273,6 +274,17 @@ class CreateOrUpdateMagazineView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Magazines.DoesNotExist:
             return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetArchivedMagazinesView(ListAPIView):
+    """
+    API to retrieve all magazines that are archived.
+    """
+    permission_classes = [AllowAny]
+    serializer_class = MagazineSerializer
+
+    def get_queryset(self):
+        return Magazines.objects.filter(is_archived=True)
 
 
 # Authors Related Views
