@@ -46,7 +46,7 @@ const HilalEbooks = () => {
                         {/* Archive Items */}
                         {ebookData.length === 0 ? (
                             <p className="text-center text-gray-500 font-poppins text-lg col-span-full">
-                                No archived magazines found.
+                                No archived magazines  found.
                             </p>
                         ) : (
                             ebookData.map((issue) => (
