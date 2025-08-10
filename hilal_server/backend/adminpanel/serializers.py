@@ -45,4 +45,4 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Authors
         fields = ['id', 'user', 'author_image', 'author_name', 'email', 'contact_no', 'no_of_articles', 'status', 'category', 'introduction']
-        read_only_fields = ['id', 'no_of_articles']
+        read_only_fields = ['id']

@@ -99,7 +99,9 @@ export default function EditArticle() {
         let imageUrl = null;
 
         if (formData.cover_image) {
+            console.log("Uploading cover image:", formData.cover_image);
             imageUrl = await uploadToCloudinary(formData.cover_image);
+            console.log("Uploaded cover image URL:", imageUrl);
             if (!imageUrl) {
                 throw new Error("Image upload failed");
             }
