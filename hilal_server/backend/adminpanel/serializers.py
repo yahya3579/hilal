@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Comments, Articles, Billboards, Magazines, Authors
+from .models import Comments, Articles, Billboards, Ebook, Magazines, Authors
 
 class CommentSerializer(serializers.ModelSerializer):
     user_first_name = serializers.CharField(source="user.fname", read_only=True)
@@ -40,6 +40,13 @@ class MagazineSerializer(serializers.ModelSerializer):
         model = Magazines
         fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived']
         read_only_fields = ['id']
+    
+class EbookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ebook
+        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived']
+        read_only_fields = ['id']
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:

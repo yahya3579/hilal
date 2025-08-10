@@ -7,25 +7,25 @@ import { useParams, useNavigate } from "react-router-dom";
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import useAuthStore from "../../../utils/store";
 
-const fetchMagazineById = async (id) => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/magazine/${id}/`);
-    console.log("Fetched magazine data:", res.data);
+const fetchEbookById = async (id) => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/ebook/${id}/`);
+    console.log("Fetched ebook data:", res.data);
     return res.data;
 };
 
-const saveMagazine = async ({ id, data }) => {
+const saveEbook = async ({ id, data }) => {
     if (id) {
-        const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/magazine/update/${id}/`, data);
-        console.log("Magazine updated successfully:", res.data);
+        const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/ebook/update/${id}/`, data);
+        console.log("Ebook updated successfully:", res.data);
         return res.data;
     } else {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/magazine/create/`, data);
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/ebook/create/`, data);
         return res.data;
     }
 };
 
-export default function EditMagazine() {
-    const { magazineId } = useParams();
+export default function EditEbook() {
+    const { ebookId } = useParams();
     const userId = useAuthStore((state) => state.userId)
     const fileInputRef = useRef(null);
     const navigate = useNavigate();
@@ -46,10 +46,10 @@ export default function EditMagazine() {
 
 
 
-    const { data: magazineData, isLoading } = useQuery({
-        queryKey: ["magazine", magazineId],
-        queryFn: () => fetchMagazineById(magazineId),
-        enabled: !!magazineId,
+    const { data: ebookData, isLoading } = useQuery({
+        queryKey: ["ebook", ebookId],
+        queryFn: () => fetchEbookById(ebookId),
+        enabled: !!ebookId,
         onSuccess: (data) => {
             setFormData({
                 title: data.title || "",
@@ -64,13 +64,13 @@ export default function EditMagazine() {
     });
 
     const mutation = useMutation({
-        mutationFn: saveMagazine,
+        mutationFn: saveEbook,
         onSuccess: () => {
-            alert(magazineId ? "Magazine updated successfully!" : "Magazine created successfully!");
-            navigate("/admin/magazine-management");
+            alert(ebookId ? "Ebook updated successfully!" : "Ebook created successfully!");
+            navigate("/admin/ebooks-management");
         },
         onError: (error) => {
-            alert(`Error ${magazineId ? "updating" : "creating"} magazine: ${error.response?.data || error.message}`);
+            alert(`Error ${ebookId ? "updating" : "creating"} ebook: ${error.response?.data || error.message}`);
         },
     });
 
@@ -82,18 +82,18 @@ export default function EditMagazine() {
 
 
     useEffect(() => {
-        if (magazineId && magazineData) { // ✅ Only run when data exists
+        if (ebookId && ebookData) { // ✅ Only run when data exists
             setFormData({
-                title: magazineData.title || "",
-                publish_date: magazineData.publish_date ? magazineData.publish_date.split("T")[0] : "",
-                language: magazineData.language || "",
-                direction: magazineData.direction || "",
-                status: magazineData.status || "Active",
-                cover_image: magazineData.cover_image || null,
-                is_archived: magazineData.is_archived || false, // Populate is_archived
+                title: ebookData.title || "",
+                publish_date: ebookData.publish_date ? ebookData.publish_date.split("T")[0] : "",
+                language: ebookData.language || "",
+                direction: ebookData.direction || "",
+                status: ebookData.status || "Active",
+                cover_image: ebookData.cover_image || null,
+                is_archived: ebookData.is_archived || false, // Populate is_archived
             });
         }
-    }, [magazineId, magazineData]);
+    }, [ebookId, ebookData]);
 
     const handleBrowseClick = (e) => {
         e.preventDefault();
@@ -101,14 +101,6 @@ export default function EditMagazine() {
             fileInputRef.current.click();
         }
     };
-
-    // const handleFileChange = (e) => {
-    //     if (e.target.files && e.target.files[0]) {
-    //         setSelectedFile(e.target.files[0]);
-
-    //     }
-    //     console.log("Selected file:", e.target.files[0]);
-    // };
 
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files.length === 1) {
@@ -165,9 +157,9 @@ export default function EditMagazine() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) {
+
             return;
         }
-
         setIsSubmitting(true);
 
         let imageUrl = formData.cover_image;
@@ -199,12 +191,13 @@ export default function EditMagazine() {
         // Validate the form after updating the cover_image
         setFormData(updatedData); // Ensure formData is updated before validation
 
+
         console.log("Updated Data:", updatedData); // Debugging: Check the updated data before submission
 
-        mutation.mutate({ id: magazineId, data: updatedData });
+        mutation.mutate({ id: ebookId, data: updatedData });
     };
 
-    if (isLoading) return <p>Loading magazine...</p>;
+    if (isLoading) return <p>Loading ebook...</p>;
 
     return (
         <div className="min-h-screen bg-white p-6">
@@ -220,15 +213,15 @@ export default function EditMagazine() {
                 <div className="bg-white">
                     <div className="border-t-[3px] border-[#DF1600] py-4">
                         <h2 className="font-poppins font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase color-primary">
-                            Magazine Article
+                            Ebook Article
                         </h2>
                     </div>
 
                     <div className="mt-6 space-y-6">
-                        {/* Magazine Cover Upload */}
+                        {/* Ebook Cover Upload */}
                         <div>
                             <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal text-left align-middle">
-                                Magazine Cover
+                                Ebook Cover
                             </label>
                             <div
                                 className={`border-[1px] border-dashed border-[#DF1600] rounded-lg p-4 sm:p-6 md:p-8 text-center transition-colors ${isDragActive ? 'bg-red-50 border-red-400' : ''}`}
@@ -240,7 +233,7 @@ export default function EditMagazine() {
                                 {formData.cover_image && typeof formData.cover_image === "string" ? (
                                     <img
                                         src={formData.cover_image}
-                                        alt="Article Cover"
+                                        alt="Ebook Cover"
                                         className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4 object-cover"
                                     />
                                 ) : (
@@ -283,7 +276,7 @@ export default function EditMagazine() {
                                 {/* Magazine Title */}
                                 <div className="col-span-3">
                                     <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">
-                                        Magazine Title
+                                        Ebook Title
                                     </label>
                                     <input
                                         type="text"
@@ -377,7 +370,7 @@ export default function EditMagazine() {
                                 disabled={isSubmitting}
                                 className={`bg-primary text-white px-6 sm:px-8 py-2 transition-colors font-poppins font-bold text-lg sm:text-[20px] leading-[100%] tracking-[-0.01em] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary'}`}
                             >
-                                {isSubmitting ? (magazineId ? "Updating..." : "Creating...") : (magazineId ? "Update Magazine" : "Create Magazine")}
+                                {isSubmitting ? (ebookId ? "Updating..." : "Creating...") : (ebookId ? "Update Ebook" : "Create Ebook")}
                             </button>
                         </div>
                     </div>

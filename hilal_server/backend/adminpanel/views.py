@@ -2,8 +2,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Comments, Articles, Billboards, Magazines, Authors
-from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer, AuthorSerializer
+from .models import Comments, Articles, Billboards, Magazines, Authors,Ebook
+from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer, AuthorSerializer,EbookSerializer
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
@@ -285,6 +285,75 @@ class GetArchivedMagazinesView(ListAPIView):
 
     def get_queryset(self):
         return Magazines.objects.filter(is_archived=True)
+
+class GetAllEbooksView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        ebooks = Ebook.objects.all()
+        serializer = EbookSerializer(ebooks, many=True)
+        return Response({"message": "Ebooks retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class SingleEbookView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            ebook = Ebook.objects.get(pk=pk)
+            serializer = EbookSerializer(ebook)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Ebook.DoesNotExist:
+            return Response({"error": "Ebook not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        try:
+            ebook = Ebook.objects.get(pk=pk)
+            ebook.delete()
+            return Response({"message": "Ebook deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Ebook.DoesNotExist:
+            return Response({"error": "Ebook not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class CreateOrUpdateEbookView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = EbookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Ebook created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        try:
+            ebook = Ebook.objects.get(pk=pk)
+            serializer = EbookSerializer(ebook, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Ebook updated successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Ebook.DoesNotExist:
+            return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GetArchivedMagazinesView(ListAPIView):
+    """
+    API to retrieve all magazines that are archived.
+    """
+    permission_classes = [AllowAny]
+    serializer_class = MagazineSerializer
+
+    def get_queryset(self):
+        return Magazines.objects.filter(is_archived=True)
+
+class GetArchivedEbooksView(ListAPIView):
+    """
+    API to retrieve all ebooks that are archived.
+    """
+    permission_classes = [AllowAny]
+    serializer_class = EbookSerializer
+
+    def get_queryset(self):
+        return Ebook.objects.filter(is_archived=True)
 
 
 # Authors Related Views

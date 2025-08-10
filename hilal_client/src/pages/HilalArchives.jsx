@@ -13,12 +13,29 @@ const fetchArchivedMagazines = async () => {
     return []; // Return an empty array in case of an error
   }
 };
+const fetchArchivedEbooks = async () => {
+  try {
+    const res = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/ebooks/archived/`
+    );
+    console.log("API Response:", res.data); // Debugging log
+    return res.data || []; // Ensure it always returns an array
+  } catch (error) {
+    console.error("Error fetching archived ebooks:", error); // Log the error
+    return []; // Return an empty array in case of an error
+  }
+};
 
 const HilalArchives = () => {
-  const { data: archiveData, isLoading, error } = useQuery({
+  const { data: archiveData = [], isLoading, error } = useQuery({
     queryKey: ["archivedMagazines"],
     queryFn: fetchArchivedMagazines,
   });
+  const { data: ebookData = [], isLoading: isLoadingEbooks, error: ebookError } = useQuery({
+    queryKey: ["archivedEbooks"],
+    queryFn: fetchArchivedEbooks,
+  });
+
 
   console.log("Archive Data in Component:", archiveData); // Debugging log
 
@@ -26,52 +43,103 @@ const HilalArchives = () => {
   if (error) return <p>Error fetching archives</p>;
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Header */}
-      <div className="px-3 sm:px-6 pt-3 sm:pt-4">
-        <h1 className="text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-[Poppins] mt-1 sm:mt-2">
-          HILAL ARCHIVES
-        </h1>
-      </div>
 
-      {/* Grid + Red Line */}
-      <div className="px-3 sm:px-6 py-3 sm:py-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
-          {/* Red Line */}
-          <div className="col-span-full border-t-[3px] border-[#DF1600] mb-1 sm:mb-2" />
+    <>
+      <div className="bg-white ">
+        {/* Header */}
+        <div className="px-3 sm:px-6 pt-3 sm:pt-4">
+          <h1 className="text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-[Poppins] mt-1 sm:mt-2">
+            HILAL Magazines ARCHIVES
+          </h1>
+        </div>
 
-          {/* Archive Items */}
-          {archiveData.length === 0 ? (
-            <p className="text-center text-gray-500 font-poppins text-lg col-span-full">
-              No archived magazines found.
-            </p>
-          ) : (
-            archiveData.map((issue) => (
-              <div
-                key={issue.id}
-                className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
-              >
-                <div className="relative">
-                  <img
-                    src={issue.cover_image}
-                    alt={issue.title}
-                    className="w-full aspect-[3/4] object-cover"
-                  />
+        {/* Grid + Red Line */}
+        <div className="px-3 sm:px-6 py-3 sm:py-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
+            {/* Red Line */}
+            <div className="col-span-full border-t-[3px] border-[#DF1600] mb-1 sm:mb-2" />
+
+            {/* Archive Items */}
+            {archiveData.length === 0 ? (
+              <p className="text-center text-gray-500 font-poppins text-lg col-span-full">
+                No archived magazines found.
+              </p>
+            ) : (
+              archiveData.map((issue) => (
+                <div
+                  key={issue.id}
+                  className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
+                >
+                  <div className="relative">
+                    <img
+                      src={issue.cover_image}
+                      alt={issue.title}
+                      className="w-full aspect-[3/4] object-cover"
+                    />
+                  </div>
+                  <div className="p-1.5 sm:p-2">
+                    <h3 className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-tight">
+                      {issue.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 text-center mt-0.5">
+                      ({issue.publish_date})
+                    </p>
+                  </div>
                 </div>
-                <div className="p-1.5 sm:p-2">
-                  <h3 className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-tight">
-                    {issue.title}
-                  </h3>
-                  <p className="text-xs text-gray-500 text-center mt-0.5">
-                    ({issue.publish_date})
-                  </p>
-                </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="bg-white">
+        {/* Header */}
+        <div className="px-3 sm:px-6 pt-3 sm:pt-4">
+          <h1 className="text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-[Poppins] mt-1 sm:mt-2">
+            HILAL E-books ARCHIVES
+          </h1>
+        </div>
+
+        {/* Grid + Red Line */}
+        <div className="px-3 sm:px-6 py-3 sm:py-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
+            {/* Red Line */}
+            <div className="col-span-full border-t-[3px] border-[#DF1600] mb-1 sm:mb-2" />
+
+            {/* Archive Items */}
+            {ebookData.length === 0 ? (
+              <p className="text-center text-gray-500 font-poppins text-lg col-span-full">
+                No archived magazines found.
+              </p>
+            ) : (
+              ebookData.map((issue) => (
+                <div
+                  key={issue.id}
+                  className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
+                >
+                  <div className="relative">
+                    <img
+                      src={issue.cover_image}
+                      alt={issue.title}
+                      className="w-full aspect-[3/4] object-cover"
+                    />
+                  </div>
+                  <div className="p-1.5 sm:p-2">
+                    <h3 className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-tight">
+                      {issue.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 text-center mt-0.5">
+                      ({issue.publish_date})
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+
   );
 };
 

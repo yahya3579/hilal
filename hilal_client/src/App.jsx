@@ -34,6 +34,8 @@ import HilalUrdu from "./pages/HilalUrdu";
 import HilalKids from "./pages/HilalKids";
 import HilalUrduKids from "./pages/HilalKidsUrdu";
 import HilalHer from "./pages/HilalHer";
+import EbookManagement from "./pages/admin/Management/EbookManagement";
+import EditEbook from "./pages/admin/Edit/EditEbook";
 
 const App = () => {
   return (
@@ -79,6 +81,8 @@ const App = () => {
         />
         <Route path="/admin/authors-management" element={<AuthorsManagement />}
         />
+        <Route path="/admin/ebooks-management" element={<EbookManagement />}
+        />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
       <Route path="/admin/new-article/:articleId" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
@@ -89,6 +93,8 @@ const App = () => {
       <Route path="/admin/edit-author" element={<ProtectedRoutes><EditAuthor /></ProtectedRoutes>} />
       <Route path="/admin/edit-billboard" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />
       <Route path="/admin/edit-magazine" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
+      <Route path="/admin/edit-ebook" element={<ProtectedRoutes><EditEbook /></ProtectedRoutes>} />
+      <Route path="/admin/edit-ebook/:ebookId" element={<ProtectedRoutes><EditEbook /></ProtectedRoutes>} />
       {/* admin routes end */}
 
       <Route path="*" element={<NotFound />} />
