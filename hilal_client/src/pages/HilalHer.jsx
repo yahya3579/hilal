@@ -15,6 +15,7 @@ import GoogleSignInButton from "./Google";
 
 
 import { useRef, useEffect, useState } from "react";
+import HilalHerComponent from "../components/Home/HilalHer";
 
 const HilalHer = () => {
     const leftRef = useRef(null);
@@ -47,7 +48,7 @@ const HilalHer = () => {
                 >
                     <div className="flex lg:flex-row flex-col">
                         <div className="lg:w-3/4">
-                            <TrendingHilalPublications />
+                            <HilalHerComponent />
                         </div>
                         <div className="lg:w-1/4">
                             <HilalDigital />

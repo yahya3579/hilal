@@ -15,12 +15,14 @@ import GoogleSignInButton from "./Google";
 
 
 import { useRef, useEffect, useState } from "react";
+import HilalKidsEnglish from "../components/Home/HilalKids";
 
 const HilalKids = () => {
     const leftRef = useRef(null);
     const [canScroll, setCanScroll] = useState(false);
 
     useEffect(() => {
+
         const handleScroll = () => {
             if (!leftRef.current) return;
 
@@ -47,7 +49,7 @@ const HilalKids = () => {
                 >
                     <div className="flex lg:flex-row flex-col">
                         <div className="lg:w-3/4">
-                            <TrendingHilalPublications />
+                            <HilalKidsEnglish />
                         </div>
                         <div className="lg:w-1/4">
                             <HilalDigital />

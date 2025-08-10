@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/hilal-logo.svg";
+import hilalHerLogo from '../assets/hilal-logo-her.svg'
+import hilalKidsLogo from '../assets/hilal-logo-kids.svg'
 import {
     Facebook,
     Youtube,
@@ -35,6 +37,23 @@ const Navbar = () => {
     const categoryRef = useRef(null);
     const magazinesRef = useRef(null);
     const ebookRef = useRef(null);
+
+
+
+    const location = useLocation();
+
+    const logoMap = {
+        "/hilal-her": hilalHerLogo,
+        "/category/hilal-her": hilalHerLogo,
+        "/hilal-kids": hilalKidsLogo,
+        "/hilal-urdu-kids": hilalKidsLogo,
+        "/": Logo,
+    };
+
+    // Pick the logo based on the current path
+    const currentLogo = Object.keys(logoMap).find((path) =>
+        location.pathname.startsWith(path)
+    );
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -125,12 +144,19 @@ const Navbar = () => {
         <nav className="relative bg-[#DF1600] text-white shadow-lg z-10">
             <div className="px-4 flex justify-between items-center  h-[75px] py-3 relative">
                 {/* Logo Section */}
-                <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
-                    <img
-                        src={Logo}
+                <div className="absolute -bottom-3 left-4 w-56 top-0 flex items-center bg-white px-2 shadow-lg z-20">
+                    {/* <img
+                        src={section == "hilal-her" ? hilalHerLogo : section == "hilal-kids" ? hilalKidsLogo : Logo}
                         alt="Hilal Publications"
-                        className="h-14 w-auto"
-                    />
+                        className="h-14 w-full"
+                    /> */}
+                    {currentLogo && (
+                        <img
+                            src={logoMap[currentLogo]}
+                            alt="Section Logo"
+                            className="h-10 w-full object-cover"
+                        />
+                    )}
                 </div>
                 {/* Mobile Menu Button */}
                 <button
@@ -188,12 +214,56 @@ const Navbar = () => {
                                 </ul>
                             )}
                         </li>
-                        <li className="relative group cursor-pointer" onClick={handleMagazinesClick}>
+                        {/* <li className="relative group cursor-pointer" onClick={handleMagazinesClick}>
                             Magazines <FaChevronDown className="inline" />
                             {isMagazinesOpen && (
-                                // Removed all dropdown options for Magazines
+                               
                                 <ul>
-                                    {/* No options for now - dropdown intentionally left empty */}
+                                 
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/category/magazines`} className="w-full">
+                                            Magazines
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li> */}
+
+                        <li className="relative group cursor-pointer" onClick={handleMagazinesClick}>
+                            Magazines <FaChevronDown className="inline ml-1" />
+                            {isMagazinesOpen && (
+                                <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/`} className="w-full">
+                                            Hilal English
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/hilal-urdu`} className="w-full">
+                                            Hilal Urdu
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/hilal-urdu-kids`} className="w-full">
+                                            Hilal Kids Urdu
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/hilal-kids`} className="w-full">
+                                            Hilal Kids
+                                        </Link>
+                                    </li>
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+                                        <Link to={`/hilal-her`} className="w-full">
+                                            Hilal Her
+                                        </Link>
+                                    </li>
+
+
+
+
+
+                                    {/* Add more dropdown items here if needed */}
                                 </ul>
                             )}
                         </li>

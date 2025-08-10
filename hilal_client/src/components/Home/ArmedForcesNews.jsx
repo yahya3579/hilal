@@ -2,10 +2,12 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import HilalKidsUrdu from "../../assets/hilalKidsUrdu.jpg"
+import HilalUrdu from "../../assets/hilalUrdu.jpg"
+import HilalHer from "../../assets/hilalHer.jpg"
+import HilalKidsEnglish from "../../assets/hilalKidsEnglish.jpg"
 const fetchArticlesByCategory = async (category) => {
-  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/hilal-english`);
-  console.log(res.data)
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
   return res.data.data;
 };
 
@@ -34,15 +36,36 @@ const ArmedForcesNews = () => {
     <>
       <div className='px-4 pb-3'>
         <div className="flex max-md:flex-wrap gap-2 py-3 justify-center">
-          {articles.slice(0, 4).map((article, index) => (
-            <Link to={`/article/${article.id}`} key={index}>
-              <img
-                src={article.cover_image}
-                alt={`Book ${index + 1}`}
-                className="w-20 h-13 object-cover flex-shrink-0"
-              />
-            </Link>
-          ))}
+
+          <Link to={`/hilal-kids`}>
+            <img
+              src={HilalKidsEnglish}
+              alt={`hilal kids english`}
+              className="w-20 h-13 object-cover flex-shrink-0"
+            />
+          </Link>
+          <Link to={`/hilal-her`}>
+            <img
+              src={HilalHer}
+              alt={`hilal her`}
+              className="w-20 h-13 object-cover flex-shrink-0"
+            />
+          </Link>
+          <Link to={`/hilal-urdu-kids/`}>
+            <img
+              src={HilalKidsUrdu}
+              alt={`hilal kids urdu`}
+              className="w-20 h-13 object-cover flex-shrink-0"
+            />
+          </Link>
+          <Link to={`/hilal-urdu/`}>
+            <img
+              src={HilalUrdu}
+              alt={`hilal urdu`}
+              className="w-20 h-13 object-cover flex-shrink-0"
+            />
+          </Link>
+
         </div>
 
         <div className="border-gray-200 relative py-6 outline-none">

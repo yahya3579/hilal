@@ -14,7 +14,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articles
-        fields = ['id', 'user', 'cover_image', 'title', 'publish_date', 'visits', 'issue_new', 'status', 'writer', 'description', 'category', 'section']
+        fields = ['id', 'user', 'cover_image', 'title', 'publish_date', 'visits', 'issue_new', 'status', 'writer', 'description', 'category']
         read_only_fields = ['id']
         extra_kwargs = {
             'user': {'required': False},
@@ -27,7 +27,6 @@ class ArticleSerializer(serializers.ModelSerializer):
             'writer': {'required': False},
             'description': {'required': False},
             'category': {'required': False},
-            'section': {'required': False},
         }
 
 class BillboardSerializer(serializers.ModelSerializer):

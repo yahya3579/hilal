@@ -29,7 +29,7 @@ export default function EditArticle() {
         writer: "",
         description: "",
         category: "",
-        section: "",
+
         publish_date: "",
         cover_image: null,
     });
@@ -43,7 +43,7 @@ export default function EditArticle() {
                 writer: articleData.writer || "",
                 description: articleData.description || "",
                 category: articleData.category || "",
-                section: articleData.section || "",
+
                 publish_date: articleData.publish_date ? articleData.publish_date.split("T")[0] : "",
                 cover_image: articleData.cover_image || null, // Populate existing image
             });
@@ -117,7 +117,6 @@ export default function EditArticle() {
         data.append("writer", formData.writer);
         data.append("description", formData.description);
         data.append("category", formData.category);
-        data.append("section", formData.section);
         const isoDate = new Date(formData.publish_date).toISOString();
         data.append("publish_date", isoDate);
         data.append("visits", articleData?.visits || 0);
@@ -143,7 +142,6 @@ export default function EditArticle() {
         if (!formData.writer.trim()) newErrors.writer = "Writer is required.";
         if (!formData.description.trim()) newErrors.description = "Description is required.";
         if (!formData.category.trim()) newErrors.category = "Category is required.";
-        if (!formData.section.trim()) newErrors.section = "Section is required.";
         if (!formData.publish_date.trim()) {
             newErrors.publish_date = "Publish date is required.";
         } else if (!/^\d{4}-\d{2}-\d{2}$/.test(formData.publish_date)) {
@@ -166,7 +164,6 @@ export default function EditArticle() {
                     writer: "",
                     description: "",
                     category: "",
-                    section: "",
                     publish_date: "",
                     cover_image: null,
                 });
@@ -279,6 +276,8 @@ export default function EditArticle() {
                                             <option value="special-reports">Special Reports</option>
                                             <option value="armed-forces-news">Armed Forces News</option>
                                             <option value="national-and-international-news">National and International News</option>
+                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+                                            <option value="hilal-her">Hilal Her</option>
                                         </select>
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                                     </div>
@@ -288,7 +287,7 @@ export default function EditArticle() {
                             </div>
 
                             {/* Form Fields Grid 2 */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
                                 {/* Writer */}
                                 <div>
@@ -318,29 +317,7 @@ export default function EditArticle() {
                                     {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
                                 </div>
 
-                                <div className="col-span-1">
-                                    <label className="block  color-gray mb-2 font-montserrat  font-semibold text-[14px] leading-[100%] tracking-normal  align-middle">Category</label>
-                                    <div className="relative">
-                                        <select
-                                            name="section"
-                                            value={formData.section}
-                                            onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border color-border rounded-md appearance-none bg-white font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle"
-                                        >
-                                            <option value="">Select Section</option>
 
-                                            <option value="hilal-kids">Hilal Kids</option>
-                                            <option value="hilal-english">Hilal English</option>
-                                            <option value="hilal-urdu">Hilal Urdu</option>
-                                            <option value="hilal-her">Hilal Her</option>
-                                            <option value="hilal-urdu-kids">Hilal Urdu Kids</option>
-
-
-                                        </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
-                                    </div>
-                                    {errors.section && <p className="text-red-600 text-xs mt-1">{errors.section}</p>}
-                                </div>
                             </div>
 
                             {/* Article Content */}

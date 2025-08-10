@@ -1,4 +1,4 @@
-const HilalDigital2 = () => {
+const HilalDigital2Urdu = () => {
     const newsItems = [
         {
             title: "Eid For From Mama: A Tribute to Pakistan's Brave Ghazis",
@@ -27,7 +27,7 @@ const HilalDigital2 = () => {
             {/* In Focus Header */}
             <div className="border-t-[3px] border-red-600">
                 <div className="py-2 mb-2">
-                    <h2 className="heading-text-primary">Hilal Digital</h2>
+                    <h2 className="heading-text-primary">ہلال ڈیجیٹل</h2>
                 </div>
 
 
@@ -55,7 +55,8 @@ const HilalDigital2 = () => {
                                             <span>{item.time}</span>
                                         </div>
                                         <h3 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8] ">
-                                            {item.title}
+                                            {/* {item.title} */}
+                                            ہم نے پاکستان کی معیشت کو کاروباری صلاحیت اور تخلیقی سوچ کے ذریعے مضبوط کیا ہے
                                         </h3>
 
                                     </div>
@@ -85,4 +86,4 @@ const HilalDigital2 = () => {
     );
 };
 
-export default HilalDigital2;
+export default HilalDigital2Urdu;

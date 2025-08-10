@@ -10,6 +10,7 @@ import useAuthStore from "../utils/store";
 
 const fetchArticle = async (id) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}`);
+  console.log(res.data)
   return res.data;
 };
 
@@ -145,7 +146,7 @@ export default function ArticlePage() {
             <div className="relative px-4 lg:px-6 pt-10 lg:pt-6 pb-4">
               {/* Title and Heading */}
               <div className="text-black font-poppins font-light text-[18px] sm:text-[20px] lg:text-[32px] leading-[100%] tracking-[-0.03em] uppercase mb-2">
-                HILAL ENGLISH
+                {article.category == "hilal-kids-english" ? "Hilal FOR KIDS - English" : article.category == "hilal-kids-urdu" ? "Hilal FOR KIDS - Urdu" : article.category == "hilal-her" ? "Hilal HER" : article.category == "hilal-urdu" ? "Hilal - Urdu" : "Article Category"}
               </div>
 
               {/* Heading with Date aligned to bottom right */}

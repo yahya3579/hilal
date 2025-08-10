@@ -15,6 +15,16 @@ import GoogleSignInButton from "./Google";
 
 
 import { useRef, useEffect, useState } from "react";
+import TrendingHilalPublicationsUrdu from "../components/urdu/TrendingHilalPublicationsUrdu";
+import HilalDigitalUrdu from "../components/urdu/HilalDigitalUrdu";
+import ArmedForcesNewsUrdu from "../components/urdu/ArmedForcesNewsUrdu";
+import NewsLetterUrdu from "../components/urdu/NewsLetterUrdu";
+import InFocusSectionUrdu from "../components/InFocusUrdu";
+import PreviousMonthHilalUrdu from "../components/urdu/PreviousMonthHiilalUrdu";
+import ReaderOpinionUrdu from "../components/urdu/ReadersOpinionUrdu";
+import HilalDigital2Urdu from "../components/urdu/HilalDigital2Urdu";
+import Advertisement2Urdu from "../components/urdu/Advertisment2Urdu";
+import TrendingHilalSectionUrdu from "../components/urdu/TrendingHilalSectionUrdu";
 
 const HilalUrdu = () => {
     const leftRef = useRef(null);
@@ -39,6 +49,19 @@ const HilalUrdu = () => {
         <>
             <div className="flex lg:flex-row flex-col">
                 {/* LEFT COLUMN */}
+
+
+                {/* RIGHT COLUMN */}
+                <div className="lg:w-[30%] relative">
+                    <div className="sticky top-0">
+                        <div style={{ scrollbarWidth: "none" }} className="overflow-y-auto max-h-screen">
+                            <ArmedForcesNewsUrdu />
+                            <Advertisement1 />
+                            <NewsLetterUrdu />
+                            <Advertisement2Urdu />
+                        </div>
+                    </div>
+                </div>
                 <div
                     ref={leftRef}
                     style={{ scrollbarWidth: "none" }}
@@ -46,39 +69,30 @@ const HilalUrdu = () => {
                         } max-h-screen`}
                 >
                     <div className="flex lg:flex-row flex-col">
-                        <div className="lg:w-3/4">
-                            <TrendingHilalPublications />
-                        </div>
                         <div className="lg:w-1/4">
-                            <HilalDigital />
+                            <HilalDigitalUrdu />
                         </div>
+                        <div className="lg:w-3/4">
+                            <TrendingHilalPublicationsUrdu />
+                        </div>
+
                     </div>
-                    <InFocusSection />
-                    <TrendingHilalSection />
+                    <InFocusSectionUrdu />
+                    <TrendingHilalSectionUrdu />
                 </div>
 
-                {/* RIGHT COLUMN */}
-                <div className="lg:w-[30%] relative">
-                    <div className="sticky top-0">
-                        <div style={{ scrollbarWidth: "none" }} className="overflow-y-auto max-h-screen">
-                            <ArmedForcesNews />
-                            <Advertisement1 />
-                            <NewsLetter />
-                            <Advertisement2 />
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
             <Advertisement4 />
-            <HilalDigital2 />
+            <HilalDigital2Urdu />
 
             <div className="flex lg:flex-row flex-col px-4 py-2 gap-x-4">
                 <div className="lg:w-[70%]">
-                    <PreviousMonthHilal />
+                    <PreviousMonthHilalUrdu />
                 </div>
                 <div>
-                    <ReaderOpinion />
+                    <ReaderOpinionUrdu />
                 </div>
             </div>
         </>
