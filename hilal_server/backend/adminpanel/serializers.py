@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Comments, Articles, Billboards, Magazines
+from .models import Comments, Articles, Billboards, Magazines, Authors
 
 class CommentSerializer(serializers.ModelSerializer):
     user_first_name = serializers.CharField(source="user.fname", read_only=True)
@@ -40,3 +40,9 @@ class MagazineSerializer(serializers.ModelSerializer):
         model = Magazines
         fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image']
         read_only_fields = ['id']
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Authors
+        fields = ['id', 'user', 'author_image', 'author_name', 'email', 'contact_no', 'no_of_articles', 'status', 'category', 'introduction']
+        read_only_fields = ['id', 'no_of_articles']
