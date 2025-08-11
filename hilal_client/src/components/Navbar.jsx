@@ -144,7 +144,7 @@ const Navbar = () => {
         <nav className="relative bg-[#DF1600] text-white shadow-lg z-10">
             <div className="px-4 flex justify-between items-center  h-[75px] py-3 relative">
                 {/* Logo Section */}
-                <div className="absolute -bottom-3 left-4 w-56 top-0 flex items-center bg-white px-2 shadow-lg z-20">
+                <div className="absolute -bottom-3 left-4 top-0 w-52 flex items-center bg-white px-2 shadow-lg z-20">
                     {/* <img
                         src={section == "hilal-her" ? hilalHerLogo : section == "hilal-kids" ? hilalKidsLogo : Logo}
                         alt="Hilal Publications"
@@ -154,7 +154,7 @@ const Navbar = () => {
                         <img
                             src={logoMap[currentLogo]}
                             alt="Section Logo"
-                            className="h-10 w-full object-cover"
+                            className="h-14 w-full "
                         />
                     )}
                 </div>
