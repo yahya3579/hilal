@@ -131,9 +131,9 @@ const AuthForm = ({ route, method }) => {
                     </div>
 
                     {/* Marketing Text */}
-                    <h2 className="font-roboto font-normal text-xl md:text-2xl lg:text-[32px] leading-tight lg:leading-[100%] tracking-[0] text-center">
+                    {/* <h2 className="font-roboto font-normal text-xl md:text-2xl lg:text-[32px] leading-tight lg:leading-[100%] tracking-[0] text-center">
                         Uncover Millions of products from reputable Suppliers-sign up now!
-                    </h2>
+                    </h2> */}
                 </div>
             </div>
 
