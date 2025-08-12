@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Loader from "../components/Loader/loader";
 
 const fetchArchivedMagazines = async () => {
   try {
@@ -39,7 +40,7 @@ const HilalArchives = () => {
 
   console.log("Archive Data in Component:", archiveData); // Debugging log
 
-  if (isLoading) return <p>Loading archives...</p>;
+  if (isLoading || isLoadingEbooks) return <Loader />;
   if (error) return <p>Error fetching archives</p>;
 
   return (

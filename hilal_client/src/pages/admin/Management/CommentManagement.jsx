@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Loader from "../../../components/Loader/loader";
 
 const fetchComments = async () => {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-comments/`);
@@ -30,9 +31,7 @@ const CommentManagement = () => {
         },
     });
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    if (isLoading) return <Loader />;
 
     if (isError) {
         return <div>Error fetching comments.</div>;

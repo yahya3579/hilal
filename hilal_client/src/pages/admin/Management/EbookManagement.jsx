@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import articleCover from "../../../assets/articles-cover.jpg";
+import Loader from "../../../components/Loader/loader";
 
 // API calls
 const fetchEbooks = async () => {
@@ -34,7 +35,7 @@ const EbookManagement = () => {
         },
     });
 
-    if (isLoading) return <p>Loading ebooks...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p>Error fetching ebooks</p>;
 
     return (

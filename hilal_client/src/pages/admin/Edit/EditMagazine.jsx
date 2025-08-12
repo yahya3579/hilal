@@ -28,6 +28,7 @@ export default function EditMagazine() {
     const { magazineId } = useParams();
     const userId = useAuthStore((state) => state.userId)
     const fileInputRef = useRef(null);
+    const fileInputRefPDF = useRef(null);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: "",
@@ -103,6 +104,9 @@ export default function EditMagazine() {
         e.preventDefault();
         if (fileInputRef.current) {
             fileInputRef.current.click();
+        }
+        if (fileInputRefPDF.current) {
+            fileInputRefPDF.current.click();
         }
     };
 
@@ -264,6 +268,7 @@ export default function EditMagazine() {
                                     <img
                                         src={formData.cover_image}
                                         alt="Article Cover"
+
                                         className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4 object-cover"
                                     />
                                 ) : (
@@ -319,7 +324,7 @@ export default function EditMagazine() {
                                 <input
                                     type="file"
                                     accept="application/pdf"
-                                    ref={fileInputRef}
+                                    ref={fileInputRefPDF}
                                     style={{ display: 'none' }}
                                     onChange={handleFileChange}
                                 />

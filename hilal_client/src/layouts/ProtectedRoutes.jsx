@@ -103,6 +103,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import useAuthStore from '../utils/store';
+import Loader from '../components/Loader/loader';
 
 const ProtectedRoutes = ({ children }) => {
     const accessToken = useAuthStore((state) => state.accessToken);
@@ -112,6 +113,7 @@ const ProtectedRoutes = ({ children }) => {
     const isAuthorized = useAuthStore((state) => state.isAuthorized);
     const authTrigger = useAuthStore((state) => state.authTrigger);
     const setUserId = useAuthStore((state) => state.setUserId);
+    const userRole = useAuthStore((state) => state.userRole);
     const navigate = useNavigate();
     const location = useLocation(); // ✅ detect current path
 
@@ -215,7 +217,27 @@ const ProtectedRoutes = ({ children }) => {
 
     // Show loading until we finish auth check
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loader />;
+    }
+
+
+    const adminPath = location.pathname;
+    const isAdminRoute = adminPath.startsWith('/admin');
+
+    // List of allowed admin routes for 'author' role (no redirect)
+    const allowedRoutesForAuthor = [
+        '/admin/articles-management',
+        '/admin/comment-management'
+    ];
+
+    // Check if current route is in allowed list exactly
+    const isAllowedRouteForAuthor = allowedRoutesForAuthor.includes(adminPath);
+    if (
+        isAdminRoute &&
+        userRole === 'author' &&
+        !isAllowedRouteForAuthor
+    ) {
+        return <Navigate to="/" replace />;
     }
 
     // Redirect to login if not authorized

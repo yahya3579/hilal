@@ -3,36 +3,46 @@ import styled from 'styled-components';
 
 const Loader = () => {
   return (
-    <StyledWrapper>
-      <div className="spinner">
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-        <div />
-      </div>
-    </StyledWrapper>
+
+    <div className='min-h-screen flex items-center justify-center'>
+      <StyledWrapper>
+        <div className="spinner">
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      </StyledWrapper>
+    </div>
   );
 }
 
 const StyledWrapper = styled.div`
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent;
+
   .spinner {
-   width: 44px;
-   height: 44px;
-   animation: spinner-y0fdc1 2s infinite ease;
-   transform-style: preserve-3d;
+    width: 44px;
+    height: 44px;
+    animation: spinner-y0fdc1 2s infinite ease;
+    transform-style: preserve-3d;
   }
 
   .spinner > div {
-   background-color: rgba(0,77,255,0.2);
-   height: 100%;
-   position: absolute;
-   width: 100%;
-   border: 2px solid #004dff;
+    background-color: rgba(255, 0, 0, 0.2); /* light red background */
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    border: 2px solid #FF0000; /* solid red border */
   }
 
-  .spinner div:nth-of-type(1) {
+    .spinner div:nth-of-type(1) {
    transform: translateZ(-22px) rotateY(180deg);
   }
 
@@ -59,19 +69,20 @@ const StyledWrapper = styled.div`
   .spinner div:nth-of-type(6) {
    transform: translateZ(22px);
   }
-
   @keyframes spinner-y0fdc1 {
-   0% {
-    transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
-   }
+    0% {
+      transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+    }
 
-   50% {
-    transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
-   }
+    50% {
+      transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+    }
 
-   100% {
-    transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
-   }
-  }`;
+    100% {
+      transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+    }
+  }
+`;
+
 
 export default Loader;

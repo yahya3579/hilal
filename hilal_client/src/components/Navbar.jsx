@@ -318,7 +318,7 @@ const Navbar = () => {
                                         </button>
                                     </Link>
                                 ) : (
-                                    <Link to="/admin/dashboard">
+                                    <Link to="/admin/articles-management">
                                         <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
                                             Author
                                         </button>
@@ -529,7 +529,7 @@ const Navbar = () => {
                                     </Link>
                                 ) : (
                                     <Link
-                                        to="/admin/dashboard"
+                                        to="/admin/articles-management"
                                         className="w-full"
                                         onClick={closeMobileMenu}
                                     >

@@ -20,6 +20,7 @@ const saveEbook = async ({ id, data }) => {
         return res.data;
     } else {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/ebook/create/`, data);
+        console.log("Ebook created successfully:", res.data);
         return res.data;
     }
 };
@@ -28,6 +29,7 @@ export default function EditEbook() {
     const { ebookId } = useParams();
     const userId = useAuthStore((state) => state.userId)
     const fileInputRef = useRef(null);
+    const fileInputRefPDF = useRef(null);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: "",
@@ -103,6 +105,9 @@ export default function EditEbook() {
         e.preventDefault();
         if (fileInputRef.current) {
             fileInputRef.current.click();
+        }
+        if (fileInputRefPDF.current) {
+            fileInputRefPDF.current.click();
         }
     };
 
@@ -310,7 +315,7 @@ export default function EditEbook() {
                                 <input
                                     type="file"
                                     accept="application/pdf"
-                                    ref={fileInputRef}
+                                    ref={fileInputRefPDF}
                                     style={{ display: 'none' }}
                                     onChange={handleFileChange}
                                 />
