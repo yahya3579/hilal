@@ -43,9 +43,8 @@ const HilalArchives = () => {
   if (error) return <p>Error fetching archives</p>;
 
   return (
-
     <>
-      <div className="bg-white ">
+      <div className="bg-white">
         {/* Header */}
         <div className="px-3 sm:px-6 pt-3 sm:pt-4">
           <h1 className="text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-[Poppins] mt-1 sm:mt-2">
@@ -66,8 +65,11 @@ const HilalArchives = () => {
               </p>
             ) : (
               archiveData.map((issue) => (
-                <div
+                <a
                   key={issue.id}
+                  href={issue.doc_url} // Link to the PDF
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
                 >
                   <div className="relative">
@@ -85,7 +87,7 @@ const HilalArchives = () => {
                       ({issue.publish_date})
                     </p>
                   </div>
-                </div>
+                </a>
               ))
             )}
           </div>
@@ -109,12 +111,15 @@ const HilalArchives = () => {
             {/* Archive Items */}
             {ebookData.length === 0 ? (
               <p className="text-center text-gray-500 font-poppins text-lg col-span-full">
-                No archived magazines found.
+                No archived e-books found.
               </p>
             ) : (
               ebookData.map((issue) => (
-                <div
+                <a
                   key={issue.id}
+                  href={issue.doc_url} // Link to the PDF
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
                 >
                   <div className="relative">
@@ -132,14 +137,13 @@ const HilalArchives = () => {
                       ({issue.publish_date})
                     </p>
                   </div>
-                </div>
+                </a>
               ))
             )}
           </div>
         </div>
       </div>
     </>
-
   );
 };
 

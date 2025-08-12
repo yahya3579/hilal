@@ -50,26 +50,37 @@ const HilalEbooks = () => {
                             </p>
                         ) : (
                             ebookData.map((issue) => (
-                                <div
+
+
+                                <a
                                     key={issue.id}
+                                    href={issue.doc_url} // Link to the PDF
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
                                 >
-                                    <div className="relative">
-                                        <img
-                                            src={issue.cover_image}
-                                            alt={issue.title}
-                                            className="w-full aspect-[3/4] object-cover"
-                                        />
+                                    <div
+                                        key={issue.id}
+                                        className="border border-gray-200 shadow-sm bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 cursor-pointer"
+                                    >
+                                        <div className="relative">
+                                            <img
+                                                src={issue.cover_image}
+                                                alt={issue.title}
+                                                className="w-full aspect-[3/4] object-cover"
+                                            />
+                                        </div>
+                                        <div className="p-1.5 sm:p-2">
+                                            <h3 className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-tight">
+                                                {issue.title}
+                                            </h3>
+                                            <p className="text-xs text-gray-500 text-center mt-0.5">
+                                                ({issue.publish_date})
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="p-1.5 sm:p-2">
-                                        <h3 className="text-xs sm:text-sm font-medium text-gray-800 text-center leading-tight">
-                                            {issue.title}
-                                        </h3>
-                                        <p className="text-xs text-gray-500 text-center mt-0.5">
-                                            ({issue.publish_date})
-                                        </p>
-                                    </div>
-                                </div>
+
+                                </a>
                             ))
                         )}
                     </div>

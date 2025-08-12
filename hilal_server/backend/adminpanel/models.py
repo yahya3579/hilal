@@ -73,6 +73,8 @@ class Magazines(models.Model):
     direction = models.CharField(max_length=3, choices=[('LTR', 'Left-to-Right'), ('RTL', 'Right-to-Left')])
     status = models.CharField(max_length=8, choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active')
     cover_image = models.CharField(max_length=255, blank=True, null=True)
+    doc_url = models.CharField(max_length=255, blank=True, null=True)
+
     is_archived = models.BooleanField(default=False)  # New field to indicate if the magazine is archived
 
     class Meta:
@@ -87,6 +89,7 @@ class Ebook(models.Model):
     direction = models.CharField(max_length=3, choices=[('LTR', 'Left-to-Right'), ('RTL', 'Right-to-Left')])
     status = models.CharField(max_length=8, choices=[('Active', 'Active'), ('Inactive', 'Inactive')], default='Active')
     cover_image = models.CharField(max_length=255, blank=True, null=True)
+    doc_url = models.CharField(max_length=255, blank=True, null=True)
     is_archived = models.BooleanField(default=False)  # New field to indicate if the ebook is archived
 
     class Meta:
