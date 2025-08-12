@@ -38,13 +38,13 @@ class BillboardSerializer(serializers.ModelSerializer):
 class MagazineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Magazines
-        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived']
+        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived','doc_url']
         read_only_fields = ['id']
     
 class EbookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ebook
-        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived']
+        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived','doc_url']
         read_only_fields = ['id']
 
 

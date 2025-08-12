@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import articleCover from "../../../assets/articles-cover.jpg";
+import { useToast } from "../../../context/ToastContext";
+import Loader from "../../../components/Loader/loader";
 
 // API calls
 const fetchMagazines = async () => {
@@ -17,6 +19,7 @@ const deleteMagazine = async (id) => {
 const MagazineManagement = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const { showToast } = useToast();
 
     const { data: magazines, isLoading, error } = useQuery({
         queryKey: ["magazines"],
@@ -26,15 +29,15 @@ const MagazineManagement = () => {
     const mutation = useMutation({
         mutationFn: deleteMagazine,
         onSuccess: () => {
-            alert("Magazine deleted successfully!");
+            showToast("Magazine deleted successfully!", "success");
             queryClient.invalidateQueries(["magazines"]); // Refetch magazines data
         },
         onError: (error) => {
-            alert(`Error deleting magazine: ${error.response?.data || error.message}`);
+            showToast(`Error deleting magazine: ${error.response?.data || error.message}`, "error");
         },
     });
 
-    if (isLoading) return <p>Loading magazines...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p>Error fetching magazines</p>;
 
     return (

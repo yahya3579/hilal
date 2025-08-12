@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../utils/store';
+import Loader from '../../../components/Loader/loader';
 
 
 // Table columns configuration
@@ -55,7 +56,7 @@ const ArticleManagement = () => {
         },
     });
 
-    if (isLoading) return <p className="p-4">Loading articles...</p>;
+    if (isLoading) return <Loader />;
     if (error && !data) return <p className="p-4 text-red-500">Error fetching articles</p>;
 
     return (

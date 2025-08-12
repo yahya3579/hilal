@@ -28,15 +28,16 @@ const AdminSidebar = () => {
     return (
         <div className="w-64 h-screen bg-gray-300 p-4">
             {/* Dashboard Header Link */}
-            <Link to={`/admin/dashboard`}>
-                <h1
-                    className={`w-[95%] mx-auto mb-3 mt-4 font-poppins font-bold text-[24px] leading-[100%] tracking-[-0.03em] capitalize transition-colors duration-200 ${isDashboardActive ? "text-[#DF1600]" : "text-[#292D32] hover:text-gray-600"
-                        }`}
-                >
-                    Dashboard
-                </h1>
-            </Link>
-
+            {userRole === "admin" && (
+                <Link to={`/admin/dashboard`}>
+                    <h1
+                        className={`w-[95%] mx-auto mb-3 mt-4 font-poppins font-bold text-[24px] leading-[100%] tracking-[-0.03em] capitalize transition-colors duration-200 ${isDashboardActive ? "text-[#DF1600]" : "text-[#292D32] hover:text-gray-600"
+                            }`}
+                    >
+                        Dashboard
+                    </h1>
+                </Link>
+            )}
             {/* Sidebar Menu Items */}
             <nav>
                 <ul className="space-y-4 w-[95%] mx-auto">

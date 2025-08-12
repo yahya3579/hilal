@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import articleCover from "../../../assets/articles-cover.jpg";
+import Loader from "../../../components/Loader/loader";
 
 // API calls
 const fetchAuthors = async () => {
@@ -30,11 +31,11 @@ const AuthorsManagement = () => {
             queryClient.invalidateQueries(["authors"]); // Refetch authors data
         },
         onError: (error) => {
-            alert(`Error deleting author: ${error.response?.data || error.message}`);
+            alert(`Error deleting author : ${error.response?.data || error.message}`);
         },
     });
 
-    if (isLoading) return <p>Loading authors...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p>Error fetching authors</p>;
 
     return (

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
+import { uploadToCloudinary, uploadPdfToCloudinary } from "../../../utils/cloudinaryUpload";
 import useAuthStore from "../../../utils/store";
 
 const fetchEbookById = async (id) => {
@@ -20,6 +20,7 @@ const saveEbook = async ({ id, data }) => {
         return res.data;
     } else {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/ebook/create/`, data);
+        console.log("Ebook created successfully:", res.data);
         return res.data;
     }
 };
@@ -28,6 +29,7 @@ export default function EditEbook() {
     const { ebookId } = useParams();
     const userId = useAuthStore((state) => state.userId)
     const fileInputRef = useRef(null);
+    const fileInputRefPDF = useRef(null);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: "",
@@ -37,10 +39,12 @@ export default function EditEbook() {
         status: "Active",
         cover_image: null,
         is_archived: false, // Added is_archived field
+        doc_url: null, // Added doc_url field
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedPDF, setSelectedPDF] = useState(null); // State for PDF file
     const [isDragActive, setIsDragActive] = useState(false);
 
 
@@ -58,7 +62,8 @@ export default function EditEbook() {
                 direction: data.direction || "",
                 status: data.status || "Active",
                 cover_image: data.cover_image || null,
-                is_archived: data.is_archived || false, // Populate is_archived
+                doc_url: data.doc_url || null, // Populate doc_url
+                is_archived: data.is_archived || false,
             });
         },
     });
@@ -91,6 +96,7 @@ export default function EditEbook() {
                 status: ebookData.status || "Active",
                 cover_image: ebookData.cover_image || null,
                 is_archived: ebookData.is_archived || false, // Populate is_archived
+                doc_url: ebookData.doc_url || null, // Populate doc_url
             });
         }
     }, [ebookId, ebookData]);
@@ -100,15 +106,27 @@ export default function EditEbook() {
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
+        if (fileInputRefPDF.current) {
+            fileInputRefPDF.current.click();
+        }
     };
 
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files.length === 1) {
-            setSelectedFile(e.target.files[0]);
-            setFormData((prev) => ({ ...prev, cover_image: e.target.files[0] }));
-            setErrors((prev) => ({ ...prev, cover_image: "" })); // Clear error for the file
+            const file = e.target.files[0];
+            if (file.type === "application/pdf") {
+                setSelectedPDF(file); // Set PDF file
+                setFormData((prev) => ({ ...prev, doc_url: file })); // Update formData for PDF
+                setErrors((prev) => ({ ...prev, doc_url: "" })); // Clear error for PDF
+            } else if (file.type.startsWith("image/")) {
+                setSelectedFile(file); // Set image file
+                setFormData((prev) => ({ ...prev, cover_image: file })); // Update formData for image
+                setErrors((prev) => ({ ...prev, cover_image: "" })); // Clear error for image
+            } else {
+                setErrors((prev) => ({ ...prev, doc_url: "Only PDF files are allowed for documents." }));
+            }
         } else {
-            setErrors((prev) => ({ ...prev, cover_image: "Only one image is allowed." }));
+            setErrors((prev) => ({ ...prev, doc_url: "Only one file is allowed." }));
         }
     };
 
@@ -145,6 +163,7 @@ export default function EditEbook() {
         if (!formData.language.trim()) newErrors.language = "Language is required.";
         if (!formData.direction.trim()) newErrors.direction = "Direction is required.";
         if (!formData.cover_image) newErrors.cover_image = "Cover image is required.";
+        if (!formData.doc_url) newErrors.doc_url = "PDF document is required.";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -156,43 +175,50 @@ export default function EditEbook() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) {
+        if (!validateForm()) return;
 
-            return;
-        }
         setIsSubmitting(true);
 
         let imageUrl = formData.cover_image;
+        let pdfUrl = formData.doc_url;
 
         // Handle image upload if a new file is selected
         if (selectedFile) {
             try {
                 imageUrl = await uploadToCloudinary(selectedFile);
-                console.log("Image uploaded successfully:", imageUrl);
                 if (!imageUrl) {
                     setErrors((prev) => ({ ...prev, cover_image: "Image upload failed." }));
                     setIsSubmitting(false);
                     return;
                 }
             } catch (error) {
-                console.error("Error uploading image:", error);
                 setErrors((prev) => ({ ...prev, cover_image: "Error uploading image." }));
                 setIsSubmitting(false);
                 return;
             }
         }
 
-        // Update formData with the uploaded image URL
+        // Handle PDF upload if a new file is selected
+        if (selectedPDF) {
+            try {
+                pdfUrl = await uploadPdfToCloudinary(selectedPDF);
+                if (!pdfUrl) {
+                    setErrors((prev) => ({ ...prev, doc_url: "PDF upload failed." }));
+                    setIsSubmitting(false);
+                    return;
+                }
+            } catch (error) {
+                setErrors((prev) => ({ ...prev, doc_url: "Error uploading PDF." }));
+                setIsSubmitting(false);
+                return;
+            }
+        }
+
         const updatedData = {
             ...formData,
-            cover_image: imageUrl, // Use the uploaded image URL or existing image
+            cover_image: imageUrl,
+            doc_url: pdfUrl, // Use the uploaded PDF URL
         };
-
-        // Validate the form after updating the cover_image
-        setFormData(updatedData); // Ensure formData is updated before validation
-
-
-        console.log("Updated Data:", updatedData); // Debugging: Check the updated data before submission
 
         mutation.mutate({ id: ebookId, data: updatedData });
     };
@@ -268,6 +294,52 @@ export default function EditEbook() {
                                 </p>
                             </div>
                             {errors.cover_image && <p className="text-red-600 text-xs mt-1">{errors.cover_image}</p>}
+                        </div>
+
+                        {/* PDF Upload */}
+                        <div>
+                            <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal text-left align-middle">
+                                Upload PDF
+                            </label>
+                            <div className="border-[1px] border-dashed border-[#DF1600] rounded-lg p-4 sm:p-6 md:p-8 text-center">
+                                {formData.doc_url && typeof formData.doc_url === "string" ? (
+                                    <a
+                                        href={formData.doc_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 underline text-sm"
+                                    >
+                                        View Existing PDF
+                                    </a>
+                                ) : null}
+                                <input
+                                    type="file"
+                                    accept="application/pdf"
+                                    ref={fileInputRefPDF}
+                                    style={{ display: 'none' }}
+                                    onChange={handleFileChange}
+                                />
+                                <p className="text-gray-600 mb-2">
+                                    <span className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle">
+                                        Drag & drop files or
+                                    </span>
+                                    <button
+                                        onClick={handleBrowseClick}
+                                        className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle color-primary underline"
+                                    >
+                                        Browse
+                                    </button>
+                                </p>
+                                {selectedPDF && (
+                                    <p className="text-green-600 font-montserrat text-xs sm:text-[12px] mt-2">
+                                        Selected: {selectedPDF.name}
+                                    </p>
+                                )}
+                                <p className="font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal text-center align-middle color-gray">
+                                    Supported format: PDF
+                                </p>
+                            </div>
+                            {errors.doc_url && <p className="text-red-600 text-xs mt-1">{errors.doc_url}</p>}
                         </div>
 
                         <div className="md:w-[90%] flex flex-col md:space-y-8 space-y-4">

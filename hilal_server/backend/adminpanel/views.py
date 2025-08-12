@@ -105,10 +105,10 @@ class GetArticlesByCategoryView(APIView):
 
     def get(self, request, category):
         articles = Articles.objects.filter(category=category)
-        if articles.exists():
-            serializer = ArticleSerializer(articles, many=True)
-            return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
-        return Response({"message": "No articles found for the given category"}, status=status.HTTP_404_NOT_FOUND)
+        # if articles.exists():
+        serializer = ArticleSerializer(articles, many=True)
+        return Response({"message": "Articles retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        # return Response({"message": "No articles found for the given category"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class GetTopArticlesView(APIView):

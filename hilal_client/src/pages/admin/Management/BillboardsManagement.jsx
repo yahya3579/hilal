@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../utils/store';
 import { create } from 'zustand';
+import Loader from '../../../components/Loader/loader';
 
 // Table columns configuration
 const columns = [
@@ -57,7 +58,7 @@ const BillboardsManagement = () => {
         "6": "Reader's Opinion 2",
     };
 
-    if (isLoading) return <p className="p-4">Loading billboards...</p>;
+    if (isLoading) return <Loader />;
     if (error && !data) return <p className="p-4 text-red-500">Error fetching billboards</p>;
 
     return (

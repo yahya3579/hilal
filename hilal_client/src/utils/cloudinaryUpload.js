@@ -23,3 +23,24 @@ export const uploadToCloudinary = async (file) => {
         return null;
     }
 };
+
+
+export const uploadPdfToCloudinary = async (file) => {
+    if (!file) return null;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    try {
+        const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`, // Notice `/raw/upload/` here
+            formData
+        );
+
+        return response.data.secure_url; // Cloudinary PDF URL
+    } catch (err) {
+        console.error("Cloudinary PDF upload error:", err);
+        return null;
+    }
+};
