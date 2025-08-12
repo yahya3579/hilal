@@ -31,7 +31,7 @@ const AuthorsManagement = () => {
             queryClient.invalidateQueries(["authors"]); // Refetch authors data
         },
         onError: (error) => {
-            alert(`Error deleting author: ${error.response?.data || error.message}`);
+            alert(`Error deleting author : ${error.response?.data || error.message}`);
         },
     });
 
