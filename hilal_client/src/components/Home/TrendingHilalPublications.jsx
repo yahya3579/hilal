@@ -16,7 +16,7 @@ const TrendingHilalPublications = () => {
   });
 
 
-  if (isLoading) return Loader;
+  if (isLoading) return <Loader />;
   if (error) return <p>Error fetching articles</p>;
 
   // Shuffle articles randomly
