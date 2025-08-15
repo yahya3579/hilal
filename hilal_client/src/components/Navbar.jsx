@@ -15,8 +15,6 @@ import {
 import useAuthStore from '../utils/store';
 import axios from "axios";
 
-
-
 const socialIcons = [
     { Icon: Facebook, href: "#" },
     { Icon: Youtube, href: "#" },
@@ -110,10 +108,6 @@ const Navbar = () => {
     const navigate = useNavigate();
     const userRole = useAuthStore((state) => state.userRole);
     console.log("User Role:", userRole);
-
-    const categoryRef = useRef(null);
-    const magazinesRef = useRef(null);
-    const ebookRef = useRef(null);
 
     // Enhanced click outside handler - only closes dropdowns when clicking outside
     useEffect(() => {
@@ -238,7 +232,7 @@ const Navbar = () => {
                                         </Link>
                                     </li>
                                 </ul>
-                            </div>
+                            )}
                         </li>
                         <li className="relative group cursor-pointer" onClick={handleMagazinesClick}>
                             Magazines <FaChevronDown className="inline" />
@@ -314,7 +308,6 @@ const Navbar = () => {
                         </li>
                         <li className="relative group cursor-pointer">
                             <Link to="/advertise">Advertise</Link>
-
                         </li>
                         <li className="hover:underline cursor-pointer">
                             <Link
@@ -571,7 +564,8 @@ const Navbar = () => {
                                             Genre Non-Fiction
                                         </Link>
                                     </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                    <li className="py-2 transfgit fetch origin && git checkout arslan && git merge origin/main
+orm transition-all duration-300 hover:translate-x-2">
                                         <Link
                                             to="/ebooks/misc"
                                             className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
@@ -607,6 +601,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-{/* 
-this is commenrt */}
