@@ -9,12 +9,13 @@ import ArticlePageImage from "../assets/ArticlePageImage.png";
 import useAuthStore from "../utils/store";
 
 const fetchArticle = async (id) => {
-  const res = await axios.get(`http://localhost:8000/api/article/${id}`);
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}`);
+  console.log(res.data)
   return res.data;
 };
 
 const fetchRecentArticles = async () => {
-  const res = await axios.get("http://localhost:8000/api/get-recent-articles/");
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-recent-articles/`);
   return res.data.data;
 };
 
@@ -40,8 +41,17 @@ export default function ArticlePage() {
   });
 
   const handleSubmitComment = async () => {
+    if (!rating) {
+      alert("Rating is required.");
+      return;
+    }
+    if (!comment.trim()) {
+      alert("Comment is required.");
+      return;
+    }
+
     try {
-      const response = await axios.post("http://localhost:8000/api/create-comment/", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-comment/`, {
         comment,
         user: article.user, // Replace with the actual user ID
         article: article.id,
@@ -136,7 +146,7 @@ export default function ArticlePage() {
             <div className="relative px-4 lg:px-6 pt-10 lg:pt-6 pb-4">
               {/* Title and Heading */}
               <div className="text-black font-poppins font-light text-[18px] sm:text-[20px] lg:text-[32px] leading-[100%] tracking-[-0.03em] uppercase mb-2">
-                HILAL ENGLISH
+                {article.category == "hilal-kids-english" ? "Hilal FOR KIDS - English" : article.category == "hilal-kids-urdu" ? "Hilal FOR KIDS - Urdu" : article.category == "hilal-her" ? "Hilal HER" : article.category == "hilal-urdu" ? "Hilal - Urdu" : "Article Category"}
               </div>
 
               {/* Heading with Date aligned to bottom right */}

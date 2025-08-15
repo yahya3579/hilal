@@ -5,14 +5,16 @@ import { useMutation, useQuery } from "@tanstack/react-query"; // Import React Q
 import axios from "axios"; // Import Axios for API calls
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import { useParams } from "react-router-dom"; // Import useParams to get URL parameters
+import useAuthStore from "../../../utils/store";
 
 const fetchArticleById = async (id) => {
-    const res = await axios.get(`http://localhost:8000/api/article/${id}/`);
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
     return res.data;
 };
 
 export default function EditArticle() {
     const { articleId } = useParams(); // Get articleId from URL
+    const userId = useAuthStore((state) => state.userId)
     const { data: articleData, isLoading: isFetching, error: fetchError } = useQuery({
         queryKey: ["article", articleId],
         queryFn: () => fetchArticleById(articleId),
@@ -27,6 +29,7 @@ export default function EditArticle() {
         writer: "",
         description: "",
         category: "",
+
         publish_date: "",
         cover_image: null,
     });
@@ -40,8 +43,9 @@ export default function EditArticle() {
                 writer: articleData.writer || "",
                 description: articleData.description || "",
                 category: articleData.category || "",
+
                 publish_date: articleData.publish_date ? articleData.publish_date.split("T")[0] : "",
-                cover_image: null, // Reset cover_image for now
+                cover_image: articleData.cover_image || null, // Populate existing image
             });
         }
     }, [articleData]);
@@ -97,14 +101,17 @@ export default function EditArticle() {
         let imageUrl = null;
 
         if (formData.cover_image) {
+            console.log("Uploading cover image:", formData.cover_image);
             imageUrl = await uploadToCloudinary(formData.cover_image);
+            console.log("Uploaded cover image URL:", imageUrl);
+
             if (!imageUrl) {
                 throw new Error("Image upload failed");
             }
         }
 
         const data = new FormData();
-        data.append("user", 1);
+        data.append("user", userId);
         data.append("cover_image", imageUrl || articleData?.cover_image); // Use existing image if not updated
         data.append("title", formData.title);
         data.append("writer", formData.writer);
@@ -118,11 +125,12 @@ export default function EditArticle() {
 
         if (articleId) {
             // Update existing article
-            const response = await axios.put(`http://localhost:8000/api/article/${articleId}/`, data);
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/article/${articleId}/`, data);
+            console.log("Article updated successfully:", response.data);
             return response.data;
         } else {
             // Create new article
-            const response = await axios.post("http://localhost:8000/api/create-article/", data);
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-article/`, data);
             return response.data;
         }
     };
@@ -202,7 +210,15 @@ export default function EditArticle() {
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                             >
-                                <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] color-primary mb-4" />
+                                {formData.cover_image && typeof formData.cover_image === "string" ? (
+                                    <img
+                                        src={formData.cover_image}
+                                        alt="Article Cover"
+                                        className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4 object-cover"
+                                    />
+                                ) : (
+                                    <img src={UploadIcon} alt="Upload Icon" className="mx-auto h-12 w-14 sm:h-[59px] sm:w-[69px] mb-4" />
+                                )}
                                 <input
                                     type="file"
                                     accept="image/png, image/jpeg"
@@ -210,7 +226,6 @@ export default function EditArticle() {
                                     style={{ display: 'none' }}
                                     onChange={handleFileChange}
                                 />
-
                                 <p className="text-gray-600 mb-2">
                                     <span className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle">Drag & drop files or </span>
                                     <button onClick={handleBrowseClick} className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle color-primary underline">Browse</button>
@@ -261,6 +276,8 @@ export default function EditArticle() {
                                             <option value="special-reports">Special Reports</option>
                                             <option value="armed-forces-news">Armed Forces News</option>
                                             <option value="national-and-international-news">National and International News</option>
+                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+                                            <option value="hilal-her">Hilal Her</option>
                                         </select>
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                                     </div>
@@ -299,6 +316,8 @@ export default function EditArticle() {
                                     />
                                     {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
                                 </div>
+
+
                             </div>
 
                             {/* Article Content */}

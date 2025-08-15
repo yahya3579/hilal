@@ -96,12 +96,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'hilal_backend',             # your database name
+#         'USER': 'root',             # your MySQL username
+#         'PASSWORD':'Mysql123+++', # your MySQL password
+#         'HOST': 'localhost',        # or 127.0.0.1
+#         'PORT': '3307',
+#     }dd
+# } 
 
 
 DATABASES = {
@@ -109,11 +121,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hilal_backend',             # your database name
         'USER': 'root',             # your MySQL username
-        'PASSWORD':'admin', # your MySQL password
+        'PASSWORD':'Mysql123+++', # your MySQL password
         'HOST': 'localhost',        # or 127.0.0.1
-        'PORT': '3306',
+        'PORT': '3307',
     }
 }
+
 
 
 # Password validation
@@ -158,8 +171,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Allow frontend development server
+    "https://hilalclient.vercel.app",  # Allow frontend development server
 ]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",  # Allow frontend development server,  # Allow frontend development server
+# ]
 # CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
 
 # Allow cookies to be sent
@@ -170,8 +186,12 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Requested-With',
 ]
 
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:5173",
+# ]
+
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
+    "https://hilalclient.vercel.app",
 ]
 # Optional: allow specific methods
 CORS_ALLOW_METHODS = [

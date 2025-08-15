@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../utils/store';
+import Loader from '../../../components/Loader/loader';
 
 
 // Table columns configuration
@@ -20,16 +21,17 @@ const columns = [
 // API calls
 const fetchArticles = async (userRole, userId) => {
     if (userRole === "admin") {
-        const res = await axios.get('http://localhost:8000/api/get-articles/');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
         return res.data.data;
     } else if (userRole === "author") {
-        const res = await axios.get(`http://localhost:8000/api/articles/user/${userId}/`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/user/2/`);
+        console.log("Fetched articles for author:", res.data.data);
         return res.data.data;
     }
 };
 
 const deleteArticle = async (id) => {
-    await axios.delete(`http://localhost:8000/api/article/${id}/`);
+    await axios.delete(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
 };
 
 const ArticleManagement = () => {
@@ -54,7 +56,7 @@ const ArticleManagement = () => {
         },
     });
 
-    if (isLoading) return <p className="p-4">Loading articles...</p>;
+    if (isLoading) return <Loader />;
     if (error && !data) return <p className="p-4 text-red-500">Error fetching articles</p>;
 
     return (
@@ -76,10 +78,8 @@ const ArticleManagement = () => {
 
             {/* Table */}
             <div className="overflow-x-auto">
-                {(!data || data.length === 0) && !error ? (
+                {(!data || data.length === 0) ? (
                     <p className="text-center text-gray-500 font-poppins text-lg">No articles found.</p>
-                ) : error ? (
-                    <p className="text-center text-red-500 font-poppins text-lg">Error fetching articles</p>
                 ) : (
                     <table className="w-full border-collapse">
                         <thead>
@@ -139,6 +139,7 @@ const ArticleManagement = () => {
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
                                         <select
+                                            defaultValue=""
                                             className="border border-gray-300 rounded px-3 py-1 text-sm bg-white text-[10.89px] font-poppins"
                                             onChange={(e) => {
                                                 const action = e.target.value;

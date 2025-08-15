@@ -35,21 +35,7 @@ const HilalDigital2 = () => {
                 {/* Main Content */}
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3">
-                    {/* Main Video Section */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-white overflow-hidden">
-                            <div className="aspect-video h-[350px] bg-gray-900 relative">
-                                <iframe
-                                    className="w-full h-full"
-                                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                                    title="Gwadar's First Flight: A Gateway to Balochistan's Prosperity Through..."
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            </div>
-                        </div>
-                    </div>
+
 
                     {/* Sidebar */}
                     <div className="space-y-4">
@@ -76,6 +62,21 @@ const HilalDigital2 = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    {/* Main Video Section */}
+                    <div className="lg:col-span-1">
+                        <div className="bg-white overflow-hidden">
+                            <div className="aspect-video h-[350px] bg-gray-900 relative">
+                                <iframe
+                                    className="w-full h-full"
+                                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                    title="Gwadar's First Flight: A Gateway to Balochistan's Prosperity Through..."
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

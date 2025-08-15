@@ -12,8 +12,8 @@ const AuthForm = ({ route, method }) => {
     const setAccessToken = useAuthStore((state) => state.setAccessToken);
     const setUserId = useAuthStore((state) => state.setUserId);
     const setRefreshToken = useAuthStore((state) => state.setRefreshToken);
-    const [email, setEmail] = useState("johndoe@email.com")
-    const [password, setPassword] = useState("••••••••••••")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
     const triggerAuth = useAuthStore((state) => state.triggerAuth);
@@ -76,7 +76,7 @@ const AuthForm = ({ route, method }) => {
                     const accessToken = response.authResponse.accessToken;
 
                     api
-                        .post("http://localhost:8000/api/user/facebook-login/", {
+                        .post(`${import.meta.env.VITE_API_URL}/api/user/facebook-login/`, {
                             access_token: accessToken,
                         })
                         .then((res) => {
@@ -131,9 +131,9 @@ const AuthForm = ({ route, method }) => {
                     </div>
 
                     {/* Marketing Text */}
-                    <h2 className="font-roboto font-normal text-xl md:text-2xl lg:text-[32px] leading-tight lg:leading-[100%] tracking-[0] text-center">
+                    {/* <h2 className="font-roboto font-normal text-xl md:text-2xl lg:text-[32px] leading-tight lg:leading-[100%] tracking-[0] text-center">
                         Uncover Millions of products from reputable Suppliers-sign up now!
-                    </h2>
+                    </h2> */}
                 </div>
             </div>
 
@@ -169,8 +169,8 @@ const AuthForm = ({ route, method }) => {
                     <div className="flex-1 w-full flex items-center justify-center p-4 sm:p-6">
                         <div className="w-full flex flex-col space-y-3 sm:space-y-4 max-w-md">
                             {/* Form Header */}
-                            <h1 className="roboto font-bold text-4xl sm:text-5xl lg:text-[64px] leading-tight sm:leading-[37.5px] tracking-[-0.5px] text-center capitalize text-[#DF1600]">{method == 'login' ? "Login in" : "Sign Up"}</h1>
-                            <p className="font-bold text-base sm:text-lg lg:text-[20px] leading-tight sm:leading-[37.5px] tracking-[-0.5px] text-center text-[#424242]">Login in your Account.</p>
+                            <h1 className="roboto font-bold text-4xl sm:text-5xl lg:text-[64px] leading-tight sm:leading-[37.5px] tracking-[-0.5px] text-center capitalize text-[#DF1600]">{method == 'login' ? "Login " : "Sign Up"}</h1>
+                            <p className="font-bold text-base sm:text-lg lg:text-[20px] leading-tight sm:leading-[37.5px] tracking-[-0.5px] text-center text-[#424242]">Login to your Account.</p>
 
 
 

@@ -29,12 +29,26 @@ import HilalEbooks from "./pages/HilalEbooks";
 import NationalInternationIssues from "./pages/National-Internation-Issues";
 import Advertise from "./pages/Advertise";
 import OurContributors from "./pages/OurContributors";
+import BillboardsManagement from "./pages/admin/Management/BillboardsManagement";
+import HilalUrdu from "./pages/HilalUrdu";
+import HilalKids from "./pages/HilalKids";
+import HilalUrduKids from "./pages/HilalKidsUrdu";
+import HilalHer from "./pages/HilalHer";
+import EbookManagement from "./pages/admin/Management/EbookManagement";
+import EditEbook from "./pages/admin/Edit/EditEbook";
 
 const App = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
+
+        {/* Hilal English */}
+        <Route path="/hilal-urdu" element={<HilalUrdu />} />
+        <Route path="/hilal-kids" element={<HilalKids />} />
+        <Route path="/hilal-urdu-kids" element={<HilalUrduKids />} />
+        <Route path="/hilal-her" element={<HilalHer />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/css" element={<Css />} />
@@ -53,9 +67,10 @@ const App = () => {
       <Route path="/login" element={<Login />} />
 
       {/* admin routes start*/}
-      <Route element={<AdminLayout />}>
+      <Route element={
+        <ProtectedRoutes><AdminLayout /></ProtectedRoutes>}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/bill-boards-management" element={<BillBoards />} />
+        <Route path="/admin/bill-boards-management" element={<BillboardsManagement />} />
         <Route path="/admin/articles-management" element={<ArticleManagement />}
         />
         <Route path="/admin/magazine-management" element={<MagazineManagement />}
@@ -66,13 +81,20 @@ const App = () => {
         />
         <Route path="/admin/authors-management" element={<AuthorsManagement />}
         />
+        <Route path="/admin/ebooks-management" element={<EbookManagement />}
+        />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>
-      <Route path="/admin/new-article/:articleId" element={<EditArticle />} />
-      <Route path="/admin/new-article" element={<EditArticle />} />
-      <Route path="/admin/edit-author" element={<EditAuthor />} />
-      <Route path="/admin/edit-billboard" element={<EditBillBoard />} />
-      <Route path="/admin/edit-magazine" element={<EditMagazine />} />
+      <Route path="/admin/new-article/:articleId" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
+      <Route path="/admin/edit-billboard/:billboardId" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />
+      <Route path="/admin/edit-magazine/:magazineId" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
+      <Route path="/admin/edit-author/:authorId" element={<ProtectedRoutes><EditAuthor /></ProtectedRoutes>} />
+      <Route path="/admin/new-article" element={<ProtectedRoutes><EditArticle /></ProtectedRoutes>} />
+      <Route path="/admin/edit-author" element={<ProtectedRoutes><EditAuthor /></ProtectedRoutes>} />
+      <Route path="/admin/edit-billboard" element={<ProtectedRoutes><EditBillBoard /></ProtectedRoutes>} />
+      <Route path="/admin/edit-magazine" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
+      <Route path="/admin/edit-ebook" element={<ProtectedRoutes><EditEbook /></ProtectedRoutes>} />
+      <Route path="/admin/edit-ebook/:ebookId" element={<ProtectedRoutes><EditEbook /></ProtectedRoutes>} />
       {/* admin routes end */}
 
       <Route path="*" element={<NotFound />} />

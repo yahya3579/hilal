@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Comments, Articles
+from .models import Comments, Articles, Billboards, Ebook, Magazines, Authors
 
 class CommentSerializer(serializers.ModelSerializer):
     user_first_name = serializers.CharField(source="user.fname", read_only=True)
@@ -28,3 +28,28 @@ class ArticleSerializer(serializers.ModelSerializer):
             'description': {'required': False},
             'category': {'required': False},
         }
+
+class BillboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Billboards
+        fields = ['id', 'user', 'image', 'title', 'created', 'location', 'issue_news', 'status']
+        read_only_fields = ['id']
+
+class MagazineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Magazines
+        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived','doc_url']
+        read_only_fields = ['id']
+    
+class EbookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ebook
+        fields = ['id', 'title', 'publish_date', 'language', 'direction', 'status', 'cover_image', 'is_archived','doc_url']
+        read_only_fields = ['id']
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Authors
+        fields = ['id', 'user', 'author_image', 'author_name', 'email', 'contact_no', 'no_of_articles', 'status', 'category', 'introduction']
+        read_only_fields = ['id']
