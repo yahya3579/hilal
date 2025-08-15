@@ -2,8 +2,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Comments, Articles, Billboards, Magazines, Authors,Ebook
-from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer, AuthorSerializer,EbookSerializer
+from .models import Comments, Articles, Billboards, Magazines, Authors, Ebook, Videos
+from .serializers import CommentSerializer, ArticleSerializer, BillboardSerializer, MagazineSerializer, AuthorSerializer, EbookSerializer, VideosSerializer
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
@@ -408,3 +408,63 @@ class SingleAuthorView(APIView):
 
 def hello_view(request):
     return HttpResponse("Hello")
+
+# Videos Related Views
+class GetAllVideosView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        videos = Videos.objects.filter(status='Active').order_by('order', 'created_at')
+        serializer = VideosSerializer(videos, many=True)
+        return Response({"message": "Videos retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
+class SingleVideoView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            video = Videos.objects.get(pk=pk)
+            serializer = VideosSerializer(video)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Videos.DoesNotExist:
+            return Response({"error": "Video not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk):
+        try:
+            video = Videos.objects.get(pk=pk)
+            serializer = VideosSerializer(video, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Videos.DoesNotExist:
+            return Response({"error": "Video not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        try:
+            video = Videos.objects.get(pk=pk)
+            video.delete()
+            return Response({"message": "Video deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Videos.DoesNotExist:
+            return Response({"error": "Video not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CreateVideoView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = VideosSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Video created successfully", "data": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetAllVideosManagementView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        videos = Videos.objects.all().order_by('order', 'created_at')
+        serializer = VideosSerializer(videos, many=True)
+        return Response({"message": "Videos retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
