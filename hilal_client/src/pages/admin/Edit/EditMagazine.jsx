@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { uploadPdfToCloudinary, uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import useAuthStore from "../../../utils/store";
+import Loader from "../../../components/Loader/loader";
 
 const fetchMagazineById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/magazine/${id}/`);
@@ -231,7 +232,7 @@ export default function EditMagazine() {
         mutation.mutate({ id: magazineId, data: updatedData });
     };
 
-    if (isLoading) return <p>Loading magazine...</p>;
+    if (isLoading) return <Loader />;
 
     return (
         <div className="min-h-screen bg-white p-6">

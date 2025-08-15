@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Loader from "../Loader/loader";
 
 const fetchArticlesByCategory = async (category) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
@@ -14,7 +15,7 @@ const InFocusSection = () => {
         queryFn: () => fetchArticlesByCategory("in-focus"),
     });
 
-    if (isLoading) return <p className="p-4">Loading articles...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p className="p-4 text-red-500">Error fetching articles</p>;
 
     return (

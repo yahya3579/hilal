@@ -6,6 +6,7 @@ import HilalKidsUrdu from "../../assets/hilalKidsUrdu.jpg"
 import HilalUrdu from "../../assets/hilalUrdu.jpg"
 import HilalHer from "../../assets/hilalHer.jpg"
 import HilalKidsEnglish from "../../assets/hilalKidsEnglish.jpg"
+import Loader from '../Loader/loader';
 const fetchArticlesByCategory = async (category) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
   return res.data.data;
@@ -29,7 +30,7 @@ const ArmedForcesNews = () => {
     onError: () => { }, // Handle errors silently
   });
 
-  if (articlesLoading) return <p>Loading...</p>;
+      if (articlesLoading) return <Loader />;
   if (articlesError) return <p>Error fetching articles</p>;
 
   return (

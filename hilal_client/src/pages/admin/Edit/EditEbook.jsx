@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { uploadToCloudinary, uploadPdfToCloudinary } from "../../../utils/cloudinaryUpload";
 import useAuthStore from "../../../utils/store";
+import Loader from "../../../components/Loader/loader";
 
 const fetchEbookById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/ebook/${id}/`);
@@ -223,7 +224,7 @@ export default function EditEbook() {
         mutation.mutate({ id: ebookId, data: updatedData });
     };
 
-    if (isLoading) return <p>Loading ebook...</p>;
+    if (isLoading) return <Loader />;
 
     return (
         <div className="min-h-screen bg-white p-6">

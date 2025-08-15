@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Loader from "../Loader/loader";
 
 const fetchAllArticles = async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
@@ -14,7 +15,7 @@ const TrendingHilalSection = () => {
         queryFn: fetchAllArticles,
     });
 
-    if (isLoading) return <p>Loading articles...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p>Error fetching articles</p>;
 
     // Shuffle articles randomly
