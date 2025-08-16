@@ -57,12 +57,14 @@ const InFocusSectionUrdu = () => {
                         <div className="grid grid-cols-2 gap-y-2 gap-x-4">
                             {data.slice(1, 5).map((article) => (
                                 <div key={article.id} className="overflow-hidden">
-                                    <img
-                                        src={article.cover_image}
-                                        alt={article.title}
-                                        loading="lazy"
-                                        className="h-[120px] object-cover w-full"
-                                    />
+                                    <Link to={`/article/${article.id}`}>
+                                        <img
+                                            src={article.cover_image}
+                                            alt={article.title}
+                                            loading="lazy"
+                                            className="h-[120px] object-cover w-full"
+                                        />
+                                    </Link>
                                     <div className="py-2">
                                         <p className="text-xs line-clamp-1 text-gray-400 mb-1">{article.writer}</p>
                                         <h4 className="text-xs  font-semibold line-clamp-2 text-black leading-[1.8]">

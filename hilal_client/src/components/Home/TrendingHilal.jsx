@@ -34,11 +34,13 @@ const TrendingHilalSection = () => {
                         {/* Large Featured Article */}
                         {shuffledArticles.slice(0, 1).map((article) => (
                             <div key={article.id} className="relative h-[250px] overflow-hidden">
-                                <img
-                                    src={article.cover_image}
-                                    alt={article.title}
-                                    className="w-full h-full object-cover opacity-60"
-                                />
+                                <Link to={`/article/${article.id}`}>
+                                    <img
+                                        src={article.cover_image}
+                                        alt={article.title}
+                                        className="w-full h-full object-cover opacity-60"
+                                    />
+                                </Link>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                                 <div className="absolute bottom-2 left-4 right-4 text-white">
                                     <p className="text-xs mb-2">{article.writer}</p>
@@ -57,12 +59,14 @@ const TrendingHilalSection = () => {
                         <div className="grid grid-cols-2 gap-x-8">
                             {shuffledArticles.slice(1, 5).map((article) => (
                                 <div key={article.id} className="bg-white overflow-hidden">
-                                    <img
-                                        src={article.cover_image}
-                                        alt={article.title}
-                                        loading="lazy"
-                                        className="h-[120px] object-cover "
-                                    />
+                                    <Link to={`/article/${article.id}`}>
+                                        <img
+                                            src={article.cover_image}
+                                            alt={article.title}
+                                            loading="lazy"
+                                            className="h-[120px] object-cover "
+                                        />
+                                    </Link>
                                     <div className="py-3">
                                         <p className="text-xs text-gray-400 mb-1">{article.writer}</p>
                                         <h4 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8]">
@@ -84,11 +88,13 @@ const TrendingHilalSection = () => {
                     <div className="flex flex-col gap-6">
                         {shuffledArticles.slice(5, 6).map((article) => (
                             <div key={article.id} className="relative h-[250px] overflow-hidden">
-                                <img
-                                    src={article.cover_image}
-                                    alt={article.title}
-                                    className="w-full h-full object-cover opacity-60"
-                                />
+                                <Link to={`/article/${article.id}`}>
+                                    <img
+                                        src={article.cover_image}
+                                        alt={article.title}
+                                        className="w-full h-full object-cover opacity-60"
+                                    />
+                                </Link>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                                 <div className="absolute bottom-2 left-4 right-4 text-white">
                                     <p className="text-xs mb-2">{article.writer}</p>

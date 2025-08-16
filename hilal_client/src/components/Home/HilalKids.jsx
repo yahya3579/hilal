@@ -35,19 +35,21 @@ const HilalKidsEnglish = () => {
                     {shuffledArticles.slice(0, 6).map((article) => (
                         <div key={article.id} className="bg-white overflow-hidden transition-shadow cursor-pointer">
                             {/* Image Section */}
-                            <div
-                                className={`h-40 relative overflow-hidden`}
-                                style={{
-                                    backgroundImage: `url(${article.cover_image})`,
-                                    backgroundSize: "cover",
-                                    backgroundPosition: "center",
-                                }}
-                            >
-                                {/* Category Badge */}
-                                <Link to={`/category/${article.category}`} className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
-                                    {article.category}
-                                </Link>
-                            </div>
+                            <Link to={`/article/${article.id}`}>
+                                <div
+                                    className={`h-40 relative overflow-hidden`}
+                                    style={{
+                                        backgroundImage: `url(${article.cover_image})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                    }}
+                                >
+                                    {/* Category Badge */}
+                                    <Link to={`/category/${article.category}`} className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+                                        {article.category}
+                                    </Link>
+                                </div>
+                            </Link>
                             {/* Content Section */}
                             <div className="p-4">
                                 {/* Author and Date */}
