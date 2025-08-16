@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useToast } from '../../../context/ToastContext';
 import Loader from '../../../components/Loader/loader';
 
 const createVideo = async (videoData) => {
@@ -12,6 +13,7 @@ const createVideo = async (videoData) => {
 const CreateVideo = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const { showToast } = useToast();
     const [formData, setFormData] = useState({
         title: '',
         youtube_url: '',
@@ -20,12 +22,16 @@ const CreateVideo = () => {
         order: 0
     });
 
-    const createMutation = useMutation({
+    const mutation = useMutation({
         mutationFn: createVideo,
         onSuccess: () => {
+            showToast("Video created successfully!", "success");
             queryClient.invalidateQueries(['videos-management']);
             navigate('/admin/videos-management');
-        }
+        },
+        onError: (error) => {
+            showToast(`Error creating video: ${error.response?.data || error.message}`, "error");
+        },
     });
 
     const handleInputChange = (e) => {
@@ -38,107 +44,120 @@ const CreateVideo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        createMutation.mutate(formData);
+        mutation.mutate(formData);
     };
 
-    if (createMutation.isPending) return <Loader />;
+    if (mutation.isPending) return <Loader />;
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-6">Add New Video</h1>
-            <div className="bg-white rounded-lg shadow p-6 max-w-2xl">
+        <div className="p-6 bg-white min-h-screen">
+            {/* Header */}
+            <div className="relative mb-6">
+                <h1 className="font-medium text-[32.21px] leading-[100%] tracking-[-0.03em] uppercase font-poppins text-[#DF1600] text-center mx-auto w-fit">
+                    Create New Video
+                </h1>
+            </div>
+
+            {/* Form */}
+            <div className="max-w-2xl mx-auto">
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Title */}
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
                             Video Title *
                         </label>
                         <input
                             type="text"
-                            id="title"
                             name="title"
                             value={formData.title}
                             onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                             required
+                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-text"
+                            placeholder="Enter video title"
                         />
                     </div>
 
+                    {/* YouTube URL */}
                     <div>
-                        <label htmlFor="youtube_url" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
                             YouTube URL *
                         </label>
                         <input
                             type="url"
-                            id="youtube_url"
                             name="youtube_url"
                             value={formData.youtube_url}
                             onChange={handleInputChange}
-                            placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                             required
+                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-text"
+                            placeholder="https://www.youtube.com/watch?v=..."
                         />
+                        <p className="text-xs text-gray-500 mt-1 font-poppins">
+                            Supports YouTube watch URLs, youtu.be links, and embed URLs
+                        </p>
                     </div>
 
+                    {/* Description */}
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
                             Description
                         </label>
                         <textarea
-                            id="description"
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            rows={4}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                            placeholder="Enter video description..."
+                            rows="4"
+                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-text resize-none"
+                            placeholder="Enter video description (optional)"
                         />
                     </div>
 
-                    <div>
-                        <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
-                            Status
-                        </label>
-                        <select
-                            id="status"
-                            name="status"
-                            value={formData.status}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                        >
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                    {/* Status and Order */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
+                                Status
+                            </label>
+                            <select
+                                name="status"
+                                value={formData.status}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-pointer bg-white"
+                            >
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
+                                Display Order
+                            </label>
+                            <input
+                                type="number"
+                                name="order"
+                                value={formData.order}
+                                onChange={handleInputChange}
+                                min="0"
+                                className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-text"
+                                placeholder="0"
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <label htmlFor="order" className="block text-sm font-medium text-gray-700 mb-2">
-                            Display Order
-                        </label>
-                        <input
-                            type="number"
-                            id="order"
-                            name="order"
-                            value={formData.order}
-                            onChange={handleInputChange}
-                            min="0"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                        />
-                    </div>
-
-                    <div className="flex justify-end space-x-4 pt-6">
+                    {/* Buttons */}
+                    <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
                         <button
                             type="button"
                             onClick={() => navigate('/admin/videos-management')}
-                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                            className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors font-medium text-[14px] font-poppins cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            disabled={createMutation.isPending}
-                            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                            className="bg-[#DF0404] text-white px-6 py-2 rounded hover:bg-red-700 transition-colors font-bold text-[16.1px] leading-[100%] tracking-[-0.01em] font-poppins cursor-pointer"
                         >
-                            {createMutation.isPending ? 'Creating...' : 'Create Video'}
+                            Create Video
                         </button>
                     </div>
                 </form>

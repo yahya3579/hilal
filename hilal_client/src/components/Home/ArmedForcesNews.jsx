@@ -36,34 +36,34 @@ const ArmedForcesNews = () => {
   return (
     <>
       <div className='px-4 pb-3'>
-        <div className="flex max-md:flex-wrap gap-2 py-3 justify-center">
+        <div className="flex max-md:flex-wrap gap-4 py-3 justify-center">
 
           <Link to={`/hilal-kids`}>
             <img
               src={HilalKidsEnglish}
               alt={`hilal kids english`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
           <Link to={`/hilal-her`}>
             <img
               src={HilalHer}
               alt={`hilal her`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
           <Link to={`/hilal-urdu-kids/`}>
             <img
               src={HilalKidsUrdu}
               alt={`hilal kids urdu`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
           <Link to={`/hilal-urdu/`}>
             <img
               src={HilalUrdu}
               alt={`hilal urdu`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
 
