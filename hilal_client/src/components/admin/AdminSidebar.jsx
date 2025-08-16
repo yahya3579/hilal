@@ -13,6 +13,7 @@ const AdminSidebar = () => {
         { label: "Magazines", path: "magazine-management" },
         { label: "Article Comments", path: "comment-management" },
         { label: "E-Books", path: "ebooks-management" },
+        { label: "Videos", path: "videos-management" },
         { label: "Packages", path: "packages-management" },
         { label: "Authors", path: "authors-management" },
     ];

@@ -7,6 +7,7 @@ import axios from "axios";
 import articleProfile from "../assets/articleprofile.png";
 import ArticlePageImage from "../assets/ArticlePageImage.png";
 import useAuthStore from "../utils/store";
+import Loader from "../components/Loader/loader";
 
 const fetchArticle = async (id) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}`);
@@ -65,7 +66,7 @@ export default function ArticlePage() {
     }
   };
 
-  if (isArticleLoading) return <p>Loading article...</p>;
+  if (isArticleLoading) return <Loader />;
   if (articleError) return <p>Error fetching article</p>;
 
   return (
@@ -113,7 +114,7 @@ export default function ArticlePage() {
                   Recent Articles
                 </h3>
                 {isRecentArticlesLoading ? (
-                  <p>Loading recent articles...</p>
+                  <Loader />
                 ) : recentArticlesError ? (
                   <p>Error fetching recent articles</p>
                 ) : (

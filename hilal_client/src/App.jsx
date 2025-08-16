@@ -18,6 +18,8 @@ import ArticlePage from "./pages/ArticlePage";
 import AuthorsManagement from "./pages/admin/Management/AuthorsManagement";
 import PackagesManagement from "./pages/admin/Management/PackagesManagement";
 import ArticleManagement from "./pages/admin/Management/ArticlesManagement";
+import VideosManagement from "./pages/admin/Management/VideosManagement";
+import CreateVideo from "./pages/admin/Management/CreateVideo";
 
 import EditArticle from "./pages/admin/Edit/EditArticle";
 import EditAuthor from "./pages/admin/Edit/EditAuthor";
@@ -82,6 +84,10 @@ const App = () => {
         <Route path="/admin/authors-management" element={<AuthorsManagement />}
         />
         <Route path="/admin/ebooks-management" element={<EbookManagement />}
+        />
+        <Route path="/admin/videos-management" element={<VideosManagement />}
+        />
+        <Route path="/admin/videos-management/create" element={<CreateVideo />}
         />
         <Route path="/admin/*" element={<NotFound />} />
       </Route>

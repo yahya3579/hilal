@@ -7,6 +7,7 @@ import HilalDigital from '../assets/hilal-logo.svg'
 import { FaFacebook } from 'react-icons/fa'
 import GoogleSignInButton from '../pages/Google'
 import axios from 'axios'
+import Loader from './Loader/loader'
 
 const AuthForm = ({ route, method }) => {
     const setAccessToken = useAuthStore((state) => state.setAccessToken);
@@ -178,7 +179,7 @@ const AuthForm = ({ route, method }) => {
                             <GoogleSignInButton />
                             {/* Facebook Login Button */}
                             <button onClick={handleLogin} disabled={!fbLoaded} className={` ${fbLoaded ? "w-full bg-[#D9D9D9] text-[#424242] hover:bg-gray-300 font-zen font-normal text-sm sm:text-[16px] leading-tight sm:leading-[25.6px] tracking-[0px]  py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center mb-4 sm:mb-6 transition-colors duration-200" : "bg-gray-400 cursor-not-allowed"}`}>
-                                {fbLoaded ? <FaFacebook color="#1877F3" className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" /> : "Loading..."}
+                                {fbLoaded ? <FaFacebook color="#1877F3" className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" /> : <Loader />}
                                 Log In with Facebook
                             </button>
 

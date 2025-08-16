@@ -6,6 +6,7 @@ import HilalKidsUrdu from "../../assets/hilalKidsUrdu.jpg"
 import HilalUrdu from "../../assets/hilalUrdu.jpg"
 import HilalHer from "../../assets/hilalHer.jpg"
 import HilalKidsEnglish from "../../assets/hilalKidsEnglish.jpg"
+import Loader from '../Loader/loader';
 const fetchArticlesByCategory = async (category) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
   return res.data.data;
@@ -29,40 +30,40 @@ const ArmedForcesNews = () => {
     onError: () => { }, // Handle errors silently
   });
 
-  if (articlesLoading) return <p>Loading...</p>;
+      if (articlesLoading) return <Loader />;
   if (articlesError) return <p>Error fetching articles</p>;
 
   return (
     <>
       <div className='px-4 pb-3'>
-        <div className="flex max-md:flex-wrap gap-2 py-3 justify-center">
+        <div className="flex max-md:flex-wrap gap-4 py-3 justify-center">
 
           <Link to={`/hilal-kids`}>
             <img
               src={HilalKidsEnglish}
               alt={`hilal kids english`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
           <Link to={`/hilal-her`}>
             <img
               src={HilalHer}
               alt={`hilal her`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
           <Link to={`/hilal-urdu-kids/`}>
             <img
               src={HilalKidsUrdu}
               alt={`hilal kids urdu`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
           <Link to={`/hilal-urdu/`}>
             <img
               src={HilalUrdu}
               alt={`hilal urdu`}
-              className="w-20 h-13 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0"
             />
           </Link>
 

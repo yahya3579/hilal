@@ -17,14 +17,13 @@ import {
 import useAuthStore from '../utils/store';
 import axios from "axios";
 
-
-
 const socialIcons = [
     { Icon: Facebook, href: "#" },
     { Icon: Youtube, href: "#" },
     { Icon: Music2, href: "#" },
     { Icon: Instagram, href: "#" },
 ];
+
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -129,6 +128,38 @@ const Navbar = () => {
     const userRole = useAuthStore((state) => state.userRole);
     console.log("User Role:", userRole);
 
+    // Enhanced click outside handler - only closes dropdowns when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Only close if clicking completely outside the navbar area
+            const navbar = document.querySelector("nav");
+            if (navbar && !navbar.contains(event.target)) {
+                setIsCategoryOpen(false);
+                setIsMagazinesOpen(false);
+                setIsEbookOpen(false);
+            }
+
+            // Individual dropdown close logic
+            if (categoryRef.current && !categoryRef.current.contains(event.target)) {
+                setIsCategoryOpen(false);
+            }
+            if (
+                magazinesRef.current &&
+                !magazinesRef.current.contains(event.target)
+            ) {
+                setIsMagazinesOpen(false);
+            }
+            if (ebookRef.current && !ebookRef.current.contains(event.target)) {
+                setIsEbookOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     const handleLogout = async () => {
         try {
             await axios.post(`${import.meta.env.VITE_API_URL}/api/logout/`, {}, { withCredentials: true });
@@ -144,21 +175,15 @@ const Navbar = () => {
         <nav className="relative bg-[#DF1600] text-white shadow-lg z-10">
             <div className="px-4 flex justify-between items-center  h-[75px] py-3 relative">
                 {/* Logo Section */}
-                <div className="absolute -bottom-3 left-4 top-0 w-52 flex items-center bg-white px-2 shadow-lg z-20">
-                    {/* <img
-                        src={section == "hilal-her" ? hilalHerLogo : section == "hilal-kids" ? hilalKidsLogo : Logo}
+                <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
+                    <img
+                        src={Logo}
                         alt="Hilal Publications"
-                        className="h-14 w-full"
-                    /> */}
-                    {currentLogo && (
-                        <img
-                            src={logoMap[currentLogo]}
-                            alt="Section Logo"
-                            className="h-14 w-full "
-                        />
-                    )}
+                        className="h-14 w-auto"
+                    />
                 </div>
-                {/* Mobile Menu Button */}
+
+                {/* Enhanced Mobile Menu Button - Premium White Design */}
                 <button
                     className="lg:hidden absolute right-4 ml-auto z-30 bg-white text-[#DF1600] p-3 rounded-2xl hover:bg-red-50 active:bg-red-100 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-red-300 focus:ring-opacity-30 shadow-2xl border-2 border-red-100 backdrop-blur-sm"
                     onClick={toggleMenu}
@@ -168,10 +193,12 @@ const Navbar = () => {
                 </button>
 
                 {/* Desktop Navigation */}
-                <div className="hidden lg:flex  items-center space-x-3 xl:space-x-6 ml-56 xl:ml-60">
-                    <ul className="flex space-x-2 xl:space-x-6 text-[16px] xl:text-[18px] font-medium">
+                <div className="hidden lg:flex items-center space-x-3 xl:space-x-6 ml-56 xl:ml-60">
+                    <ul className="flex space-x-2 xl:space-x-6 text-base xl:text-lg font-medium">
                         <Link to="/">
-                            <li className="hover:underline cursor-pointer">Home</li>
+                            <li className="hover:underline cursor-pointer transition-all duration-200 hover:text-red-200">
+                                Home
+                            </li>
                         </Link>
                         <li className="relative group cursor-pointer" onClick={handleCategoryClick}>
                             Category <FaChevronDown className="inline ml-1" />
@@ -182,35 +209,51 @@ const Navbar = () => {
                                             National-International-Issues
                                         </Link>
                                     </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/war-on-terror`} className="w-full">
+                                    <li>
+                                        <Link
+                                            to={`/category/war-on-terror`}
+                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
+                                            onClick={handleDropdownLinkClick}
+                                        >
                                             War on Terror
                                         </Link>
                                     </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/special-reports`} className="w-full">
+                                    <li>
+                                        <Link
+                                            to={`/category/special-reports`}
+                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
+                                            onClick={handleDropdownLinkClick}
+                                        >
                                             Special Reports
                                         </Link>
                                     </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/in-focus`} className="w-full">
+                                    <li>
+                                        <Link
+                                            to={`/category/in-focus`}
+                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
+                                            onClick={handleDropdownLinkClick}
+                                        >
                                             In Focus
                                         </Link>
                                     </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/armed-forces-news`} className="w-full">
+                                    <li>
+                                        <Link
+                                            to={`/category/armed-forces-news`}
+                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
+                                            onClick={handleDropdownLinkClick}
+                                        >
                                             Armed Forces News
                                         </Link>
                                     </li>
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/misc`} className="w-full">
+                                    <li>
+                                        <Link
+                                            to={`/category/misc`}
+                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
+                                            onClick={handleDropdownLinkClick}
+                                        >
                                             Misc
                                         </Link>
                                     </li>
-
-
-
-                                    {/* Add more dropdown items here if needed */}
                                 </ul>
                             )}
                         </li>
@@ -277,48 +320,45 @@ const Navbar = () => {
                             )}
                         </li>
                         <li className="relative group cursor-pointer">
-                            <Link to="/archives">Archives</Link>
+                            <Link
+                                to="/archives"
+                                className="hover:underline transition-all duration-200 hover:text-red-200"
+                            >
+                                Archives
+                            </Link>
                         </li>
                         <li className="relative group cursor-pointer">
                             <Link to="/advertise">Advertise</Link>
-
                         </li>
                         <li className="hover:underline cursor-pointer">
-                            <Link to="/ourcontributors">Our Contributors</Link>
+                            <Link
+                                to="/ourcontributors"
+                                className="hover:underline transition-all duration-200 hover:text-red-200"
+                            >
+                                Our Contributors
+                            </Link>
                         </li>
                     </ul>
                 </div>
 
                 <div className="flex items-center space-x-2 xl:space-x-4 ml-auto">
-                    {/* Desktop Action Buttons */}
-                    {/* <div className="flex items-center space-x-2 xl:space-x-4 ml-auto">
-                        {socialIcons.map(({ Icon, href }, idx) => (
-                            <a
-                                key={idx}
-                                href={href}
-                                className="p-3 xl:p-4 rounded hover:bg-red-700 transition-colors"
-                            >
-                                <Icon className="w-4 h-4 xl:w-5 xl:h-5" />
-                            </a>
-                        ))}
-                    </div> */}
-                    <div className="hidden lg:flex ml-auto space-x-2 xl:space-x-4 text-[14px] xl:text-[16px]">
+                    <div className="hidden lg:flex ml-auto space-x-2 xl:space-x-4 text-sm xl:text-base">
                         {accessToken ? (
                             <>
                                 <button
                                     onClick={handleLogout}
-                                    className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer"
+                                    className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 active:scale-95 "
                                 >
                                     Logout
                                 </button>
                                 {userRole === "admin" ? (
                                     <Link to="/admin/dashboard">
-                                        <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
+                                        <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 active:scale-95 ">
                                             Admin
                                         </button>
                                     </Link>
                                 ) : (
-                                    <Link to="/admin/articles-management">
+                                    <Link to="/admin/dashboard">
                                         <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
                                             Author
                                         </button>
@@ -328,7 +368,7 @@ const Navbar = () => {
                         ) : (
                             <>
                                 <Link to="/login">
-                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer">
+                                    <button className="w-28 xl:w-32 bg-white text-[#DF1600] p-2 xl:p-3 font-bold border border-white cursor-pointer hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 active:scale-95 ">
                                         Login
                                     </button>
                                 </Link>
@@ -343,7 +383,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Enhanced Mobile Menu with Modern Clean Design */}
             <div
                 className={`lg:hidden absolute top-20 left-0 right-0 z-50 transition-all duration-500 ease-in-out transform ${isMenuOpen ? "opacity-100 translate-y-0 max-h-screen visible" : "opacity-0 -translate-y-4 max-h-0 overflow-hidden invisible"
                     }`}
@@ -478,7 +518,51 @@ const Navbar = () => {
                                     }`}
                             >
                                 <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
-                                    {/* No options for now - dropdown intentionally left empty */}
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/ebooks/latest-releases"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Latest Releases
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/ebooks/best-sellers"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Best Sellers
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/ebooks/genre-fiction"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Genre Fiction
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/ebooks/genre-non-fiction"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Genre Non-Fiction
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/ebooks/misc"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Misc
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

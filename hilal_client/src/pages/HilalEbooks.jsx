@@ -22,7 +22,7 @@ const HilalEbooks = () => {
         queryFn: fetchArchivedEbooks,
     });
 
-    if (isLoadingEbooks) return Loader;
+    if (isLoadingEbooks) return <Loader />;
     if (ebookError) return <p>Error fetching archives</p>;
 
     return (

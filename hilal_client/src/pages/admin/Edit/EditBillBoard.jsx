@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import useAuthStore from "../../../utils/store";
+import Loader from "../../../components/Loader/loader";
 
 
 
@@ -193,7 +194,7 @@ export default function EditBillBoard() {
         });
     };
 
-    if (isLoading) return <p>Loading billboard...</p>;
+    if (isLoading) return <Loader />;
 
     return (
         <div className="min-h-screen bg-white p-6">

@@ -1,6 +1,8 @@
 from django.db import models
 from api.models import CustomUser
 from django.core.validators import MinValueValidator, MaxValueValidator
+import re
+
 class Articles(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING)
     cover_image = models.CharField(max_length=255, blank=True, null=True)
@@ -110,3 +112,55 @@ class Authors(models.Model):
 
     def __str__(self):
         return self.author_name
+
+    class Meta:
+        managed = False
+        db_table = 'authors'
+
+
+class Videos(models.Model):
+    title = models.CharField(max_length=255)
+    youtube_url = models.URLField(max_length=500)
+    video_id = models.CharField(max_length=20, blank=True, null=True)
+    thumbnail_url = models.URLField(max_length=500, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=8, 
+        choices=[('Active', 'Active'), ('Inactive', 'Inactive')], 
+        default='Active'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    order = models.PositiveIntegerField(default=0)  # For ordering videos
+
+    def save(self, *args, **kwargs):
+        # Extract video ID from YouTube URL
+        if self.youtube_url and not self.video_id:
+            self.video_id = self.extract_video_id(self.youtube_url)
+        
+        # Generate thumbnail URL if not provided
+        if self.video_id and not self.thumbnail_url:
+            self.thumbnail_url = f"https://i.ytimg.com/vi/{self.video_id}/maxresdefault.jpg"
+        
+        super().save(*args, **kwargs)
+
+    def extract_video_id(self, url):
+        """Extract YouTube video ID from various URL formats"""
+        patterns = [
+            r'(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)',
+            r'youtube\.com\/watch\?.*v=([^&\n?#]+)',
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, url)
+            if match:
+                return match.group(1)
+        return None
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        managed = False
+        db_table = 'videos'
+        ordering = ['order', 'created_at']

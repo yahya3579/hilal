@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Loader from "../Loader/loader";
 
 const fetchArticlesByCategory = async (category) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
@@ -14,7 +15,7 @@ const InFocusSection = () => {
         queryFn: () => fetchArticlesByCategory("in-focus"),
     });
 
-    if (isLoading) return <p className="p-4">Loading articles...</p>;
+    if (isLoading) return <Loader />;
     if (error) return <p className="p-4 text-red-500">Error fetching articles</p>;
 
     return (
@@ -54,12 +55,14 @@ const InFocusSection = () => {
                         <div className="grid grid-cols-2 gap-y-2 gap-x-4">
                             {data.slice(1, 5).map((article) => (
                                 <div key={article.id} className="overflow-hidden">
-                                    <img
-                                        src={article.cover_image}
-                                        alt={article.title}
-                                        loading="lazy"
-                                        className="h-[120px] object-cover w-full"
-                                    />
+                                    <Link to={`/article/${article.id}`}>
+                                        <img
+                                            src={article.cover_image}
+                                            alt={article.title}
+                                            loading="lazy"
+                                            className="h-[120px] object-cover w-full"
+                                        />
+                                    </Link>
                                     <div className="py-2">
                                         <p className="text-xs line-clamp-1 text-gray-400 mb-1">{article.writer}</p>
                                         <h4 className="text-xs  font-semibold line-clamp-2 text-black leading-[1.8]">

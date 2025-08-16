@@ -33,6 +33,7 @@ from adminpanel.views import GetBillboardByPositionView,GetAllEbooksView,SingleE
 from adminpanel.views import GetAllMagazinesView, SingleMagazineView, CreateOrUpdateMagazineView
 from adminpanel.views import CreateAuthorView, GetAllAuthorsView, SingleAuthorView
 from adminpanel.views import GetArchivedMagazinesView
+from adminpanel.views import GetAllVideosView, SingleVideoView, CreateVideoView, GetAllVideosManagementView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -81,8 +82,11 @@ urlpatterns = [
     path('api/author/<int:pk>/', SingleAuthorView.as_view(), name='single-author'),  # Get, update, delete a single author
     path('api/author/create/', CreateAuthorView.as_view(), name='create-author'),  # Create a new author
 
-
-
+    # Video management URLs
+    path('api/videos/', GetAllVideosView.as_view(), name='get-all-videos'),  # Get all active videos for frontend
+    path('api/video/<int:pk>/', SingleVideoView.as_view(), name='single-video'),  # Get, update, delete a single video
+    path('api/video/create/', CreateVideoView.as_view(), name='create-video'),  # Create a new video
+    path('api/videos/management/', GetAllVideosManagementView.as_view(), name='get-all-videos-management'),  # Get all videos for admin management
 
        # Ebook management URLs
     path('api/ebooks/', GetAllEbooksView.as_view(), name='get-all-ebooks'),  # Get all ebooks

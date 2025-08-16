@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Comments, Articles, Billboards, Ebook, Magazines, Authors
+from .models import Comments, Articles, Billboards, Ebook, Magazines, Authors, Videos
 
 class CommentSerializer(serializers.ModelSerializer):
     user_first_name = serializers.CharField(source="user.fname", read_only=True)
@@ -53,3 +53,10 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Authors
         fields = ['id', 'user', 'author_image', 'author_name', 'email', 'contact_no', 'no_of_articles', 'status', 'category', 'introduction']
         read_only_fields = ['id']
+
+
+class VideosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Videos
+        fields = ['id', 'title', 'youtube_url', 'video_id', 'thumbnail_url', 'description', 'status', 'created_at', 'updated_at', 'order']
+        read_only_fields = ['id', 'video_id', 'thumbnail_url', 'created_at', 'updated_at']

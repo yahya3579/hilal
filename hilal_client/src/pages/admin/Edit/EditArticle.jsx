@@ -6,6 +6,7 @@ import axios from "axios"; // Import Axios for API calls
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import { useParams } from "react-router-dom"; // Import useParams to get URL parameters
 import useAuthStore from "../../../utils/store";
+import Loader from "../../../components/Loader/loader";
 
 const fetchArticleById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
@@ -178,7 +179,7 @@ export default function EditArticle() {
         });
     };
 
-    if (isFetching) return <p className="p-4">Loading article...</p>;
+    if (isFetching) return <Loader />;
     if (fetchError) return <p className="p-4 text-red-500">Error fetching article</p>;
 
     return (

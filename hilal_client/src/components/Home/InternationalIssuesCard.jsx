@@ -6,11 +6,13 @@ export default function InternationIssuesCard({ article }) {
             <div className="flex flex-col md:flex-row bg-white shadow-sm overflow-hidden">
                 {/* Left side - Image with overlay text */}
                 <div className="relative w-full md:w-[40%] h-[100%] font-poppins">
-                    <img
-                        src={article.cover_image}
-                        alt={article.title}
-                        className="w-full h-[200px] md:h-[266px] object-cover"
-                    />
+                    <Link to={`/article/${article.id}`}>
+                        <img
+                            src={article.cover_image}
+                            alt={article.title}
+                            className="w-full h-[200px] md:h-[266px] object-cover"
+                        />
+                    </Link>
                 </div>
 
                 {/* Right side - Article content */}

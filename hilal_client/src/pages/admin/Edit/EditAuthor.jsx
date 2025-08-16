@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import useAuthStore from "../../../utils/store";
 import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
+import Loader from "../../../components/Loader/loader";
 
 const fetchAuthorById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/author/${id}/`);
@@ -184,7 +185,7 @@ export default function EditAuthor() {
         });
     };
 
-    if (isFetching) return <p className="p-4">Loading author...</p>;
+    if (isFetching) return <Loader />;
     if (fetchError) return <p className="p-4 text-red-500">Error fetching author</p>;
 
     return (
