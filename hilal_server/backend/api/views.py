@@ -74,7 +74,7 @@ class CreateUserView(generics.CreateAPIView):
                     value=str(refresh),
                     httponly=True,
                     secure=False,  # set to True in production with HTTPS
-                    samesite='Lax',
+                    samesite='None',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
                 return response
@@ -111,7 +111,7 @@ class CreateUserView(generics.CreateAPIView):
                     value=str(refresh),
                     httponly=True,
                     secure=False,  # set to True in production with HTTPS
-                    samesite='Lax',
+                    samesite='None',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
             return response
@@ -168,7 +168,7 @@ class GoogleLoginAPIView(APIView):
                     value=str(refresh),
                     httponly=True,
                     secure=True,  # set to True in production with HTTPS
-                    samesite='Lax',
+                    samesite='None',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
             return response
@@ -223,7 +223,7 @@ class FacebookLoginAPIView(APIView):
                     value=str(refresh),
                     httponly=True,
                     secure=True,  # set to True in production with HTTPS
-                    samesite='Lax',
+                    samesite='None',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
         return response
@@ -252,7 +252,7 @@ class CustomLoginView(TokenObtainPairView):
                 value=str(refresh),
                 httponly=True,
                 secure=True,  # set True in production
-                samesite='Lax',
+                samesite='None',
                 max_age=7 * 24 * 60 * 60
             )
 
@@ -284,7 +284,7 @@ class LoginView(APIView):
                 value=str(refresh),
                 httponly=True,
                 secure=True,  # use True in production with HTTPS
-                samesite='Lax',  # or 'Strict'
+                samesite='None',  # or 'Strict'
                 max_age=7 * 24 * 60 * 60  # 7 days
             )
             
