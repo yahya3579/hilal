@@ -167,7 +167,7 @@ class GoogleLoginAPIView(APIView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=False,  # set to True in production with HTTPS
+                    secure=True,  # set to True in production with HTTPS
                     samesite='Lax',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
@@ -222,7 +222,7 @@ class FacebookLoginAPIView(APIView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=False,  # set to True in production with HTTPS
+                    secure=True,  # set to True in production with HTTPS
                     samesite='Lax',
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
@@ -251,7 +251,7 @@ class CustomLoginView(TokenObtainPairView):
                 key='refresh_token',
                 value=str(refresh),
                 httponly=True,
-                secure=False,  # set True in production
+                secure=True,  # set True in production
                 samesite='Lax',
                 max_age=7 * 24 * 60 * 60
             )
@@ -283,7 +283,7 @@ class LoginView(APIView):
                 key='refresh_token',
                 value=str(refresh),
                 httponly=True,
-                secure=False,  # use True in production with HTTPS
+                secure=True,  # use True in production with HTTPS
                 samesite='Lax',  # or 'Strict'
                 max_age=7 * 24 * 60 * 60  # 7 days
             )
