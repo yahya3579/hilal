@@ -14,7 +14,7 @@ class Articles(models.Model):
     writer = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=100, blank=True, null=True)
-    section = models.CharField(max_length=100, blank=True, null=True)  # New field for section
+    # section = models.CharField(max_length=100, blank=True, null=True)  # New field for section
     
     class Meta:
         managed = True
