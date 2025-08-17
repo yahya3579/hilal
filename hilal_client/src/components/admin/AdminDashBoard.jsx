@@ -12,8 +12,14 @@ import {
 
 // API function to fetch dashboard stats
 const fetchDashboardStats = async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/dashboard/stats/`);
-    return res.data.data;
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/dashboard/stats/`);
+        console.log("Dashboard stats response:", res.data);
+        return res.data.data;
+    } catch (error) {
+        console.error("Error fetching dashboard stats:", error.response?.data || error.message);
+        throw error;
+    }
 };
 
 const AdminDashboard = () => {
@@ -95,8 +101,8 @@ const AdminDashboard = () => {
                 <div className="w-px h-8 bg-blue-400 mx-auto mt-2"></div>
             </div>
 
-            {/* Stats Grid - Updated for 5 cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mx-auto max-w-7xl">
+            {/* Stats Grid - Updated for 6 cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mx-auto max-w-8xl">
                 {stats.map((stat, index) => {
                     const IconComponent = stat.icon
                     return (
