@@ -270,12 +270,25 @@ export default function EditArticle() {
                                             <option value="">Select category</option>
 
                                             <option value="in-focus">In-Focus</option>
+                                            <option value="in-focus-urdu">In-Focus-Urdu</option>
+                                            <option value="in-focus-urdu-kids">In-Focus-Urdu-Kids</option>
+                                            <option value="in-focus-her">In-Focus-Her</option>
+                                            <option value="in-focus-kids">In-Focus-Kids</option>
                                             <option value="trending1">Trending1</option>
+                                            <option value="trending-kids">Trending-Kids</option>
+                                            <option value="trending1-her">Trending-Her</option>
+                                            <option value="trending1-urdu">Trending1-Urdu</option>
+                                            <option value="trending1-kids-urdu">Trending1-Kids-Urdu</option>
                                             <option value="trending2">Trending2</option>
+                                            <option value="trending2-urdu">Trending2-Urdu</option>
+                                            <option value="trending2-her">Trending2-Her</option>
+                                            <option value="trending2-kids">Trending2-Kids</option>
+                                            <option value="trending2-kids-urdu">Trending2-Kids-Urdu</option>
                                             <option value="digital">Digital</option>
                                             <option value="war-on-terror">War on Terror</option>
                                             <option value="special-reports">Special Reports</option>
                                             <option value="armed-forces-news">Armed Forces News</option>
+                                            <option value="armed-forces-news-urdu">Armed Forces News-Urdu</option>
                                             <option value="national-and-international-news">National and International News</option>
                                             <option value="hilal-kids-english">Hilal Kids-English</option>
                                             <option value="hilal-her">Hilal Her</option>

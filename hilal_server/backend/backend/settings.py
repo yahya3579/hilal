@@ -230,7 +230,7 @@ CORS_ALLOW_METHODS = [
 
 AUTH_USER_MODEL = "api.CustomUser"
 
-
+#helloi
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',

@@ -38,7 +38,7 @@ export default function EditMagazine() {
         direction: "",
         status: "Active",
         cover_image: null,
-        is_archived: false, // Added is_archived field
+
         doc_url: null, // Added doc_url field
     });
     const [errors, setErrors] = useState({});
@@ -63,7 +63,6 @@ export default function EditMagazine() {
                 status: data.status || "Active",
                 cover_image: data.cover_image || null,
                 doc_url: data.doc_url || null, // Populate doc_url
-                is_archived: data.is_archived || false,
             });
         },
     });
@@ -95,7 +94,6 @@ export default function EditMagazine() {
                 direction: magazineData.direction || "",
                 status: magazineData.status || "Active",
                 cover_image: magazineData.cover_image || null,
-                is_archived: magazineData.is_archived || false, // Populate is_archived
                 doc_url: magazineData.doc_url || null, // Populate doc_url
             });
         }
@@ -176,10 +174,7 @@ export default function EditMagazine() {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: checked }));
-    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -430,19 +425,7 @@ export default function EditMagazine() {
                                 </div>
                             </div>
 
-                            {/* Add to Archive Checkbox */}
-                            <div className="flex gap-2">
-                                <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">
-                                    Add to Archive
-                                </label>
-                                <input
-                                    type="checkbox"
-                                    name="is_archived"
-                                    checked={formData.is_archived}
-                                    onChange={handleCheckboxChange}
-                                    className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
-                                />
-                            </div>
+
                         </div>
 
                         {/* Submit Button */}

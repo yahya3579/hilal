@@ -13,9 +13,13 @@ const fetchArticlesByCategory = async (category) => {
 };
 
 const fetchBillboardByLocation = async (location) => {
-  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/billboard/location/${location}/`);
-  console.log("Billboard data:", res.data.data);
-  return res.data.data;
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/billboard/location/${location}/`);
+    return res.data.data;
+  } catch (error) {
+    // Return null for 404s and other errors to show default content
+    return null;
+  }
 };
 
 const ArmedForcesNews = () => {
@@ -25,12 +29,13 @@ const ArmedForcesNews = () => {
   });
 
   const { data: billboard, isLoading: billboardLoading, error: billboardError } = useQuery({
-    queryKey: ['billboard', 'location-6'],
+    queryKey: ['billboard', 'location-1'],
     queryFn: () => fetchBillboardByLocation(1),
-    onError: () => { }, // Handle errors silently
+    retry: false, // Don't retry on failures
+    refetchOnWindowFocus: false, // Don't refetch when window gains focus
   });
 
-      if (articlesLoading) return <Loader />;
+  if (articlesLoading) return <Loader />;
   if (articlesError) return <p>Error fetching articles</p>;
 
   return (
@@ -38,33 +43,45 @@ const ArmedForcesNews = () => {
       <div className='px-4 pb-3'>
         <div className="flex max-md:flex-wrap gap-4 py-3 justify-center">
 
-          <Link to={`/hilal-kids`}>
+          <Link to={`/hilal-kids`} className="relative group">
             <img
               src={HilalKidsEnglish}
               alt={`hilal kids english`}
-              className="w-20 h-28 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
             />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+              <span className="text-white text-xs font-bold text-center px-1">Hilal Kids English</span>
+            </div>
           </Link>
-          <Link to={`/hilal-her`}>
+          <Link to={`/hilal-her`} className="relative group">
             <img
               src={HilalHer}
               alt={`hilal her`}
-              className="w-20 h-28 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
             />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+              <span className="text-white text-xs font-bold text-center px-1">Hilal Her</span>
+            </div>
           </Link>
-          <Link to={`/hilal-urdu-kids/`}>
+          <Link to={`/hilal-urdu-kids/`} className="relative group">
             <img
               src={HilalKidsUrdu}
               alt={`hilal kids urdu`}
-              className="w-20 h-28 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
             />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+              <span className="text-white text-xs font-bold text-center px-1">Hilal Kids Urdu</span>
+            </div>
           </Link>
-          <Link to={`/hilal-urdu/`}>
+          <Link to={`/hilal-urdu/`} className="relative group">
             <img
               src={HilalUrdu}
               alt={`hilal urdu`}
-              className="w-20 h-28 object-cover flex-shrink-0"
+              className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
             />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+              <span className="text-white text-xs font-bold text-center px-1">Hilal Urdu</span>
+            </div>
           </Link>
 
         </div>

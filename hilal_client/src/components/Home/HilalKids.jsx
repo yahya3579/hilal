@@ -19,8 +19,7 @@ const HilalKidsEnglish = () => {
     if (isLoading) return <Loader />;
     if (error) return <p>Error fetching articles</p>;
 
-    // Shuffle articles randomly
-    const shuffledArticles = [...articles].sort(() => Math.random() - 0.5);
+
 
     return (
         <div className="py-2 px-4 font-poppins">
@@ -32,7 +31,7 @@ const HilalKidsEnglish = () => {
 
                 {/* Images Grid */}
                 <div className="grid lg:grid-cols-3 grid-cols-1 gap-4">
-                    {shuffledArticles.slice(0, 6).map((article) => (
+                    {articles.slice(0, 6).map((article) => (
                         <div key={article.id} className="bg-white overflow-hidden transition-shadow cursor-pointer">
                             {/* Image Section */}
                             <Link to={`/article/${article.id}`}>

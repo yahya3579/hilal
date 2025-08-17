@@ -2,17 +2,17 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Loader from "./Loader/loader";
+import Loader from "../../Loader/loader";
 
 const fetchArticlesByCategory = async (category) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
     return res.data.data;
 };
 
-const InFocusSectionUrdu = () => {
+const InFocusSectionUrduKids = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["articles", "in-focus"],
-        queryFn: () => fetchArticlesByCategory("in-focus-urdu"),
+        queryFn: () => fetchArticlesByCategory("in-focus-urdu-kids"),
     });
 
     if (isLoading) return <Loader />;
@@ -86,4 +86,4 @@ const InFocusSectionUrdu = () => {
     );
 };
 
-export default InFocusSectionUrdu;
+export default InFocusSectionUrduKids;

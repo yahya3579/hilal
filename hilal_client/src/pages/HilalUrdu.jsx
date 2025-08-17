@@ -1,99 +1,141 @@
-import TrendingHilalPublications from "../components/Home/TrendingHilalPublications";
-import HilalDigital from "../components/Home/HilalDigital";
-import ArmedForcesNews from "../components/Home/ArmedForcesNews";
-import HilalDigital2 from "../components/Home/Hillal_Digital_2";
-import PreviousMonthHilal from "../components/Home/PreviousMonthHilal";
-import ReaderOpinion from "../components/Home/ReaderOpinion";
-import InFocusSection from "../components/Home/InFocus";
-import TrendingHilalSection from "../components/Home/TrendingHilal";
-import NewsLetter from "../components/Home/NewsLetter";
-import Advertisement2 from "../components/Home/Advertisement2";
-import Advertisement1 from "../components/Home/Advertisement1";
-import Advertisement4 from "../components/Home/Advertisement4";
-import GoogleSignInButton from "./Google";
+import React, { Suspense, lazy, useState, useEffect } from "react";
 
+// Lazy load components for performance optimization
+const TrendingHilalPublicationsUrdu = lazy(() => import("../components/urdu/TrendingHilalPublicationsUrdu"));
+const HilalDigitalUrdu = lazy(() => import("../components/urdu/HilalDigitalUrdu"));
+const ArmedForcesNewsUrdu = lazy(() => import("../components/urdu/ArmedForcesNewsUrdu"));
+const NewsLetterUrdu = lazy(() => import("../components/urdu/NewsLetterUrdu"));
+const InFocusSectionUrdu = lazy(() => import("../components/InFocusUrdu"));
+const PreviousMonthHilalUrdu = lazy(() => import("../components/urdu/PreviousMonthHiilalUrdu"));
+const ReaderOpinionUrdu = lazy(() => import("../components/urdu/ReadersOpinionUrdu"));
+const HilalDigital2Urdu = lazy(() => import("../components/urdu/HilalDigital2Urdu"));
+const Advertisement2Urdu = lazy(() => import("../components/urdu/Advertisment2Urdu"));
+const TrendingHilalSectionUrdu = lazy(() => import("../components/urdu/TrendingHilalSectionUrdu"));
+const Advertisement1 = lazy(() => import("../components/Home/Advertisement1"));
+const Advertisement4 = lazy(() => import("../components/Home/Advertisement4"));
 
+// Loading skeleton component
+const ComponentSkeleton = ({ height = "h-48", width = "w-full" }) => (
+    <div className={`${width} ${height} bg-gray-200 animate-pulse rounded-lg mb-4`}>
+        <div className="p-4 space-y-3">
+            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+            <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+        </div>
+    </div>
+);
 
-import { useRef, useEffect, useState } from "react";
-import TrendingHilalPublicationsUrdu from "../components/urdu/TrendingHilalPublicationsUrdu";
-import HilalDigitalUrdu from "../components/urdu/HilalDigitalUrdu";
-import ArmedForcesNewsUrdu from "../components/urdu/ArmedForcesNewsUrdu";
-import NewsLetterUrdu from "../components/urdu/NewsLetterUrdu";
-import InFocusSectionUrdu from "../components/InFocusUrdu";
-import PreviousMonthHilalUrdu from "../components/urdu/PreviousMonthHiilalUrdu";
-import ReaderOpinionUrdu from "../components/urdu/ReadersOpinionUrdu";
-import HilalDigital2Urdu from "../components/urdu/HilalDigital2Urdu";
-import Advertisement2Urdu from "../components/urdu/Advertisment2Urdu";
-import TrendingHilalSectionUrdu from "../components/urdu/TrendingHilalSectionUrdu";
-
-const HilalUrdu = () => {
-    const leftRef = useRef(null);
-    const [canScroll, setCanScroll] = useState(false);
+// Intersection Observer hook for lazy loading
+const useIntersectionObserver = (threshold = 0.1) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const [targetRef, setTargetRef] = useState(null);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (!leftRef.current) return;
+        if (!targetRef) return;
 
-            const rect = leftRef.current.getBoundingClientRect();
-            const bottomReached =
-                rect.bottom <= window.innerHeight - 70; // bottom within 70px
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold }
+        );
 
-            setCanScroll(bottomReached);
-        };
+        observer.observe(targetRef);
+        return () => observer.disconnect();
+    }, [targetRef, threshold]);
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    return [setTargetRef, isVisible];
+};
+
+const HilalUrdu = () => {
+    const [belowFoldRef, belowFoldVisible] = useIntersectionObserver(0.1);
+    const [bottomRef, bottomVisible] = useIntersectionObserver(0.1);
 
     return (
         <>
             <div className="flex lg:flex-row flex-col">
-                {/* LEFT COLUMN */}
-
-
-                {/* RIGHT COLUMN */}
+                {/* RIGHT COLUMN - RTL layout, sidebar on right */}
                 <div className="lg:w-[30%] relative">
                     <div className="sticky top-0">
                         <div style={{ scrollbarWidth: "none" }} className="overflow-y-auto max-h-screen">
-                            <ArmedForcesNewsUrdu />
-                            <Advertisement1 />
-                            <NewsLetterUrdu />
-                            <Advertisement2Urdu />
+                            <Suspense fallback={<ComponentSkeleton height="h-40" />}>
+                                <ArmedForcesNewsUrdu />
+                            </Suspense>
+
+                            <Suspense fallback={<ComponentSkeleton height="h-32" />}>
+                                <Advertisement1 />
+                            </Suspense>
+
+                            <Suspense fallback={<ComponentSkeleton height="h-36" />}>
+                                <NewsLetterUrdu />
+                            </Suspense>
+
+                            <Suspense fallback={<ComponentSkeleton height="h-32" />}>
+                                <Advertisement2Urdu />
+                            </Suspense>
                         </div>
                     </div>
                 </div>
-                <div
-                    ref={leftRef}
-                    style={{ scrollbarWidth: "none" }}
-                    className={`lg:w-[70%] ${canScroll ? "overflow-y-auto" : "overflow-hidden"
-                        } max-h-screen`}
-                >
+
+                {/* LEFT COLUMN - RTL layout, main content on left */}
+                <div style={{ scrollbarWidth: "none" }} className="lg:w-[70%] overflow-y-auto max-h-screen">
                     <div className="flex lg:flex-row flex-col">
                         <div className="lg:w-1/4">
-                            <HilalDigitalUrdu />
+                            <Suspense fallback={<ComponentSkeleton height="h-48" />}>
+                                <HilalDigitalUrdu />
+                            </Suspense>
                         </div>
                         <div className="lg:w-3/4">
-                            <TrendingHilalPublicationsUrdu />
+                            <Suspense fallback={<ComponentSkeleton height="h-64" />}>
+                                <TrendingHilalPublicationsUrdu />
+                            </Suspense>
                         </div>
-
                     </div>
-                    <InFocusSectionUrdu />
-                    <TrendingHilalSectionUrdu />
+
+                    <Suspense fallback={<ComponentSkeleton height="h-56" />}>
+                        <InFocusSectionUrdu />
+                    </Suspense>
+
+                    <Suspense fallback={<ComponentSkeleton height="h-64" />}>
+                        <TrendingHilalSectionUrdu />
+                    </Suspense>
                 </div>
-
-
             </div>
 
-            <Advertisement4 />
-            <HilalDigital2Urdu />
+            {/* Below-the-fold content - Loads only when scrolled into view */}
+            <div ref={belowFoldRef}>
+                {belowFoldVisible && (
+                    <>
+                        <Suspense fallback={<ComponentSkeleton height="h-40" />}>
+                            <Advertisement4 />
+                        </Suspense>
 
-            <div className="flex lg:flex-row flex-col px-4 py-2 gap-x-4">
-                <div className="lg:w-[70%]">
-                    <PreviousMonthHilalUrdu />
-                </div>
-                <div>
-                    <ReaderOpinionUrdu />
-                </div>
+                        <Suspense fallback={<ComponentSkeleton height="h-48" />}>
+                            <HilalDigital2Urdu />
+                        </Suspense>
+                    </>
+                )}
+            </div>
+
+            {/* Bottom section - Loads when user scrolls further */}
+            <div ref={bottomRef}>
+                {bottomVisible && (
+                    <div className="flex lg:flex-row flex-col px-4 py-2 gap-x-4">
+                        <div className="lg:w-[70%]">
+                            <Suspense fallback={<ComponentSkeleton height="h-56" />}>
+                                <PreviousMonthHilalUrdu />
+                            </Suspense>
+                        </div>
+                        <div>
+                            <Suspense fallback={<ComponentSkeleton height="h-48" />}>
+                                <ReaderOpinionUrdu />
+                            </Suspense>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

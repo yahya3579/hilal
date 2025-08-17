@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 import re
 
 class Articles(models.Model):
-    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING,null=True,blank=True)
     cover_image = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=255)
     publish_date = models.DateTimeField(blank=True, null=True)
@@ -23,8 +23,8 @@ class Articles(models.Model):
 
 class Comments(models.Model):
     comment = models.TextField()
-    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
-    article = models.ForeignKey(Articles, models.DO_NOTHING)
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING,null=True,blank=True)
+    article = models.ForeignKey(Articles, models.DO_NOTHING,null=True,blank=True)
     created_at = models.DateTimeField(blank=True, null=True)
     rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)],
@@ -38,7 +38,7 @@ class Comments(models.Model):
 
 class Roles(models.Model):
     name = models.CharField(unique=True, max_length=50)
-    user = models.ForeignKey(CustomUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING,null=True,blank=True)
 
     class Meta:
         managed = True
@@ -100,7 +100,7 @@ class Ebook(models.Model):
 
 
 class Authors(models.Model):
-    user = models.ForeignKey(CustomUser, models.DO_NOTHING)
+    user = models.ForeignKey(CustomUser, models.DO_NOTHING,null=True,blank=True)
     author_image = models.CharField(max_length=255, blank=True, null=True)
     author_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)

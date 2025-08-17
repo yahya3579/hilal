@@ -33,7 +33,7 @@ const HilalArchives = () => {
     queryFn: fetchArchivedMagazines,
   });
   const { data: ebookData = [], isLoading: isLoadingEbooks, error: ebookError } = useQuery({
-    queryKey: ["archivedEbooks"],
+    queryKey: ["archivedEbooksOnly"],
     queryFn: fetchArchivedEbooks,
   });
 

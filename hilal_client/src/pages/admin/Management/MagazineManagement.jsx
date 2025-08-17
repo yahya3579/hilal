@@ -16,6 +16,11 @@ const deleteMagazine = async (id) => {
     await axios.delete(`${import.meta.env.VITE_API_URL}/api/magazine/${id}/`);
 };
 
+const toggleMagazineArchive = async (id) => {
+    const res = await axios.patch(`${import.meta.env.VITE_API_URL}/api/magazine/${id}/toggle-archive/`);
+    return res.data;
+};
+
 const MagazineManagement = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -26,7 +31,7 @@ const MagazineManagement = () => {
         queryFn: fetchMagazines,
     });
 
-    const mutation = useMutation({
+    const deleteMutation = useMutation({
         mutationFn: deleteMagazine,
         onSuccess: () => {
             showToast("Magazine deleted successfully!", "success");
@@ -34,6 +39,18 @@ const MagazineManagement = () => {
         },
         onError: (error) => {
             showToast(`Error deleting magazine: ${error.response?.data || error.message}`, "error");
+        },
+    });
+
+    const archiveMutation = useMutation({
+        mutationFn: toggleMagazineArchive,
+        onSuccess: (data) => {
+            const action = data.is_archived ? "archived" : "unarchived";
+            showToast(`Magazine ${action} successfully!`, "success");
+            queryClient.invalidateQueries(["magazines"]); // Refetch magazines data
+        },
+        onError: (error) => {
+            showToast(`Error updating magazine: ${error.response?.data?.error || error.message}`, "error");
         },
     });
 
@@ -74,6 +91,7 @@ const MagazineManagement = () => {
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Language</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Direction</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Status</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Archive Status</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Actions</th>
                             </tr>
                         </thead>
@@ -109,6 +127,11 @@ const MagazineManagement = () => {
                                         </button>
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
+                                        <button className={`px-4 py-1 rounded text-[10.89px] font-bold ${magazine.is_archived ? "bg-[#FF6B35] text-white" : "bg-[#4F8EF7] text-white"}`}>
+                                            {magazine.is_archived ? "Archived" : "Active"}
+                                        </button>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
                                         <select
                                             defaultValue=""
 
@@ -119,13 +142,22 @@ const MagazineManagement = () => {
                                                     navigate(`/admin/edit-magazine/${magazine.id}`);
                                                 } else if (action === "delete") {
                                                     if (window.confirm("Are you sure you want to delete this magazine?")) {
-                                                        mutation.mutate(magazine.id);
+                                                        deleteMutation.mutate(magazine.id);
+                                                    }
+                                                } else if (action === "archive") {
+                                                    const actionText = magazine.is_archived ? "remove from archive" : "add to archive";
+                                                    if (window.confirm(`Are you sure you want to ${actionText} this magazine?`)) {
+                                                        archiveMutation.mutate(magazine.id);
                                                     }
                                                 }
+                                                e.target.value = ""; // Reset dropdown
                                             }}
                                         >
                                             <option disabled value="">Action</option>
                                             <option value="edit">Edit</option>
+                                            <option value="archive">
+                                                {magazine.is_archived ? "Remove from Archive" : "Add to Archive"}
+                                            </option>
                                             <option value="delete">Delete</option>
                                         </select>
                                     </td>

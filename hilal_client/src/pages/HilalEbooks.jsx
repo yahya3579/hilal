@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loader from "../components/Loader/loader";
 
-const fetchArchivedEbooks = async () => {
+const fetchActiveEbooks = async () => {
     try {
         const res = await axios.get(
-            `${import.meta.env.VITE_API_URL}/api/ebooks/`
+            `${import.meta.env.VITE_API_URL}/api/ebooks/active/`
         );
         console.log("API Response:", res.data); // Debugging log
-        return res.data.data; // Ensure it always returns an array
+        return res.data?.data || []; // Ensure it always returns an array even if data is undefined
     } catch (error) {
-        console.error("Error fetching archived ebooks:", error); // Log the error
+        console.error("Error fetching active ebooks:", error); // Log the error
         return []; // Return an empty array in case of an error
     }
 };
@@ -18,8 +18,8 @@ const fetchArchivedEbooks = async () => {
 const HilalEbooks = () => {
 
     const { data: ebookData = [], isLoading: isLoadingEbooks, error: ebookError } = useQuery({
-        queryKey: ["archivedEbooks"],
-        queryFn: fetchArchivedEbooks,
+        queryKey: ["activeEbooks"],
+        queryFn: fetchActiveEbooks,
     });
 
     if (isLoadingEbooks) return <Loader />;
