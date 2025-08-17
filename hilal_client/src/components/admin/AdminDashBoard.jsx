@@ -1,97 +1,90 @@
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import {
     BookOpen,
     Archive,
-    Tablet,
     Book,
     Users,
-    TrendingUp,
-    Mic,
-    UserCheck,
-    Wifi,
     MessageSquare,
-    Globe,
+    Video,
 } from "lucide-react"
 
+// API function to fetch dashboard stats
+const fetchDashboardStats = async () => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/dashboard/stats/`);
+    return res.data.data;
+};
+
 const AdminDashboard = () => {
-    const stats = [
+    const { data: dashboardStats, isLoading, error } = useQuery({
+        queryKey: ["dashboardStats"],
+        queryFn: fetchDashboardStats,
+    });
+
+    // Define the stats configuration with placeholders
+    const statsConfig = [
         {
             title: "TOTAL ARTICLES",
-            value: "10,076",
+            dataKey: "total_articles",
             icon: BookOpen,
             bgColor: "bg-gradient-to-br from-red-500 to-red-600",
             iconBg: "bg-red-400/30",
         },
         {
             title: "TOTAL ARCHIVE MAGAZINES",
-            value: "5,202",
+            dataKey: "total_archived_magazines",
             icon: Archive,
             bgColor: "bg-gradient-to-br from-blue-500 to-blue-600",
             iconBg: "bg-blue-400/30",
         },
         {
-            title: "TOTAL DIGITAL MAGAZINES",
-            value: "405",
-            icon: Tablet,
-            bgColor: "bg-gradient-to-br from-yellow-500 to-yellow-600",
-            iconBg: "bg-yellow-400/30",
-        },
-        {
             title: "TOTAL E-BOOKS",
-            value: "16",
+            dataKey: "total_ebooks",
             icon: Book,
             bgColor: "bg-gradient-to-br from-green-500 to-green-600",
             iconBg: "bg-green-400/30",
         },
         {
             title: "TOTAL AUTHORS",
-            value: "2,070",
+            dataKey: "total_authors",
             icon: Users,
             bgColor: "bg-gradient-to-br from-purple-500 to-purple-600",
             iconBg: "bg-purple-400/30",
         },
         {
-            title: "TOTAL VIEWS",
-            value: "345",
-            icon: TrendingUp,
+            title: "TOTAL COMMENTS",
+            dataKey: "total_comments",
+            icon: MessageSquare,
             bgColor: "bg-gradient-to-br from-orange-500 to-orange-600",
             iconBg: "bg-orange-400/30",
         },
         {
-            title: "TOTAL SPEECHES",
-            value: "3",
-            icon: Mic,
-            bgColor: "bg-gradient-to-br from-orange-600 to-orange-700",
-            iconBg: "bg-orange-500/30",
-        },
-        {
-            title: "TOTAL TEAM MEMBERS",
-            value: "29",
-            icon: UserCheck,
+            title: "TOTAL VIDEOS",
+            dataKey: "total_videos",
+            icon: Video,
             bgColor: "bg-gradient-to-br from-pink-500 to-pink-600",
             iconBg: "bg-pink-400/30",
         },
-        {
-            title: "TOTAL ONLINE SUBSCRIPTIONS",
-            value: "6",
-            icon: Wifi,
-            bgColor: "bg-gradient-to-br from-teal-500 to-teal-600",
-            iconBg: "bg-teal-400/30",
-        },
-        {
-            title: "TOTAL APPROVED COMMENTS",
-            value: "9",
-            icon: MessageSquare,
-            bgColor: "bg-gradient-to-br from-purple-600 to-purple-700",
-            iconBg: "bg-purple-500/30",
-        },
-        {
-            title: "TOTAL LANGUAGES",
-            value: "11",
-            icon: Globe,
-            bgColor: "bg-gradient-to-br from-gray-500 to-gray-600",
-            iconBg: "bg-gray-400/30",
-        },
-    ]
+    ];
+
+    // Create stats array with real data
+    const stats = statsConfig.map(config => ({
+        ...config,
+        value: isLoading ? "..." : (dashboardStats?.[config.dataKey]?.toLocaleString() || "0")
+    }));
+
+    // Show error state
+    if (error) {
+        return (
+            <div className="min-h-screen bg-[#DEE1E6] p-6 flex items-center justify-center">
+                <div className="text-center">
+                    <h2 className="text-2xl font-bold text-red-600 mb-2">Error Loading Dashboard</h2>
+                    <p className="text-gray-600">Unable to fetch dashboard statistics. Please try again later.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[#DEE1E6] p-6">
@@ -102,8 +95,8 @@ const AdminDashboard = () => {
                 <div className="w-px h-8 bg-blue-400 mx-auto mt-2"></div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 mx-auto">
+            {/* Stats Grid - Updated for 5 cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mx-auto max-w-7xl">
                 {stats.map((stat, index) => {
                     const IconComponent = stat.icon
                     return (
@@ -111,19 +104,19 @@ const AdminDashboard = () => {
                             key={index}
                             className={`${stat.bgColor} rounded-lg p-6 text-white shadow-lg hover:shadow-xl transition-shadow duration-300 relative overflow-hidden`}
                         >
-                            {/* Background Icon */}
-                            <div className={`absolute top-4 right-4 ${stat.iconBg} rounded-full p-3`}>
-                                <IconComponent className="w-8 h-8 text-white/80" />
+                            {/* Background Icon - Better positioning */}
+                            <div className={`absolute top-3 right-3 ${stat.iconBg} rounded-full p-2.5 shadow-sm`}>
+                                <IconComponent className="w-6 h-6 text-white" />
                             </div>
 
-                            {/* Content */}
-                            <div className="relative z-10">
-                                <div className="text-sm font-medium mb-2 opacity-90">{stat.title}</div>
-                                <div className="text-4xl font-bold mb-4">{stat.value}</div>
-                                <button className="bg-black/20 hover:bg-black/30 text-white text-sm px-4 py-2 rounded transition-colors duration-200 flex items-center gap-2">
+                            {/* Content - Better spacing and alignment */}
+                            <div className="relative z-10 h-full flex flex-col">
+                                <div className="text-xs font-semibold mb-3 opacity-95 uppercase tracking-wide">{stat.title}</div>
+                                <div className="text-3xl font-bold mb-auto">{stat.value}</div>
+                                <button className="bg-black/20 hover:bg-black/30 text-white text-xs font-medium px-3 py-2 rounded-md transition-all duration-200 flex items-center justify-center gap-2 mt-4 self-start">
                                     View Detail
-                                    <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center">
-                                        <span className="text-xs">→</span>
+                                    <span className="bg-white/25 rounded-full w-4 h-4 flex items-center justify-center">
+                                        <span className="text-xs leading-none">→</span>
                                     </span>
                                 </button>
                             </div>

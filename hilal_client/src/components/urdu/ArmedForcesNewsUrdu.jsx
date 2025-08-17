@@ -39,33 +39,45 @@ const ArmedForcesNewsUrdu = () => {
             <div className='px-4 pb-3'>
                 <div className="flex max-md:flex-wrap gap-2 py-3 justify-center">
 
-                    <Link to={`/hilal-kids`}>
+                    <Link to={`/hilal-kids`} className="relative group">
                         <img
                             src={HilalKidsEnglish}
                             alt={`hilal kids english`}
-                            className="w-20 h-13 object-cover flex-shrink-0"
+                            className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+                            <span className="text-white text-xs font-bold text-center px-1">ہلال کڈز انگلش</span>
+                        </div>
                     </Link>
-                    <Link to={`/hilal-her`}>
+                    <Link to={`/hilal-her`} className="relative group">
                         <img
                             src={HilalHer}
                             alt={`hilal her`}
-                            className="w-20 h-13 object-cover flex-shrink-0"
+                            className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+                            <span className="text-white text-xs font-bold text-center px-1">ہلال ہر</span>
+                        </div>
                     </Link>
-                    <Link to={`/hilal-urdu-kids/`}>
+                    <Link to={`/hilal-urdu-kids/`} className="relative group">
                         <img
                             src={HilalKidsUrdu}
                             alt={`hilal kids urdu`}
-                            className="w-20 h-13 object-cover flex-shrink-0"
+                            className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+                            <span className="text-white text-xs font-bold text-center px-1">ہلال کڈز اردو</span>
+                        </div>
                     </Link>
-                    <Link to={`/hilal-urdu/`}>
+                    <Link to={`/hilal-urdu/`} className="relative group">
                         <img
                             src={HilalUrdu}
                             alt={`hilal urdu`}
-                            className="w-20 h-13 object-cover flex-shrink-0"
+                            className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
+                            <span className="text-white text-xs font-bold text-center px-1">ہلال اردو</span>
+                        </div>
                     </Link>
 
                 </div>

@@ -15,6 +15,11 @@ const deleteEbook = async (id) => {
     await axios.delete(`${import.meta.env.VITE_API_URL}/api/ebook/${id}/`);
 };
 
+const toggleEbookArchive = async (id) => {
+    const res = await axios.patch(`${import.meta.env.VITE_API_URL}/api/ebook/${id}/toggle-archive/`);
+    return res.data;
+};
+
 const EbookManagement = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -24,7 +29,7 @@ const EbookManagement = () => {
         queryFn: fetchEbooks,
     });
 
-    const mutation = useMutation({
+    const deleteMutation = useMutation({
         mutationFn: deleteEbook,
         onSuccess: () => {
             alert("Ebook deleted successfully!");
@@ -32,6 +37,18 @@ const EbookManagement = () => {
         },
         onError: (error) => {
             alert(`Error deleting ebook: ${error.response?.data || error.message}`);
+        },
+    });
+
+    const archiveMutation = useMutation({
+        mutationFn: toggleEbookArchive,
+        onSuccess: (data) => {
+            const action = data.is_archived ? "archived" : "unarchived";
+            alert(`Ebook ${action} successfully!`);
+            queryClient.invalidateQueries(["ebooks"]); // Refetch ebooks data
+        },
+        onError: (error) => {
+            alert(`Error updating ebook: ${error.response?.data?.error || error.message}`);
         },
     });
 
@@ -72,6 +89,7 @@ const EbookManagement = () => {
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Language</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Direction</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Status</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Archive Status</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Actions</th>
                             </tr>
                         </thead>
@@ -107,6 +125,11 @@ const EbookManagement = () => {
                                         </button>
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
+                                        <button className={`px-4 py-1 rounded text-[10.89px] font-bold ${ebook.is_archived ? "bg-[#FF6B35] text-white" : "bg-[#4F8EF7] text-white"}`}>
+                                            {ebook.is_archived ? "Archived" : "Active"}
+                                        </button>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
                                         <select
                                             defaultValue=""
 
@@ -117,13 +140,22 @@ const EbookManagement = () => {
                                                     navigate(`/admin/edit-ebook/${ebook.id}`);
                                                 } else if (action === "delete") {
                                                     if (window.confirm("Are you sure you want to delete this ebook?")) {
-                                                        mutation.mutate(ebook.id);
+                                                        deleteMutation.mutate(ebook.id);
+                                                    }
+                                                } else if (action === "archive") {
+                                                    const actionText = ebook.is_archived ? "remove from archive" : "add to archive";
+                                                    if (window.confirm(`Are you sure you want to ${actionText} this ebook?`)) {
+                                                        archiveMutation.mutate(ebook.id);
                                                     }
                                                 }
+                                                e.target.value = ""; // Reset dropdown
                                             }}
                                         >
                                             <option disabled value="">Action</option>
                                             <option value="edit">Edit</option>
+                                            <option value="archive">
+                                                {ebook.is_archived ? "Remove from Archive" : "Add to Archive"}
+                                            </option>
                                             <option value="delete">Delete</option>
                                         </select>
                                     </td>

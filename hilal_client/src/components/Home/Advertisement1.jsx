@@ -4,15 +4,21 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const fetchBillboardByLocation = async (location) => {
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/billboard/location/${location}/`);
-    return res.data.data;
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/billboard/location/${location}/`);
+        return res.data.data;
+    } catch (error) {
+        // Return null for 404s and other errors to show default content
+        return null;
+    }
 };
 
 const Advertisement1 = () => {
     const { data: billboard, isLoading, error } = useQuery({
         queryKey: ['billboard', 'location-2'],
         queryFn: () => fetchBillboardByLocation(2),
-        onError: () => { }, // Handle errors silently
+        retry: false, // Don't retry on failures
+        refetchOnWindowFocus: false, // Don't refetch when window gains focus
     });
 
     return (

@@ -104,11 +104,10 @@ const fetchBillboardByLocation = async (location) => {
         const res = await axios.get(
             `${import.meta.env.VITE_API_URL}/api/billboard/location/${location}/`
         );
-        console.log(`✅ Billboard data for location ${location}:`, res.data.data);
         return res.data.data;
-    } catch (err) {
-        console.error(`❌ Failed to fetch billboard for location ${location}:`, err);
-        throw err; // Let react-query know it failed
+    } catch (error) {
+        // Return null for 404s and other errors to show default content
+        return null;
     }
 };
 
@@ -116,13 +115,15 @@ const ReaderOpinion = () => {
     const { data: billboard1, isLoading: loading1, error: error1 } = useQuery({
         queryKey: ["billboard-location-5"],
         queryFn: () => fetchBillboardByLocation(5),
-        onError: (err) => console.error("Billboard 1 failed:", err),
+        retry: false, // Don't retry on failures
+        refetchOnWindowFocus: false, // Don't refetch when window gains focus
     });
 
     const { data: billboard2, isLoading: loading2, error: error2 } = useQuery({
         queryKey: ["billboard-location-6"],
         queryFn: () => fetchBillboardByLocation(6),
-        onError: (err) => console.error("Billboard 2 failed:", err),
+        retry: false, // Don't retry on failures
+        refetchOnWindowFocus: false, // Don't refetch when window gains focus
     });
 
     return (
@@ -130,19 +131,7 @@ const ReaderOpinion = () => {
             {/* Billboard Images */}
             <div className="space-y-2 max-lg:mt-2 justify-around flex mx-auto w-[90%] gap-x-6">
                 {/* Billboard 1 */}
-                {loading1 ? (
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                        alt="Default Reader Billboard 1"
-                        className="w-[120px] h-[120px] object-cover"
-                    />
-                ) : error1 ? (
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                        alt="Default Reader Billboard 1"
-                        className="w-[120px] h-[120px] object-cover"
-                    />
-                ) : billboard1?.image ? (
+                {billboard1?.image ? (
                     <img
                         src={billboard1.image}
                         alt="Reader Billboard 1"
@@ -157,19 +146,7 @@ const ReaderOpinion = () => {
                 )}
 
                 {/* Billboard 2 */}
-                {loading2 ? (
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                        alt="Default Reader Billboard 1"
-                        className="w-[120px] h-[120px] object-cover"
-                    />
-                ) : error2 ? (
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                        alt="Default Reader Billboard 1"
-                        className="w-[120px] h-[120px] object-cover"
-                    />
-                ) : billboard2?.image ? (
+                {billboard2?.image ? (
                     <img
                         src={billboard2.image}
                         alt="Reader Billboard 2"

@@ -29,11 +29,11 @@ from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
 from adminpanel.views import SingleBillboardView, CreateBillboardView, GetAllBillboardsView
 from adminpanel.views import DeleteBillboardView
-from adminpanel.views import GetBillboardByPositionView,GetAllEbooksView,SingleEbookView,CreateOrUpdateEbookView,GetArchivedEbooksView
+from adminpanel.views import GetBillboardByPositionView,GetAllEbooksView,SingleEbookView,CreateOrUpdateEbookView,GetArchivedEbooksView,GetActiveEbooksView,ToggleEbookArchiveView,ToggleMagazineArchiveView
 from adminpanel.views import GetAllMagazinesView, SingleMagazineView, CreateOrUpdateMagazineView
 from adminpanel.views import CreateAuthorView, GetAllAuthorsView, SingleAuthorView
 from adminpanel.views import GetArchivedMagazinesView
-from adminpanel.views import GetAllVideosView, SingleVideoView, CreateVideoView, GetAllVideosManagementView
+from adminpanel.views import GetAllVideosView, SingleVideoView, CreateVideoView, GetAllVideosManagementView, DashboardStatsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -90,9 +90,15 @@ urlpatterns = [
 
        # Ebook management URLs
     path('api/ebooks/', GetAllEbooksView.as_view(), name='get-all-ebooks'),  # Get all ebooks
+    path('api/ebooks/active/', GetActiveEbooksView.as_view(), name='get-active-ebooks'),  # Get all non-archived ebooks
+    path('api/ebooks/archived/', GetArchivedEbooksView.as_view(), name='get-archived-ebooks'),  # Get archived ebooks
     path('api/ebook/<int:pk>/', SingleEbookView.as_view(), name='single-ebook'),  # Get or delete a single ebook
     path('api/ebook/create/', CreateOrUpdateEbookView.as_view(), name='create-ebook'),  # Create a new ebook
     path('api/ebook/update/<int:pk>/', CreateOrUpdateEbookView.as_view(), name='update-ebook'),  # Update a ebook
-    path('api/ebooks/archived/', GetArchivedEbooksView.as_view(), name='get-archived-ebooks'),  # New URL for archived ebooks
+    path('api/ebook/<int:pk>/toggle-archive/', ToggleEbookArchiveView.as_view(), name='toggle-ebook-archive'),  # Toggle ebook archive status
+    path('api/magazine/<int:pk>/toggle-archive/', ToggleMagazineArchiveView.as_view(), name='toggle-magazine-archive'),  # Toggle magazine archive status
+
+    # Dashboard stats URL
+    path('api/dashboard/stats/', DashboardStatsView.as_view(), name='dashboard-stats'),  # Get dashboard statistics
 
 ]

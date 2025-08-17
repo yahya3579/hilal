@@ -57,7 +57,7 @@ const ArticleManagement = () => {
     });
 
     if (isLoading) return <Loader />;
-    if (error && !data) return <p className="p-4 text-red-500">Error fetching articles</p>;
+    if (error) return <p className="p-4 text-red-500">Error fetching articles</p>;
 
     return (
         <div className="p-6 bg-white min-h-screen">

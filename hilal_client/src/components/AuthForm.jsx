@@ -106,6 +106,7 @@ const AuthForm = ({ route, method }) => {
             const res = await api.post(route, { email, password }, { withCredentials: true })
             console.log(res.data)
             if (method === "login") {
+                console.log(res.data)
                 setAccessToken(res.data.access);
                 setRefreshToken(res.data.refresh);
                 setUserId(res.data.user_id); // Store user ID in the store

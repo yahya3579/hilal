@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.utils.timezone import now
 from rest_framework.generics import ListAPIView
+from django.db.models import Count
 
 
 def home(request):
@@ -355,6 +356,55 @@ class GetArchivedEbooksView(ListAPIView):
     def get_queryset(self):
         return Ebook.objects.filter(is_archived=True)
 
+class GetActiveEbooksView(APIView):
+    """
+    API to retrieve all ebooks that are not archived.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        ebooks = Ebook.objects.filter(is_archived=False)
+        serializer = EbookSerializer(ebooks, many=True)
+        return Response({"message": "Active ebooks retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+class ToggleEbookArchiveView(APIView):
+    """
+    API to toggle the archive status of an ebook.
+    """
+    permission_classes = [AllowAny]
+
+    def patch(self, request, pk):
+        try:
+            ebook = Ebook.objects.get(pk=pk)
+            ebook.is_archived = not ebook.is_archived
+            ebook.save()
+            status_text = "archived" if ebook.is_archived else "unarchived"
+            return Response(
+                {"message": f"Ebook {status_text} successfully", "is_archived": ebook.is_archived},
+                status=status.HTTP_200_OK
+            )
+        except Ebook.DoesNotExist:
+            return Response({"error": "Ebook not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class ToggleMagazineArchiveView(APIView):
+    """
+    API to toggle the archive status of a magazine.
+    """
+    permission_classes = [AllowAny]
+
+    def patch(self, request, pk):
+        try:
+            magazine = Magazines.objects.get(pk=pk)
+            magazine.is_archived = not magazine.is_archived
+            magazine.save()
+            status_text = "archived" if magazine.is_archived else "unarchived"
+            return Response(
+                {"message": f"Magazine {status_text} successfully", "is_archived": magazine.is_archived},
+                status=status.HTTP_200_OK
+            )
+        except Magazines.DoesNotExist:
+            return Response({"error": "Magazine not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 # Authors Related Views
 class CreateAuthorView(APIView):
@@ -468,3 +518,40 @@ class GetAllVideosManagementView(APIView):
         videos = Videos.objects.all().order_by('order', 'created_at')
         serializer = VideosSerializer(videos, many=True)
         return Response({"message": "Videos retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+
+
+class DashboardStatsView(APIView):
+    """
+    API to get dashboard statistics for admin panel.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        try:
+            # Get total counts
+            total_articles = Articles.objects.count()
+            total_archived_magazines = Magazines.objects.filter(is_archived=True).count()
+            total_ebooks = Ebook.objects.count()
+            total_authors = Authors.objects.count()
+            total_comments = Comments.objects.count()
+            total_videos = Videos.objects.count()
+
+            stats = {
+                "total_articles": total_articles,
+                "total_archived_magazines": total_archived_magazines,
+                "total_ebooks": total_ebooks,
+                "total_authors": total_authors,
+                "total_comments": total_comments,
+                "total_videos": total_videos,
+            }
+
+            return Response({
+                "message": "Dashboard statistics retrieved successfully",
+                "data": stats
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({
+                "error": "Failed to retrieve dashboard statistics",
+                "details": str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
