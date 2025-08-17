@@ -49,5 +49,5 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     class Meta:
-        managed= False
+        managed= True
         db_table = "users"
