@@ -97,8 +97,6 @@ urlpatterns = [
     path('api/ebook/update/<int:pk>/', CreateOrUpdateEbookView.as_view(), name='update-ebook'),  # Update a ebook
     path('api/ebook/<int:pk>/toggle-archive/', ToggleEbookArchiveView.as_view(), name='toggle-ebook-archive'),  # Toggle ebook archive status
     path('api/magazine/<int:pk>/toggle-archive/', ToggleMagazineArchiveView.as_view(), name='toggle-magazine-archive'),  # Toggle magazine archive status
-
-    # Dashboard stats URL
     path('api/dashboard/stats/', DashboardStatsView.as_view(), name='dashboard-stats'),  # Get dashboard statistics
 
 ]
