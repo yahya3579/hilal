@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EnvelopeIcon } from "@heroicons/react/24/solid";
 import { ExternalLink, Star } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
@@ -25,6 +25,7 @@ export default function ArticlePage() {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [successMessage, setSuccessMessage] = useState("");
+  const [isUrdu, setIsUrdu] = useState(false);
 
   const userRole = useAuthStore((state) => state.userRole);
   const isAuthorized = useAuthStore((state) => state.isAuthorized);
@@ -40,6 +41,13 @@ export default function ArticlePage() {
     queryKey: ["recentArticles"],
     queryFn: fetchRecentArticles,
   });
+
+  // Update isUrdu state when article data changes
+  useEffect(() => {
+    if (article && article.category) {
+      setIsUrdu(article.category.toLowerCase().includes('urdu'));
+    }
+  }, [article]);
 
   const handleSubmitComment = async () => {
     if (!rating) {
@@ -70,7 +78,7 @@ export default function ArticlePage() {
   if (articleError) return <p>Error fetching article</p>;
 
   return (
-    <div className="w-full min-h-screen bg-white">
+    <div className={`w-full min-h-screen bg-white ${isUrdu ? 'rtl' : 'ltr'}`}>
       {/* Main layout with sidebar starting from top */}
       <div className="flex flex-col lg:flex-row min-h-screen">
         {/* Left Sidebar - 25% width on desktop, full width on mobile */}
@@ -146,13 +154,18 @@ export default function ArticlePage() {
             {/* Title & Heading */}
             <div className="relative px-4 lg:px-6 pt-10 lg:pt-6 pb-4">
               {/* Title and Heading */}
-              <div className="text-black font-poppins font-light text-[18px] sm:text-[20px] lg:text-[32px] leading-[100%] tracking-[-0.03em] uppercase mb-2">
-                {article.category == "hilal-kids-english" ? "Hilal FOR KIDS - English" : article.category == "hilal-kids-urdu" ? "Hilal FOR KIDS - Urdu" : article.category == "hilal-her" ? "Hilal HER" : article.category == "hilal-urdu" ? "Hilal - Urdu" : "Article Category"}
+              <div className={`font-poppins font-light text-[18px] sm:text-[20px] lg:text-[32px] leading-[100%] tracking-[-0.03em] uppercase mb-2 ${isUrdu ? 'text-right' : 'text-left'}`}>
+                {article.category == "hilal-kids-english" ? "Hilal FOR KIDS - English" :
+                  article.category == "hilal-kids-urdu" ? "ہلال فار کڈز - اردو" :
+                    article.category == "hilal-her" ? "Hilal HER" :
+                      article.category == "hilal-urdu" ? "ہلال - اردو" :
+                        isUrdu ? "اردو مضمون" :
+                          "Article Category"}
               </div>
 
               {/* Heading with Date aligned to bottom right */}
               <div className="relative">
-                <h1 className="text-black max-w-[80%] font-poppins font-medium line-clamp-2  text-[24px] sm:text-[28px]  lg:text-[52px] leading-[100%] tracking-[-0.03em] uppercase pr-20 sm:pr-24 lg:pr-0">
+                <h1 className={`text-black max-w-[80%] font-poppins font-medium line-clamp-2 text-[24px] sm:text-[28px] lg:text-[52px] leading-[100%] tracking-[-0.03em] uppercase pr-20 sm:pr-24 lg:pr-0 ${isUrdu ? 'text-right' : 'text-left'}`}>
                   {article.title || "Article Title"}
                 </h1>
 
@@ -167,7 +180,7 @@ export default function ArticlePage() {
           {/* Main content area */}
           <div className="flex-1 px-4 lg:px-6 relative">
             <div className="lg:pl-6 py-6">
-              <p className="text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize">
+              <p className={`text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize ${isUrdu ? 'text-right' : 'text-left'}`}>
                 {article.description}
               </p>
               {isAuthorized == true && (

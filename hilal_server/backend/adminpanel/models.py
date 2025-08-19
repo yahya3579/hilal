@@ -14,10 +14,10 @@ class Articles(models.Model):
     writer = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=100, blank=True, null=True)
-    section = models.CharField(max_length=100, blank=True, null=True)  # New field for section
+    # section = models.CharField(max_length=100, blank=True, null=True)  # New field for section
     
     class Meta:
-        managed = True
+        managed = False
         db_table = 'articles'
 
 
@@ -32,7 +32,7 @@ class Comments(models.Model):
     )
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'comments'
 
 
@@ -41,7 +41,7 @@ class Roles(models.Model):
     user = models.ForeignKey(CustomUser, models.DO_NOTHING,null=True,blank=True)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'roles'
 
 
@@ -64,7 +64,7 @@ class Billboards(models.Model):
     )
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'billboards'
 
 
@@ -80,7 +80,7 @@ class Magazines(models.Model):
     is_archived = models.BooleanField(default=False)  # New field to indicate if the magazine is archived
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'magazines'
 
 
@@ -95,7 +95,7 @@ class Ebook(models.Model):
     is_archived = models.BooleanField(default=False)  # New field to indicate if the ebook is archived
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'ebooks'
 
 
@@ -114,7 +114,7 @@ class Authors(models.Model):
         return self.author_name
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'authors'
 
 
@@ -161,6 +161,6 @@ class Videos(models.Model):
         return self.title
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'videos'
         ordering = ['order', 'created_at']

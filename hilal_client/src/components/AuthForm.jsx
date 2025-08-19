@@ -8,6 +8,7 @@ import { FaFacebook } from 'react-icons/fa'
 import GoogleSignInButton from '../pages/Google'
 import axios from 'axios'
 import Loader from './Loader/loader'
+import { useToast } from '../context/ToastContext'
 
 const AuthForm = ({ route, method }) => {
     const setAccessToken = useAuthStore((state) => state.setAccessToken);
@@ -19,8 +20,11 @@ const AuthForm = ({ route, method }) => {
     const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
     const triggerAuth = useAuthStore((state) => state.triggerAuth);
     const navigate = useNavigate();
+    const { showToast } = useToast();
 
-
+    // State for loading and error handling
+    const [isLoading, setIsLoading] = useState(false);
+    const [isFbLoading, setIsFbLoading] = useState(false);
     const [fbLoaded, setFbLoaded] = useState(false);
 
 
@@ -67,10 +71,11 @@ const AuthForm = ({ route, method }) => {
 
     const handleLogin = () => {
         if (!fbLoaded || !window.FB) {
-            console.error("⚠️ Facebook SDK is not loaded or initialized yet.");
+            showToast("Facebook is still loading. Please try again in a moment.", "warning");
             return;
         }
 
+        setIsFbLoading(true);
         window.FB.login(
             function (response) {
                 if (response.authResponse) {
@@ -86,13 +91,20 @@ const AuthForm = ({ route, method }) => {
                             setAccessToken(res.data.access);
                             setIsAuthorized(true);
                             triggerAuth(); // Trigger auth to update state
+                            showToast("Successfully logged in with Facebook!", "success");
                             navigate("/");
                         })
                         .catch((err) => {
                             console.error("❌ Login Failed (backend):", err.response?.data || err.message);
+                            const errorMessage = err.response?.data?.error || err.response?.data?.message || "Facebook login failed. Please try again.";
+                            showToast(errorMessage, "error");
+                        })
+                        .finally(() => {
+                            setIsFbLoading(false);
                         });
                 } else {
-                    console.warn("⚠️ User cancelled login or did not authorize.");
+                    showToast("Login was cancelled or access denied.", "info");
+                    setIsFbLoading(false);
                 }
             },
             { scope: "email" }
@@ -102,9 +114,17 @@ const AuthForm = ({ route, method }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!email || !password) {
+            showToast("Please fill in all required fields.", "warning");
+            return;
+        }
+
+        setIsLoading(true);
+
         try {
             const res = await api.post(route, { email, password }, { withCredentials: true })
             console.log(res.data)
+
             if (method === "login") {
                 console.log(res.data)
                 setAccessToken(res.data.access);
@@ -112,12 +132,58 @@ const AuthForm = ({ route, method }) => {
                 setUserId(res.data.user_id); // Store user ID in the store
                 setIsAuthorized(true);
                 triggerAuth(); // Trigger auth to update state
+                showToast("Successfully logged in!", "success");
                 navigate("/")
             } else {
+                showToast("Account created successfully! Please login to continue.", "success");
                 navigate("/login")
             }
         } catch (error) {
-            alert(error)
+            console.error("Auth error:", error);
+
+            // Extract meaningful error message
+            let errorMessage = "An unexpected error occurred. Please try again.";
+
+            if (error.response?.data) {
+                if (error.response.data.error) {
+                    errorMessage = error.response.data.error;
+                } else if (error.response.data.message) {
+                    errorMessage = error.response.data.message;
+                } else if (error.response.data.detail) {
+                    errorMessage = error.response.data.detail;
+                } else if (typeof error.response.data === 'string') {
+                    errorMessage = error.response.data;
+                }
+            } else if (error.message) {
+                if (error.message.includes('Network Error')) {
+                    errorMessage = "Network error. Please check your connection and try again.";
+                } else if (error.message.includes('timeout')) {
+                    errorMessage = "Request timed out. Please try again.";
+                } else {
+                    errorMessage = error.message;
+                }
+            }
+
+            // Show specific error messages based on status code
+            if (error.response?.status === 401) {
+                errorMessage = method === "login"
+                    ? "Invalid email or password. Please check your credentials."
+                    : "Authentication failed. Please try again.";
+            } else if (error.response?.status === 400) {
+                if (method === "login") {
+                    errorMessage = "Invalid email or password format.";
+                } else {
+                    errorMessage = error.response.data?.error || "Invalid information provided. Please check your details.";
+                }
+            } else if (error.response?.status === 409) {
+                errorMessage = "An account with this email already exists. Please login instead.";
+            } else if (error.response?.status >= 500) {
+                errorMessage = "Server error. Please try again later.";
+            }
+
+            showToast(errorMessage, "error");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -179,9 +245,21 @@ const AuthForm = ({ route, method }) => {
                             {/* Google Sign In Button */}
                             <GoogleSignInButton />
                             {/* Facebook Login Button */}
-                            <button onClick={handleLogin} disabled={!fbLoaded} className={` ${fbLoaded ? "w-full bg-[#D9D9D9] text-[#424242] hover:bg-gray-300 font-zen font-normal text-sm sm:text-[16px] leading-tight sm:leading-[25.6px] tracking-[0px]  py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center mb-4 sm:mb-6 transition-colors duration-200" : "bg-gray-400 cursor-not-allowed"}`}>
-                                {fbLoaded ? <FaFacebook color="#1877F3" className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" /> : <Loader />}
-                                Log In with Facebook
+                            <button
+                                onClick={handleLogin}
+                                disabled={!fbLoaded || isFbLoading}
+                                className={`w-full ${fbLoaded && !isFbLoading ? "bg-[#D9D9D9] text-[#424242] hover:bg-gray-300" : "bg-gray-400 cursor-not-allowed"} font-zen font-normal text-sm sm:text-[16px] leading-tight sm:leading-[25.6px] tracking-[0px] py-2.5 sm:py-3 px-4 rounded-full flex items-center justify-center mb-4 sm:mb-6 transition-colors duration-200`}
+                            >
+                                {isFbLoading ? (
+                                    <p>Loading...</p>
+                                    // <Loader />
+                                ) : fbLoaded ? (
+                                    <FaFacebook color="#1877F3" className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
+                                ) : (
+                                    <p>Loading...</p>
+                                    // <Loader />
+                                )}
+                                {isFbLoading ? "Signing in..." : "Log In with Facebook"}
                             </button>
 
 
@@ -262,12 +340,22 @@ const AuthForm = ({ route, method }) => {
                                 {/* Continue Button */}
                                 <button
                                     type="submit"
-                                    className="w-full bg-black font-zen font-bold text-xs sm:text-[12.8px] leading-tight sm:leading-[22.53px] tracking-[0px] text-center hover:bg-gray-800 text-white py-2.5 sm:py-3 px-4 rounded-lg flex items-center justify-center transition-colors duration-200 mt-4 sm:mt-6"
+                                    disabled={isLoading}
+                                    className={`w-full ${isLoading ? "bg-gray-600 cursor-not-allowed" : "bg-black hover:bg-gray-800"} font-zen font-bold text-xs sm:text-[12.8px] leading-tight sm:leading-[22.53px] tracking-[0px] text-center text-white py-2.5 sm:py-3 px-4 rounded-lg flex items-center justify-center transition-colors duration-200 mt-4 sm:mt-6`}
                                 >
-                                    CONTINUE
-                                    <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
+                                    {isLoading ? (
+                                        <>
+                                            {/* <Loader /> */}
+                                            <span className="ml-2">{method === "login" ? "SIGNING IN..." : "CREATING ACCOUNT..."}</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            CONTINUE
+                                            <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </>
+                                    )}
                                 </button>
                             </form>
 

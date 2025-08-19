@@ -7,6 +7,7 @@ import HilalUrdu from "../../assets/hilalUrdu.jpg"
 import HilalHer from "../../assets/hilalHer.jpg"
 import HilalKidsEnglish from "../../assets/hilalKidsEnglish.jpg"
 import Loader from '../Loader/loader';
+import CommonCard8Urdu from '../shared/urdu/CommonCard8Urdu';
 
 const fetchArticlesByCategory = async (category) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
@@ -94,17 +95,7 @@ const ArmedForcesNewsUrdu = () => {
                         {/* News Items */}
                         <div className="space-y-5 outline-none">
                             {articles.map((article) => (
-                                <Link to={`/article/${article.id}`} key={article.id} className='flex items-start gap-2 hover:bg-gray-50 rounded cursor-pointer outline-none'>
-                                    <img
-                                        src={article.cover_image}
-                                        alt={article.title}
-                                        className="w-16 h-10 object-cover flex-shrink-0 outline-none"
-                                    />
-                                    <p className="text-gray-500 text-xs outline-none font-bold">
-                                        {/* {article.title} */}
-                                        چیف آف آرمی اسٹاف جنرل سید عاصم منیر نے مشترکہ فوجی اجلاس کی صدارت کی، اور اس دورے۔۔۔
-                                    </p>
-                                </Link>
+                                <CommonCard8Urdu key={article.id} article={article} />
                             ))}
                         </div>
 

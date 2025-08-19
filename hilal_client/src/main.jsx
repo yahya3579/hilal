@@ -17,9 +17,9 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
-            <ProtectedRoutes>
-              <App />
-            </ProtectedRoutes>
+            {/* <ProtectedRoutes> */}
+            <App />
+            {/* </ProtectedRoutes> */}
           </ToastProvider>
         </QueryClientProvider>
       </BrowserRouter>

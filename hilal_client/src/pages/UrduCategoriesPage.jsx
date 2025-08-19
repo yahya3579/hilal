@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import InternationIssuesCard from '../components/Home/InternationalIssuesCard'
 import Loader from '../components/Loader/loader'
+import UrduCategoriesCard from '../components/urdu/UrduCategoriesCard'
 
 const fetchArticlesByCategory = async (category) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}`)
     return res.data.data
 }
 
-const NationalInternationIssues = () => {
+const UrduCategoriesPage = () => {
     const { category } = useParams()
-    const [isUrdu, setIsUrdu] = useState(false)
 
     const { data, isLoading, error } = useQuery({
         queryKey: ['articles', category],
@@ -20,18 +20,11 @@ const NationalInternationIssues = () => {
         enabled: !!category,
     })
 
-    // Update isUrdu state when category changes
-    useEffect(() => {
-        if (category) {
-            setIsUrdu(category.toLowerCase().includes('urdu'))
-        }
-    }, [category])
-
     if (isLoading) return <Loader />
     if (error && !data) return <p>Error fetching articles</p>
 
     return (
-        <div className={`bg-white min-h-screen ${isUrdu ? 'rtl' : 'ltr'}`}>
+        <div className="bg-white min-h-screen">
             {/* Header */}
 
             {(!data || data.length === 0) ? (
@@ -40,11 +33,9 @@ const NationalInternationIssues = () => {
 
                 <>
                     <div className="px-3 sm:px-6 pt-3 sm:pt-4">
-                        <h1 className={`text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-poppins mt-1 sm:mt-2 ${isUrdu ? 'text-right' : 'text-left'}`}>
-                            {isUrdu && category.includes('urdu') ?
-                                (category.includes('kids') ? 'ہلال فار کڈز - اردو' : 'اردو مضامین') :
-                                category.replace('-', ' ')
-                            }
+                        this is urdu categories page
+                        <h1 className="text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-poppins mt-1 sm:mt-2">
+                            {category.replace('-', ' ')}
                         </h1>
                     </div>
                     <div className="px-3 sm:px-6 py-3 sm:py-4">
@@ -52,7 +43,7 @@ const NationalInternationIssues = () => {
                             {/* Red Line */}
                             <div className="col-span-full border-t-[3px] border-[#DF1600] mb-1 sm:mb-2" />
                             {data.map((article) => (
-                                <InternationIssuesCard key={article.id} article={article} isUrdu={isUrdu} />
+                                <UrduCategoriesCard key={article.id} article={article} />
                             ))}
                         </div>
                     </div>
@@ -64,4 +55,4 @@ const NationalInternationIssues = () => {
     )
 }
 
-export default NationalInternationIssues
+export default UrduCategoriesPage

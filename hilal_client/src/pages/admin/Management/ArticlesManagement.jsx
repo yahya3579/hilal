@@ -24,7 +24,7 @@ const fetchArticles = async (userRole, userId) => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
         return res.data.data;
     } else if (userRole === "author") {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/user/2/`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/user/${userId}/`);
         console.log("Fetched articles for author:", res.data.data);
         return res.data.data;
     }

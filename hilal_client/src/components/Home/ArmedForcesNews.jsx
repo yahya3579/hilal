@@ -7,6 +7,7 @@ import HilalUrdu from "../../assets/hilalUrdu.jpg"
 import HilalHer from "../../assets/hilalHer.jpg"
 import HilalKidsEnglish from "../../assets/hilalKidsEnglish.jpg"
 import Loader from '../Loader/loader';
+import CommonCard8English from '../shared/english/CommonCard8English';
 const fetchArticlesByCategory = async (category) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
   return res.data.data;
@@ -98,16 +99,7 @@ const ArmedForcesNews = () => {
             {/* News Items */}
             <div className="space-y-5 outline-none">
               {articles.map((article) => (
-                <Link to={`/article/${article.id}`} key={article.id} className='flex items-start gap-2 hover:bg-gray-50 rounded cursor-pointer outline-none'>
-                  <img
-                    src={article.cover_image}
-                    alt={article.title}
-                    className="w-16 h-10 object-cover flex-shrink-0 outline-none"
-                  />
-                  <p className="text-gray-500 text-xs outline-none font-bold">
-                    {article.title}
-                  </p>
-                </Link>
+                <CommonCard8English key={article.id} article={article} />
               ))}
             </div>
 
