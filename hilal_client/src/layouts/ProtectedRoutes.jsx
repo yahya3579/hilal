@@ -207,6 +207,7 @@ const ProtectedRoutes = ({ children }) => {
             } else {
                 setIsAuthorized(true);
                 setUserId(decodedToken.user_id);
+                console.log('User ID:', decodedToken.user_id);
                 await fetchUserRole(decodedToken.user_id);
             }
         } catch (error) {
