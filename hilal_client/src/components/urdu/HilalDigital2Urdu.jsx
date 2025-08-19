@@ -27,14 +27,14 @@ const HilalDigital2Urdu = () => {
             {/* In Focus Header */}
             <div className="border-t-[3px] border-red-600">
                 <div className="py-2 mb-2">
-                    <h2 className="heading-text-primary">ہلال ڈیجیٹل</h2>
+                    <h2 className="heading-text-primary" dir='rtl'>ہلال ڈیجیٹل</h2>
                 </div>
 
 
 
                 {/* Main Content */}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3" dir='rtl'>
 
 
                     {/* Sidebar */}

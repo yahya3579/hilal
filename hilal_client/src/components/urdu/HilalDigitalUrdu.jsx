@@ -35,7 +35,7 @@ const HilalDigitalUrdu = () => {
                 <div className="border-t-[3px] border-red-600 w-full mb-4 mt-2" />
                 <h2
                     className="text-red-600 font-[500] text-[24px] leading-[100%] uppercase font-poppins -mt-2"
-                    style={{ letterSpacing: "-0.03em" }}
+                    style={{ letterSpacing: "-0.03em" }} dir='rtl'
                 >
                     ہلال ڈیجیٹل
                 </h2>

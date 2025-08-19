@@ -38,6 +38,7 @@ import HilalUrduKids from "./pages/HilalKidsUrdu";
 import HilalHer from "./pages/HilalHer";
 import EbookManagement from "./pages/admin/Management/EbookManagement";
 import EditEbook from "./pages/admin/Edit/EditEbook";
+import UrduCategoriesPage from "./pages/UrduCategoriesPage";
 
 const App = () => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/archives" element={<HilalArchives />} />
         <Route path="/ebooks" element={<HilalEbooks />} />
         <Route path="/category/:category" element={<NationalInternationIssues />} />
+        <Route path="/category/urdu/:category" element={<UrduCategoriesPage />} />
         <Route path="/ourcontributors" element={<OurContributors />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/advertise" element={<Advertise />} />
