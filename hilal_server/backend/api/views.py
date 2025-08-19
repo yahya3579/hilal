@@ -4,6 +4,7 @@ from rest_framework import generics
 from .serializers import UserSerializer, CustomUserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import CustomUser
+from django.conf import settings
 
 
 # views.py
@@ -82,14 +83,18 @@ class CreateUserView(generics.CreateAPIView):
                 }, status=201)
 
                 # Set refresh token as HttpOnly cookie
-                response.set_cookie(
-                    key='refresh_token',
-                    value=str(refresh),
-                    httponly=True,
-                    secure=True,  # set to True in production with HTTPS
-                    samesite='None',
-                    max_age=7 * 24 * 60 * 60  # or as needed
-                )
+                cookie_kwargs = {
+                    'key': 'refresh_token',
+                    'value': str(refresh),
+                    'httponly': True,
+                    'secure': not settings.DEBUG,  # True in production (HTTPS), False in development
+                    'samesite': 'None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                    'max_age': 7 * 24 * 60 * 60  # or as needed
+                }
+                # Add domain for production
+                # if not settings.DEBUG:
+                #     cookie_kwargs['domain'] = '.hilal.pk'  # Replace with your actual domain
+                response.set_cookie(**cookie_kwargs)
                 return response
 
         except CustomUser.DoesNotExist:
@@ -115,8 +120,8 @@ class CreateUserView(generics.CreateAPIView):
                         key='refresh_token',
                         value=str(refresh),
                         httponly=True,
-                        secure=True,  # set to True in production with HTTPS
-                        samesite='None',
+                        secure=not DEBUG,  # True in production (HTTPS), False in development
+                        samesite='None' if not DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
                         max_age=7 * 24 * 60 * 60  # or as needed
                     )
                 return response
@@ -167,8 +172,8 @@ class GoogleLoginAPIView(APIView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=True,  # set to True in production with HTTPS
-                    samesite='None',
+                    secure=not settings.DEBUG,  # True in production (HTTPS), False in development
+                    samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
             return response
@@ -226,8 +231,8 @@ class FacebookLoginAPIView(APIView):
                         key='refresh_token',
                         value=str(refresh),
                         httponly=True,
-                        secure=True,  # set to True in production with HTTPS
-                        samesite='None',
+                        secure=not settings.DEBUG,  # True in production (HTTPS), False in development
+                        samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
                         max_age=7 * 24 * 60 * 60  # or as needed
                     )
             return response
@@ -269,8 +274,8 @@ class CustomLoginView(TokenObtainPairView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=True,  # set True in production
-                    samesite='None',
+                    secure=not settings.DEBUG,  # True in production (HTTPS), False in development
+                    samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
                     max_age=7 * 24 * 60 * 60
                 )
                 
@@ -319,8 +324,8 @@ class LoginView(APIView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=True,  # use True in production with HTTPS
-                    samesite='None',  # or 'Strict'
+                    secure=not settings.DEBUG,  # True in production (HTTPS), False in development
+                    samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
                     max_age=7 * 24 * 60 * 60  # 7 days
                 )
                 

@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9kwe&kr)&kk3lj=+(d6^0!5+9*fzhq=r7gg4yy+_oiilr3^e#('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ["*"]  # Allow all hosts for development; adjust in production 2
 
@@ -195,12 +195,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "https://hilalclient.vercel.app",  # Allow frontend development server
-]
 # CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",  # Allow frontend development server,  # Allow frontend development server
+#     "https://hilalclient.vercel.app",  # Allow frontend development server
 # ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Allow frontend development server
+    "https://hilalclient.vercel.app",  # Allow production frontend
+]
 # CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
 
 # Allow cookies to be sent
@@ -211,13 +212,14 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Requested-With',
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://localhost:5173",
-# ]
-
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
     "https://hilalclient.vercel.app",
 ]
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://hilalclient.vercel.app",
+# ]
 # Optional: allow specific methods
 CORS_ALLOW_METHODS = [
     "GET",
