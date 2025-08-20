@@ -87,8 +87,8 @@ class CreateUserView(generics.CreateAPIView):
                     'key': 'refresh_token',
                     'value': str(refresh),
                     'httponly': True,
-                    'secure': not settings.DEBUG,  # True in production (HTTPS), False in development
-                    'samesite': 'None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                    'secure': True,  # True in production (HTTPS), False in development
+                    'samesite': 'None',  # None for cross-origin in production, Lax for development
                     'max_age': 7 * 24 * 60 * 60  # or as needed
                 }
                 # Add domain for production
@@ -120,8 +120,8 @@ class CreateUserView(generics.CreateAPIView):
                         key='refresh_token',
                         value=str(refresh),
                         httponly=True,
-                        secure=not DEBUG,  # True in production (HTTPS), False in development
-                        samesite='None' if not DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                        secure=True,  # True in production (HTTPS), False in development
+                        samesite='None',  # None for cross-origin in production, Lax for development
                         max_age=7 * 24 * 60 * 60  # or as needed
                     )
                 return response
@@ -172,8 +172,8 @@ class GoogleLoginAPIView(APIView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=not settings.DEBUG,  # True in production (HTTPS), False in development
-                    samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                    secure=True,  # True in production (HTTPS), False in development
+                    samesite='None',  # None for cross-origin in production, Lax for development
                     max_age=7 * 24 * 60 * 60  # or as needed
                 )
             return response
@@ -231,8 +231,8 @@ class FacebookLoginAPIView(APIView):
                         key='refresh_token',
                         value=str(refresh),
                         httponly=True,
-                        secure=not settings.DEBUG,  # True in production (HTTPS), False in development
-                        samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                        secure=True,  # True in production (HTTPS), False in development
+                        samesite='None',  # None for cross-origin in production, Lax for development
                         max_age=7 * 24 * 60 * 60  # or as needed
                     )
             return response
@@ -274,8 +274,8 @@ class CustomLoginView(TokenObtainPairView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=not settings.DEBUG,  # True in production (HTTPS), False in development
-                    samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                    secure=True,  # True in production (HTTPS), False in development
+                    samesite='None',  # None for cross-origin in production, Lax for development
                     max_age=7 * 24 * 60 * 60
                 )
                 
@@ -324,8 +324,8 @@ class LoginView(APIView):
                     key='refresh_token',
                     value=str(refresh),
                     httponly=True,
-                    secure=not settings.DEBUG,  # True in production (HTTPS), False in development
-                    samesite='None' if not settings.DEBUG else 'Lax',  # None for cross-origin in production, Lax for development
+                    secure=True,  # True in production (HTTPS), False in development
+                    samesite='None',  # None for cross-origin in production, Lax for development
                     max_age=7 * 24 * 60 * 60  # 7 days
                 )
                 

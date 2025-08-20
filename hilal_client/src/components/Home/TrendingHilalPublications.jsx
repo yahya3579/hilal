@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 import Loader from "../Loader/loader";
 import { CommonCard1English } from "../shared/english/CommonCard1English";
 
-const fetchAllArticles = async () => {
-  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-articles/`);
+const fetchArticlesByCategory = async (category) => {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
   return res.data.data;
 };
 
 const TrendingHilalPublications = () => {
   const { data: articles, isLoading, error } = useQuery({
-    queryKey: ["articles", "all"],
-    queryFn: fetchAllArticles,
+    queryKey: ["articles", "trending-english-1"],
+    queryFn: () => fetchArticlesByCategory("trending-english-1"),
   });
 
 

@@ -2,18 +2,19 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Loader from "../Loader/loader";
-import CommonCard1Urdu from "../shared/urdu/CommonCard1Urdu";
+
+import Loader from "../../Loader/loader";
+import CommonCard1Urdu from "../../shared/urdu/CommonCard1Urdu";
 
 const fetchArticlesByCategory = async (category) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/articles/category/${category}/`);
     return res.data.data;
 };
 
-const TrendingHilalPublicationsUrdu = () => {
+const TrendingHilalPublicationsKidsUrdu = () => {
     const { data: articles, isLoading, error } = useQuery({
-        queryKey: ["articles", "trending-urdu"],
-        queryFn: () => fetchArticlesByCategory("trending-urdu"),
+        queryKey: ["articles", "trending-urdu-kids"],
+        queryFn: () => fetchArticlesByCategory("trending-urdu-kids"),
     });
 
 
@@ -42,4 +43,4 @@ const TrendingHilalPublicationsUrdu = () => {
     );
 };
 
-export default TrendingHilalPublicationsUrdu;
+export default TrendingHilalPublicationsKidsUrdu;

@@ -205,7 +205,7 @@ const Navbar = () => {
                             {isCategoryOpen && (
                                 <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
                                     <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/national-and-International-news`} className="w-full">
+                                        <Link to={`/category/national-International-news`} className="w-full">
                                             National-International-Issues
                                         </Link>
                                     </li>
@@ -417,7 +417,7 @@ const Navbar = () => {
                                 <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
                                     <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
                                         <Link
-                                            to="/category/national-and-International-news"
+                                            to="/category/national-International-news"
                                             className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
                                             onClick={closeMobileMenu}
                                         >

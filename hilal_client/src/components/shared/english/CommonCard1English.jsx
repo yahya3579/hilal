@@ -17,7 +17,7 @@ export const CommonCard1English = ({ article }) => {
                     >
                         {/* Category Badge */}
                         <Link to={`/category/${article.category}`} className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
-                            {article.category}
+                            {article.category == "trending-english-1" ? "Trending" : article.category == "trending-english-2" ? "Trending" : article.category}
                         </Link>
                     </div>
                 </Link>

@@ -7,6 +7,8 @@ import { uploadToCloudinary } from "../../../utils/cloudinaryUpload";
 import { useParams } from "react-router-dom"; // Import useParams to get URL parameters
 import useAuthStore from "../../../utils/store";
 import Loader from "../../../components/Loader/loader";
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../utils/i18n';
 
 const fetchArticleById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
@@ -14,8 +16,10 @@ const fetchArticleById = async (id) => {
 };
 
 export default function EditArticle() {
+    const { t } = useTranslation();
     const { articleId } = useParams(); // Get articleId from URL
-    const userId = useAuthStore((state) => state.userId)
+    const userId = useAuthStore((state) => state.userId);
+    const { language, isRTL, setLanguage } = useAuthStore();
     const { data: articleData, isLoading: isFetching, error: fetchError } = useQuery({
         queryKey: ["article", articleId],
         queryFn: () => fetchArticleById(articleId),
@@ -62,6 +66,23 @@ export default function EditArticle() {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error for the field
+
+        // Check if category is selected and if it's Urdu-related
+        if (name === 'category') {
+            const urduCategories = [
+                'in-focus-urdu', 'trending-urdu', 'national-international-news-urdu',
+                'armed-forces-news-urdu', 'in-focus-urdu-kids', 'trending-urdu-kids',
+                'national-international-news-urdu-kids'
+            ];
+
+            if (urduCategories.includes(value)) {
+                setLanguage('ur');
+                i18n.changeLanguage('ur');
+            } else if (value && !urduCategories.includes(value)) {
+                setLanguage('en');
+                i18n.changeLanguage('en');
+            }
+        }
     };
 
     const handleFileChange = (e) => {
@@ -183,14 +204,14 @@ export default function EditArticle() {
     if (fetchError) return <p className="p-4 text-red-500">Error fetching article</p>;
 
     return (
-        <div className="min-h-screen bg-white p-6">
+        <div className={`min-h-screen bg-white p-6 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
             <div className="">
                 {/* Header */}
 
 
                 <div className=" mb-6">
                     <h1 className="font-medium text-[32.21px] leading-[100%] tracking-[-0.03em] uppercase font-poppins color-primary text-center mx-auto w-fit">
-                        Admin Dashboard
+                        {t('adminDashboard')}
                     </h1>
                 </div>
 
@@ -198,13 +219,13 @@ export default function EditArticle() {
                 {/* Edit Article Section */}
                 <div className="bg-white">
                     <div className="border-t-[3px] border-[#DF1600] py-4">
-                        <h2 className="font-poppins font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase color-primary">EDIT ARTICLE</h2>
+                        <h2 className="font-poppins font-medium text-[24px] leading-[100%] tracking-[-0.03em] uppercase color-primary">{t('editArticle')}</h2>
                     </div>
 
                     <div className="mt-6 space-y-6">
                         {/* Article Cover Upload */}
                         <div>
-                            <label className="block  color-gray mb-2 font-montserrat  font-semibold text-[14px] leading-[100%] tracking-normal text-left align-middle">Article Cover</label>
+                            <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('articleCover')}</label>
                             <div
                                 className={`border-[1px] border-dashed border-[#DF1600] rounded-lg p-4 sm:p-6 md:p-8 text-center transition-colors ${isDragActive ? 'bg-red-50 border-red-400' : ''}`}
                                 onDragOver={handleDragOver}
@@ -228,13 +249,13 @@ export default function EditArticle() {
                                     onChange={handleFileChange}
                                 />
                                 <p className="text-gray-600 mb-2">
-                                    <span className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle">Drag & drop files or </span>
-                                    <button onClick={handleBrowseClick} className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle color-primary underline">Browse</button>
+                                    <span className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle">{t('dragDropFiles')}</span>
+                                    <button onClick={handleBrowseClick} className="font-montserrat font-semibold text-base sm:text-[16px] leading-[24px] tracking-normal text-center align-middle color-primary underline">{t('browse')}</button>
                                 </p>
                                 {selectedFile && (
                                     <p className="text-green-600 font-montserrat text-xs sm:text-[12px] mt-2">Selected: {selectedFile.name}</p>
                                 )}
-                                <p className="font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal text-center align-middle color-gray">Supported formats: PNG, JPG</p>
+                                <p className="font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal text-center align-middle color-gray">{t('supportedFormats')}</p>
                             </div>
                             {errors.cover_image && <p className="text-red-600 text-xs mt-1">{errors.cover_image}</p>}
                         </div>
@@ -245,57 +266,82 @@ export default function EditArticle() {
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
                                 {/* Article Title */}
                                 <div className="col-span-3">
-                                    <label className="block  color-gray mb-2 font-montserrat  font-semibold text-[14px] leading-[100%] tracking-normal  align-middle">Article Title</label>
+                                    <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('articleTitle')}</label>
                                     <input
                                         type="text"
                                         name="title"
                                         value={formData.title}
                                         onChange={handleInputChange}
-                                        placeholder="What we have given to Pakistan"
-                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle "
+                                        placeholder={t('titlePlaceholder')}
+                                        className={`w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle ${isRTL ? 'text-right' : 'text-left'}`}
                                     />
-                                    {errors.title && <p className="text-red-600 text-xs mt-1">{errors.title}</p>}
+                                    {errors.title && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.title}</p>}
                                 </div>
 
                                 {/* Category */}
                                 <div className="col-span-1">
-                                    <label className="block  color-gray mb-2 font-montserrat  font-semibold text-[14px] leading-[100%] tracking-normal  align-middle">Category</label>
+                                    <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('category')}</label>
                                     <div className="relative">
                                         <select
                                             name="category"
                                             value={formData.category}
                                             onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border color-border rounded-md appearance-none bg-white font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle"
+                                            className={`w-full px-3 py-2 border color-border rounded-md appearance-none bg-white font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle ${isRTL ? 'text-right' : 'text-left'}`}
                                         >
-                                            <option value="">Select category</option>
 
+                                            {/* Hilal English */}
+                                            <option value="">{t('selectCategory')}</option>
+                                            <option value="trending-english-1">Trending-English-1</option>
+                                            <option value="trending-english-2">Trending-English-2</option>
                                             <option value="in-focus">In-Focus</option>
-                                            <option value="in-focus-urdu">In-Focus-Urdu</option>
-                                            <option value="in-focus-urdu-kids">In-Focus-Urdu-Kids</option>
-                                            <option value="in-focus-her">In-Focus-Her</option>
-                                            <option value="in-focus-kids">In-Focus-Kids</option>
-                                            <option value="trending1">Trending1</option>
-                                            <option value="trending-kids">Trending-Kids</option>
-                                            <option value="trending1-her">Trending-Her</option>
-                                            <option value="trending1-urdu">Trending1-Urdu</option>
-                                            <option value="trending1-kids-urdu">Trending1-Kids-Urdu</option>
-                                            <option value="trending2">Trending2</option>
-                                            <option value="trending2-urdu">Trending2-Urdu</option>
-                                            <option value="trending2-her">Trending2-Her</option>
-                                            <option value="trending2-kids">Trending2-Kids</option>
-                                            <option value="trending2-kids-urdu">Trending2-Kids-Urdu</option>
-                                            <option value="digital">Digital</option>
                                             <option value="war-on-terror">War on Terror</option>
                                             <option value="special-reports">Special Reports</option>
+                                            <option value="national-international-news">National Internation News</option>
                                             <option value="armed-forces-news">Armed Forces News</option>
+                                            <option value="misc">Misc</option>
+
+
+
+
+
+
+
+                                            {/* Hilal Urdu */}
+                                            <option value="in-focus-urdu">In-Focus-Urdu</option>
+                                            <option value="trending-urdu">Trending Urdu</option>
+                                            <option value="national-international-news-urdu">National Internation News Urdu</option>
                                             <option value="armed-forces-news-urdu">Armed Forces News-Urdu</option>
-                                            <option value="national-and-international-news">National and International News</option>
-                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+
+                                            {/* Hilal Urdu Kids */}
+                                            <option value="in-focus-urdu-kids">In-Focus-Urdu-Kids</option>
+                                            <option value="trending-urdu-kids">Trending-Urdu-Kids</option>
+                                            <option value="national-international-news-urdu-kids">National Internation News Urdu Kids</option>
+
+
+                                            {/* Hilal Her */}
+                                            <option value="in-focus-her">In-Focus-Her</option>
+                                            <option value="trending1-her">Trending-Her</option>
                                             <option value="hilal-her">Hilal Her</option>
+
+
+
+
+                                            {/* Hilal Kids */}
+                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+                                            <option value="in-focus-kids">In-Focus-Kids</option>
+                                            <option value="trending-kids">Trending-Kids</option>
+
+
+
+
+
+
+                                            <option value="digital">Digital</option>
+
                                         </select>
-                                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                                        <ChevronDown className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none`} />
                                     </div>
-                                    {errors.category && <p className="text-red-600 text-xs mt-1">{errors.category}</p>}
+                                    {errors.category && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.category}</p>}
                                 </div>
 
                             </div>
@@ -305,30 +351,30 @@ export default function EditArticle() {
 
                                 {/* Writer */}
                                 <div>
-                                    <label className="block  color-gray mb-2 font-montserrat  font-semibold text-[14px] leading-[100%] tracking-normal  align-middle">Writer</label>
+                                    <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('writer')}</label>
                                     <input
                                         type="text"
                                         name="writer"
                                         value={formData.writer}
                                         onChange={handleInputChange}
-                                        placeholder="Enter Writer name"
-                                        className="w-full px-3 py-2 border color-border rounded-md  font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600]"
+                                        placeholder={t('writerPlaceholder')}
+                                        className={`w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600] ${isRTL ? 'text-right' : 'text-left'}`}
                                     />
-                                    {errors.writer && <p className="text-red-600 text-xs mt-1">{errors.writer}</p>}
+                                    {errors.writer && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.writer}</p>}
                                 </div>
 
                                 {/* Date */}
                                 <div>
-                                    <label className="block  color-gray mb-2 font-montserrat  font-semibold text-[14px] leading-[100%] tracking-normal  align-middle">Date</label>
+                                    <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('date')}</label>
                                     <input
                                         type="text"
                                         name="publish_date"
                                         value={formData.publish_date}
                                         onChange={handleInputChange}
-                                        placeholder="yyyy-mm-dd"
-                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600]"
+                                        placeholder={t('datePlaceholder')}
+                                        className={`w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600] ${isRTL ? 'text-right' : 'text-left'}`}
                                     />
-                                    {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
+                                    {errors.publish_date && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.publish_date}</p>}
                                 </div>
 
 
@@ -336,16 +382,16 @@ export default function EditArticle() {
 
                             {/* Article Content */}
                             <div>
-                                <label className="block color-gray mb-2 font-montserrat font-semibold text-sm sm:text-[14px] leading-[100%] tracking-normal align-middle">Article Title</label>
+                                <label className={`block color-gray mb-2 font-montserrat font-semibold text-sm sm:text-[14px] leading-[100%] tracking-normal align-middle ${isRTL ? 'text-right' : 'text-left'}`}>{t('articleContent')}</label>
                                 <textarea
                                     rows={6}
                                     name="description"
                                     value={formData.description}
                                     onChange={handleInputChange}
-                                    placeholder="Write article here"
-                                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 color-border resize-vertical font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal align-middle"
+                                    placeholder={t('writeArticleHere')}
+                                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 color-border resize-vertical font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal align-middle ${isRTL ? 'text-right' : 'text-left'}`}
                                 />
-                                {errors.description && <p className="text-red-600 text-xs mt-1">{errors.description}</p>}
+                                {errors.description && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.description}</p>}
                             </div>
 
                         </div>
@@ -357,7 +403,7 @@ export default function EditArticle() {
                                 disabled={isSubmitting}
                                 className={`bg-primary text-white px-6 sm:px-8 py-2 transition-colors font-poppins font-bold text-lg sm:text-[20px] leading-[100%] tracking-[-0.01em] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary'}`}
                             >
-                                {isSubmitting ? "Uploading..." : "Upload Article"}
+                                {isSubmitting ? t('uploading') : t('uploadArticle')}
                             </button>
                         </div>
                     </div>

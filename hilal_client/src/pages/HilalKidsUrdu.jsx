@@ -1,4 +1,6 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
+import TrendingHilalPublicationsKidsUrdu from "../components/urdu/kids/TrendingHilalPublicationsKidsUrdu";
+import TrendingHilalSectionKidsUrdu from "../components/urdu/kids/TrendingHilalSectionKidsUrdu";
 
 // Lazy load components for performance optimization
 const TrendingHilalPublicationsUrdu = lazy(() => import("../components/urdu/TrendingHilalPublicationsUrdu"));
@@ -90,7 +92,7 @@ const HilalKidsUrdu = () => {
                         </div>
                         <div className="lg:w-3/4">
                             <Suspense fallback={<ComponentSkeleton height="h-64" />}>
-                                <TrendingHilalPublicationsUrdu />
+                                <TrendingHilalPublicationsKidsUrdu />
                             </Suspense>
                         </div>
                     </div>
@@ -100,7 +102,7 @@ const HilalKidsUrdu = () => {
                     </Suspense>
 
                     <Suspense fallback={<ComponentSkeleton height="h-64" />}>
-                        <TrendingHilalSectionUrdu />
+                        <TrendingHilalSectionKidsUrdu />
                     </Suspense>
                 </div>
             </div>
