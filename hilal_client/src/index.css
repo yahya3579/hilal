@@ -70,4 +70,39 @@
   background-color: var(--color-gray);
 }
 
+/* RTL Support */
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+/* RTL specific adjustments */
+.rtl input, 
+.rtl textarea, 
+.rtl select {
+  text-align: right;
+}
+
+.rtl .text-left {
+  text-align: right !important;
+}
+
+.rtl .text-right {
+  text-align: left !important;
+}
+
+/* For dropdowns in RTL */
+.rtl select {
+  padding-right: 2.5rem;
+  padding-left: 0.75rem;
+}
+
+.ltr select {
+  padding-left: 0.75rem;
+  padding-right: 2.5rem;
+}
+
 
