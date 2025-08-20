@@ -13,7 +13,7 @@ const fetchArticlesByCategory = async (category) => {
 
 const InFocusSectionUrdu = () => {
     const { data, isLoading, error } = useQuery({
-        queryKey: ["articles", "in-focus"],
+        queryKey: ["articles", "in-focus-urdu"],
         queryFn: () => fetchArticlesByCategory("in-focus-urdu"),
     });
 

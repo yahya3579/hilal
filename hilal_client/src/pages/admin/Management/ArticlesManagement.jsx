@@ -13,8 +13,9 @@ const columns = [
     { key: "publish_date", label: "Publish Date" },
     { key: "writer", label: "Author" },
     { key: "visits", label: "Article Visits" },
-    { key: "issue_new", label: "Issue News" },
-    { key: "status", label: "Status" },
+    // { key: "issue_new", label: "Issue News" },
+    // { key: "status", label: "Status" },
+    { key: "category", label: "Category" },
     { key: "actions", label: "Actions" },
 ];
 
@@ -127,7 +128,7 @@ const ArticleManagement = () => {
                                             {item.visits}
                                         </span>
                                     </td>
-                                    <td className="py-4 px-4 text-gray-700">
+                                    {/* <td className="py-4 px-4 text-gray-700">
                                         <button className="bg-black text-white px-3 py-1 text-[10.89px] font-bold rounded">
                                             {item.issue_new}
                                         </button>
@@ -136,6 +137,11 @@ const ArticleManagement = () => {
                                         <button className="bg-[#31AB5A] text-white px-4 py-1 rounded text-[10.89px] font-bold">
                                             {item.status}
                                         </button>
+                                    </td> */}
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <span className="font-medium text-[12.7px] font-poppins">
+                                            {item.category}
+                                        </span>
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">
                                         <select

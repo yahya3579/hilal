@@ -267,31 +267,56 @@ export default function EditArticle() {
                                             onChange={handleInputChange}
                                             className="w-full px-3 py-2 border color-border rounded-md appearance-none bg-white font-montserrat align-middlefont-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle"
                                         >
-                                            <option value="">Select category</option>
 
+                                            {/* Hilal English */}
+                                            <option value="">Select category</option>
+                                            <option value="trending-english-1">Trending-English-1</option>
+                                            <option value="trending-english-2">Trending-English-2</option>
                                             <option value="in-focus">In-Focus</option>
-                                            <option value="in-focus-urdu">In-Focus-Urdu</option>
-                                            <option value="in-focus-urdu-kids">In-Focus-Urdu-Kids</option>
-                                            <option value="in-focus-her">In-Focus-Her</option>
-                                            <option value="in-focus-kids">In-Focus-Kids</option>
-                                            <option value="trending1">Trending1</option>
-                                            <option value="trending-kids">Trending-Kids</option>
-                                            <option value="trending1-her">Trending-Her</option>
-                                            <option value="trending1-urdu">Trending1-Urdu</option>
-                                            <option value="trending1-kids-urdu">Trending1-Kids-Urdu</option>
-                                            <option value="trending2">Trending2</option>
-                                            <option value="trending2-urdu">Trending2-Urdu</option>
-                                            <option value="trending2-her">Trending2-Her</option>
-                                            <option value="trending2-kids">Trending2-Kids</option>
-                                            <option value="trending2-kids-urdu">Trending2-Kids-Urdu</option>
-                                            <option value="digital">Digital</option>
                                             <option value="war-on-terror">War on Terror</option>
                                             <option value="special-reports">Special Reports</option>
+                                            <option value="national-international-news">National Internation News</option>
                                             <option value="armed-forces-news">Armed Forces News</option>
+                                            <option value="misc">Misc</option>
+
+
+
+
+
+
+
+                                            {/* Hilal Urdu */}
+                                            <option value="in-focus-urdu">In-Focus-Urdu</option>
+                                            <option value="trending-urdu">Trending Urdu</option>
+                                            <option value="national-international-news-urdu">National Internation News Urdu</option>
                                             <option value="armed-forces-news-urdu">Armed Forces News-Urdu</option>
-                                            <option value="national-and-international-news">National and International News</option>
-                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+
+                                            {/* Hilal Urdu Kids */}
+                                            <option value="in-focus-urdu-kids">In-Focus-Urdu-Kids</option>
+                                            <option value="trending-urdu-kids">Trending-Urdu-Kids</option>
+                                            <option value="national-international-news-urdu-kids">National Internation News Urdu Kids</option>
+
+
+                                            {/* Hilal Her */}
+                                            <option value="in-focus-her">In-Focus-Her</option>
+                                            <option value="trending1-her">Trending-Her</option>
                                             <option value="hilal-her">Hilal Her</option>
+
+
+
+
+                                            {/* Hilal Kids */}
+                                            <option value="hilal-kids-english">Hilal Kids-English</option>
+                                            <option value="in-focus-kids">In-Focus-Kids</option>
+                                            <option value="trending-kids">Trending-Kids</option>
+
+
+
+
+
+
+                                            <option value="digital">Digital</option>
+
                                         </select>
                                         <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
                                     </div>
