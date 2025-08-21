@@ -69,7 +69,7 @@ const HilalDigital2 = () => {
                             <div className="aspect-video h-[350px] bg-gray-900 relative">
                                 <iframe
                                     className="w-full h-full"
-                                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                    src="https://www.youtube.com/embed/vpl1FyToXck"
                                     title="Gwadar's First Flight: A Gateway to Balochistan's Prosperity Through..."
                                     frameBorder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
