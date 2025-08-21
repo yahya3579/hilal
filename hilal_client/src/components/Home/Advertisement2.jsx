@@ -34,12 +34,8 @@ const Advertisement2 = () => {
                         className="w-[300px] h-[250px] object-fill"
                     />
                 ) : (
-                    <div className="relative mt-6">
-                        <img
-                            src={advertisementImage}
-                            alt="Default Advertisement"
-                            className="w-[300px] h-[250px] object-cover"
-                        />
+                    <div className="w-[300px] h-[250px] bg-black flex items-center justify-center rounded">
+                        <p className="text-white font-medium">Ad Space</p>
                     </div>
                 )}
             </div>

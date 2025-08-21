@@ -24,6 +24,7 @@ from api.views import CustomLoginView
 from adminpanel.views import SingleArticleView
 from adminpanel.views import CreateCommentView, CreateArticleView, GetAllArticlesView
 from adminpanel.views import GetArticlesByCategoryView, GetAllCommentsView, GetTopArticlesView , DeleteCommentView
+from adminpanel.views import GetCommentsByUserView
 from api.views import UserRoleAPIView
 from adminpanel.views import GetArticlesByUserView,hello_view
 from api.views import LogoutAPIView
@@ -69,6 +70,7 @@ urlpatterns = [
 
     # comment management URLs
     path('api/comment/<int:pk>/', DeleteCommentView.as_view(), name='delete-comment'),  # Delete comment
+    path('api/comments/user/<int:user_id>/', GetCommentsByUserView.as_view(), name='comments-by-user'),  # Get comments by user ID
 
     # Magazine management URLs
     path('api/magazines/', GetAllMagazinesView.as_view(), name='get-all-magazines'),  # Get all magazines

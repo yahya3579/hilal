@@ -35,6 +35,20 @@ class GetAllCommentsView(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response({"message": "Comments retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
 
+class GetCommentsByUserView(APIView):
+    """
+    API to get all comments created by a specific user based on their user ID.
+    """
+    permission_classes = [AllowAny]
+
+    def get(self, request, user_id):
+        comments = Comments.objects.filter(user_id=user_id)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(
+            {"message": "Comments retrieved successfully", "data": serializer.data},
+            status=status.HTTP_200_OK
+        )
+
 class DeleteCommentView(APIView):
     permission_classes = [AllowAny]
 

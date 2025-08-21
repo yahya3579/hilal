@@ -2,10 +2,19 @@ import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Loader from "../../../components/Loader/loader";
+import useAuthStore from '../../../utils/store';
 
-const fetchComments = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-comments/`);
-    return response.data.data;
+// API calls
+const fetchComments = async (userRole, userId) => {
+    if (userRole === "admin") {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-comments/`);
+        console.log("Fetched comments for admin:", response.data.data);
+        return response.data.data;
+    } else if (userRole === "author") {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/comments/user/${userId}/`);
+        console.log("Fetched comments for author:", response.data.data);
+        return response.data.data;
+    }
 };
 
 const deleteComment = async (id) => {
@@ -14,10 +23,12 @@ const deleteComment = async (id) => {
 
 const CommentManagement = () => {
     const queryClient = useQueryClient();
+    const userRole = useAuthStore((state) => state.userRole);
+    const userId = useAuthStore((state) => state.userId);
 
     const { data: comments, isLoading, isError } = useQuery({
-        queryKey: ["comments"],
-        queryFn: fetchComments,
+        queryKey: ["comments", userRole, userId],
+        queryFn: () => fetchComments(userRole, userId),
     });
 
     const mutation = useMutation({

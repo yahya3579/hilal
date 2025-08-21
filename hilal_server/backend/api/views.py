@@ -60,6 +60,12 @@ class CreateUserView(generics.CreateAPIView):
         if len(password) < 6:
             return Response({"error": "Password must be at least 6 characters long."}, status=400)
 
+        # Extract first name from email if no first name is provided
+        if not fname:
+            email_prefix = email.split("@")[0]
+            # Capitalize first letter and replace dots/underscores with spaces
+            fname = email_prefix.replace(".", " ").replace("_", " ").title()
+
         try:
             user = CustomUser.objects.get(email=email)
             if user.has_usable_password():

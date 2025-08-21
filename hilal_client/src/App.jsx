@@ -61,7 +61,7 @@ const App = () => {
         <Route path="/archives" element={<HilalArchives />} />
         <Route path="/ebooks" element={<HilalEbooks />} />
         <Route path="/category/:category" element={<NationalInternationIssues />} />
-        <Route path="/category/urdu/:category" element={<UrduCategoriesPage />} />
+        {/* <Route path="/category/urdu/:category" element={<UrduCategoriesPage />} /> */}
         <Route path="/ourcontributors" element={<OurContributors />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/advertise" element={<Advertise />} />
