@@ -30,13 +30,8 @@ const Advertisement1 = () => {
                     className="w-[300px] h-[250px] object-fill"
                 />
             ) : (
-                <div className="relative mb-12 px-2">
-                    <img
-                        src={advertisementImage}
-                        alt="Home interior advertisement"
-                        className="w-[300px] h-[250px] object-cover"
-                    />
-
+                <div className="w-[300px] h-[250px] bg-black flex items-center justify-center rounded">
+                    <p className="text-white font-medium">Ad Space</p>
                 </div>
             )}
         </div>

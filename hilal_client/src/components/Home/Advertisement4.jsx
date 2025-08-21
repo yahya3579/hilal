@@ -31,11 +31,9 @@ const Advertisement4 = () => {
                 />
             ) : (
                 <div className="w-[80%] mx-auto my-6">
-                    <img
-                        src={advertisementImage}
-                        alt="Default Advertisement"
-                        className="mx-auto w-full h-[90px] object-cover"
-                    />
+                    <div className="mx-auto w-full h-[90px] bg-black flex items-center justify-center rounded">
+                        <p className="text-white font-medium">Ad Space</p>
+                    </div>
                 </div>
             )}
         </div>

@@ -138,11 +138,9 @@ const ReaderOpinion = () => {
                         className="w-[120px] h-[120px] object-fill"
                     />
                 ) : (
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                        alt="Default Reader Billboard 1"
-                        className="w-[120px] h-[120px] object-cover"
-                    />
+                    <div className="w-[120px] h-[120px] bg-black flex items-center justify-center rounded">
+                        <p className="text-white font-medium text-xs">Ad Space</p>
+                    </div>
                 )}
 
                 {/* Billboard 2 */}
@@ -153,11 +151,9 @@ const ReaderOpinion = () => {
                         className="w-[120px] h-[120px] object-fill"
                     />
                 ) : (
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"
-                        alt="Default Reader Billboard 2"
-                        className="w-[120px] h-[120px] object-cover"
-                    />
+                    <div className="w-[120px] h-[120px] bg-black flex items-center justify-center rounded">
+                        <p className="text-white font-medium text-xs">Ad Space</p>
+                    </div>
                 )}
             </div>
 
