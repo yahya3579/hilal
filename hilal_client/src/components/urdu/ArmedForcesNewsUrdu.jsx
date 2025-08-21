@@ -22,8 +22,8 @@ const fetchBillboardByLocation = async (location) => {
 
 const ArmedForcesNewsUrdu = () => {
     const { data: articles, isLoading: articlesLoading, error: articlesError } = useQuery({
-        queryKey: ['articles', 'armed-forces-news'],
-        queryFn: () => fetchArticlesByCategory('armed-forces-news'),
+        queryKey: ['articles', 'armed-forces-news-urdu'],
+        queryFn: () => fetchArticlesByCategory('armed-forces-news-urdu'),
     });
 
     const { data: billboard, isLoading: billboardLoading, error: billboardError } = useQuery({

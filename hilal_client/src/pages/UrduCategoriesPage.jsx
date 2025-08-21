@@ -33,7 +33,7 @@ const UrduCategoriesPage = () => {
 
                 <>
                     <div className="px-3 sm:px-6 pt-3 sm:pt-4">
-                        this is urdu categories page
+
                         <h1 className="text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-poppins mt-1 sm:mt-2">
                             {category.replace('-', ' ')}
                         </h1>

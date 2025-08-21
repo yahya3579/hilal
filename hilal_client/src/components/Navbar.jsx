@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import useAuthStore from '../utils/store';
 import axios from "axios";
+import { getCategoriesForPath } from '../utils/categories';
 
 const socialIcons = [
     { Icon: Facebook, href: "#" },
@@ -201,59 +202,20 @@ const Navbar = () => {
                             </li>
                         </Link>
                         <li className="relative group cursor-pointer" onClick={handleCategoryClick}>
-                            Category <FaChevronDown className="inline ml-1" />
+                            {getCategoriesForPath(location.pathname).label} <FaChevronDown className="inline ml-1" />
                             {isCategoryOpen && (
                                 <ul className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50 border border-gray-200">
-                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
-                                        <Link to={`/category/national-International-news`} className="w-full">
-                                            National-International-Issues
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to={`/category/war-on-terror`}
-                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
-                                            onClick={handleDropdownLinkClick}
-                                        >
-                                            War on Terror
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to={`/category/special-reports`}
-                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
-                                            onClick={handleDropdownLinkClick}
-                                        >
-                                            Special Reports
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to={`/category/in-focus`}
-                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
-                                            onClick={handleDropdownLinkClick}
-                                        >
-                                            In Focus
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to={`/category/armed-forces-news`}
-                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
-                                            onClick={handleDropdownLinkClick}
-                                        >
-                                            Armed Forces News
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to={`/category/misc`}
-                                            className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
-                                            onClick={handleDropdownLinkClick}
-                                        >
-                                            Misc
-                                        </Link>
-                                    </li>
+                                    {getCategoriesForPath(location.pathname).categories.map((category) => (
+                                        <li key={category.name}>
+                                            <Link
+                                                to={category.path}
+                                                className="block px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-200 text-sm font-medium"
+                                                onClick={handleDropdownLinkClick}
+                                            >
+                                                {category.displayName}
+                                            </Link>
+                                        </li>
+                                    ))}
                                 </ul>
                             )}
                         </li>
@@ -407,7 +369,7 @@ const Navbar = () => {
                                 className="flex justify-between items-center cursor-pointer w-full text-gray-700 hover:text-red-600 font-semibold text-lg"
                                 onClick={() => setMobileCategoryOpen(!mobileCategoryOpen)}
                             >
-                                <span>Category</span>
+                                <span>{getCategoriesForPath(location.pathname).label}</span>
                                 <FaChevronDown className={`ml-2 transition-transform duration-300 text-red-500 ${mobileCategoryOpen ? "rotate-180" : "rotate-0"}`} />
                             </div>
                             <div
@@ -415,60 +377,17 @@ const Navbar = () => {
                                     }`}
                             >
                                 <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/category/national-International-news"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            National-International-Issues
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/category/war-on-terror"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            War on Terror
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/category/special-reports"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Special Reports
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/category/in-focus"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            In Focus
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/category/armed-forces-news"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Armed Forces News
-                                        </Link>
-                                    </li>
-                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
-                                        <Link
-                                            to="/category/misc"
-                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
-                                            onClick={closeMobileMenu}
-                                        >
-                                            Misc
-                                        </Link>
-                                    </li>
+                                    {getCategoriesForPath(location.pathname).categories.map((category) => (
+                                        <li key={category.name} className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                            <Link
+                                                to={category.path}
+                                                className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                                onClick={closeMobileMenu}
+                                            >
+                                                {category.displayName}
+                                            </Link>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </li>
@@ -490,7 +409,51 @@ const Navbar = () => {
                                     }`}
                             >
                                 <ul className="ml-6 space-y-2 bg-gradient-to-r from-red-25 to-red-50 border-l-3 border-red-300 pl-4 py-3 rounded-r-lg">
-                                    {/* No options for now - dropdown intentionally left empty */}
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Hilal English
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/hilal-urdu"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Hilal Urdu
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/hilal-urdu-kids"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Hilal Kids Urdu
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/hilal-kids"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Hilal Kids
+                                        </Link>
+                                    </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2">
+                                        <Link
+                                            to="/hilal-her"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Hilal Her
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
