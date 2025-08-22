@@ -7,6 +7,7 @@ import {
 
 } from "lucide-react";
 import { FaEnvelope, FaMap, FaPhoneAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { footerSections } from "../utils/constants";
 
 const bottomLinks = ["Home", "FAQ", "Support"];
@@ -18,10 +19,16 @@ const socialIcons = [
     { Icon: Instagram, href: "#" },
 ];
 
-const ListItem = ({ text }) => (
+const ListItem = ({ text, link }) => (
     <li className="flex items-center text-gray-300 hover:text-white cursor-pointer">
         <ChevronRight className="w-3 h-3 mr-2" />
-        {text}
+        {link ? (
+            <Link to={link} className="hover:text-white">
+                {text}
+            </Link>
+        ) : (
+            text
+        )}
     </li>
 );
 
@@ -33,7 +40,7 @@ const FooterSection = ({ title, icon, links }) => (
         </h3>
         <ul className="space-y-2 text-sm opacity-70">
             {links.map((link, idx) => (
-                <ListItem key={idx} text={link} />
+                <ListItem key={idx} text={link.text || link} link={link.link} />
             ))}
         </ul>
     </div>
