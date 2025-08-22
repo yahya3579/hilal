@@ -289,9 +289,7 @@ const Navbar = () => {
                                 Archives
                             </Link>
                         </li>
-                        <li className="relative group cursor-pointer">
-                            <Link to="/advertise">Advertise</Link>
-                        </li>
+
                         <li className="hover:underline cursor-pointer">
                             <Link
                                 to="/ourcontributors"
@@ -535,11 +533,7 @@ const Navbar = () => {
                                 Archives
                             </Link>
                         </li>
-                        <li className="py-4 border-b border-gray-200 hover:bg-red-50 px-4 rounded-xl transition-all duration-300">
-                            <Link to="/advertise" className="block text-gray-700 hover:text-red-600 font-semibold text-lg" onClick={closeMobileMenu}>
-                                Advertise
-                            </Link>
-                        </li>
+
                         <li className="py-4 border-b border-gray-200 hover:bg-red-50 px-4 rounded-xl transition-all duration-300">
                             <Link to="/ourcontributors" className="block text-gray-700 hover:text-red-600 font-semibold text-lg" onClick={closeMobileMenu}>
                                 Our Contributors

@@ -32,7 +32,7 @@ export const footerSections = [
             "About Us",
             "Contribute",
             "Subscribe",
-            "Advertise",
+            { text: "Advertise", link: "/advertise" },
             "Be a Member",
             "Career",
         ],

@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
+import HilalMiscEnglish from "../components/Home/HilalMiscEnglish";
 
 // Lazy load components to improve initial page load
 const TrendingHilalPublications = lazy(() => import("../components/Home/TrendingHilalPublications"));
@@ -63,6 +64,7 @@ const Home = () => {
             <div className="lg:w-3/4">
               <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                 <TrendingHilalPublications />
+                <HilalMiscEnglish />
               </Suspense>
             </div>
             <div className="lg:w-1/4">
