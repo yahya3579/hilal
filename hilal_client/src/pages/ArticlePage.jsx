@@ -195,9 +195,9 @@ export default function ArticlePage() {
         </div>
 
         {/* Right Content Area - 75% width on desktop, full width on mobile */}
-        <div className="w-full lg:w-3/4 flex flex-col">
+        <div className="w-full lg:w-3/4 flex  flex-col">
           {/* Top header bar */}
-          <div className="bg-white relative">
+          <div className="bg-white shadow-md mb-2  relative">
             {/* Title & Heading */}
             <div className="relative px-4 lg:px-6 pt-6 lg:pt-6 pb-4">
               {/* Title and Heading */}
@@ -220,8 +220,8 @@ export default function ArticlePage() {
           </div>
 
           {/* Main content area */}
-          <div className="flex-1 px-4 lg:px-6 relative">
-            <div className="lg:pl-6 py-4 lg:py-6">
+          <div className="flex-1 px-4 lg:px-6 relative border-l-[1px] border-black">
+            <div className=" py-4 lg:py-6">
               <p className={`text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
                 {article.description}
               </p>

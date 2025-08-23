@@ -34,11 +34,24 @@ const HilalDigital2 = () => {
 
                 {/* Main Content */}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3">
+                <div className="grid grid-cols-1 lg:grid-cols-2  gap-x-2 max-lg:gap-y-1 lg:gap-x-8">
 
-
+                    <div className="lg:col-span-1">
+                        <div className=" overflow-hidden">
+                            <div className="aspect-video h-[350px] w-full bg-gray-900 relative">
+                                <iframe
+                                    className="w-full h-full"
+                                    src="https://www.youtube.com/embed/vpl1FyToXck"
+                                    title="Gwadar's First Flight: A Gateway to Balochistan's Prosperity Through..."
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                        </div>
+                    </div>
                     {/* Sidebar */}
-                    <div className="space-y-4">
+                    <div className="space-y-4 ">
                         {newsItems.map((item, index) => (
                             <div key={index} className="bg-white">
                                 <div className="flex gap-3">
@@ -64,20 +77,7 @@ const HilalDigital2 = () => {
                         ))}
                     </div>
                     {/* Main Video Section */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-white overflow-hidden">
-                            <div className="aspect-video h-[350px] bg-gray-900 relative">
-                                <iframe
-                                    className="w-full h-full"
-                                    src="https://www.youtube.com/embed/vpl1FyToXck"
-                                    title="Gwadar's First Flight: A Gateway to Balochistan's Prosperity Through..."
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
             </div>
