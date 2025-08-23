@@ -64,8 +64,8 @@ const Home = () => {
             <div className="lg:w-3/4">
               <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                 <TrendingHilalPublications />
-                <HilalMiscEnglish />
               </Suspense>
+
             </div>
             <div className="lg:w-1/4">
               <Suspense fallback={<ComponentSkeleton height="h-48" />}>
@@ -74,6 +74,10 @@ const Home = () => {
             </div>
           </div>
 
+
+          <Suspense fallback={<ComponentSkeleton height="h-64" />}>
+            <HilalMiscEnglish />
+          </Suspense>
           <Suspense fallback={<ComponentSkeleton height="h-56" />}>
             <InFocusSection />
           </Suspense>
