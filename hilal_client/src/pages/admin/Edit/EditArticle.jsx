@@ -9,6 +9,9 @@ import useAuthStore from "../../../utils/store";
 import Loader from "../../../components/Loader/loader";
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../utils/i18n';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import '../../../assets/css/quill-editor.css';
 
 const fetchArticleById = async (id) => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/article/${id}/`);
@@ -26,6 +29,43 @@ export default function EditArticle() {
         enabled: !!articleId, // Only fetch if articleId exists
     });
 
+    // Quill Editor Configuration - MS Word-like toolbar
+    const quillModules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': ['Arial', 'Times New Roman', 'Calibri', 'Georgia', 'Verdana', 'Montserrat'] }],
+            [{ 'size': ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '32px'] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }, { 'align': ['', 'center', 'right', 'justify'] }],
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video'],
+            ['clean'],
+            ['undo', 'redo']
+        ],
+        clipboard: {
+            matchVisual: false,
+        },
+        history: {
+            delay: 1000,
+            maxStack: 500,
+            userOnly: true
+        }
+    };
+
+    const quillFormats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike',
+        'color', 'background', 'script',
+        'list', 'bullet', 'check', 'indent',
+        'direction', 'align',
+        'blockquote', 'code-block',
+        'link', 'image', 'video'
+    ];
+
     const fileInputRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isDragActive, setIsDragActive] = useState(false);
@@ -41,6 +81,7 @@ export default function EditArticle() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
 
+
     useEffect(() => {
         if (articleData) {
             setFormData({
@@ -54,6 +95,25 @@ export default function EditArticle() {
             });
         }
     }, [articleData]);
+
+    // Handle RTL for Urdu categories
+    useEffect(() => {
+        if (formData.category) {
+            const urduCategories = [
+                'in-focus-urdu', 'trending-urdu', 'national-international-news-urdu',
+                'armed-forces-news-urdu', 'in-focus-urdu-kids', 'trending-urdu-kids',
+                'national-international-news-urdu-kids'
+            ];
+
+            if (urduCategories.includes(formData.category)) {
+                setLanguage('ur');
+                i18n.changeLanguage('ur');
+            } else if (formData.category && !urduCategories.includes(formData.category)) {
+                setLanguage('en');
+                i18n.changeLanguage('en');
+            }
+        }
+    }, [formData.category, setLanguage]);
 
     const handleBrowseClick = (e) => {
         e.preventDefault();
@@ -83,6 +143,11 @@ export default function EditArticle() {
                 i18n.changeLanguage('en');
             }
         }
+    };
+
+    const handleContentChange = (content) => {
+        setFormData(prev => ({ ...prev, description: content }));
+        setErrors(prev => ({ ...prev, description: "" }));
     };
 
     const handleFileChange = (e) => {
@@ -132,12 +197,18 @@ export default function EditArticle() {
             }
         }
 
+        // Clean HTML content if it's empty or just contains <p><br></p>
+        let cleanDescription = formData.description;
+        if (cleanDescription === '<p><br></p>' || cleanDescription === '<p></p>' || cleanDescription === '') {
+            cleanDescription = '';
+        }
+
         const data = new FormData();
         data.append("user", userId);
         data.append("cover_image", imageUrl || articleData?.cover_image); // Use existing image if not updated
         data.append("title", formData.title);
         data.append("writer", formData.writer);
-        data.append("description", formData.description);
+        data.append("description", cleanDescription);
         data.append("category", formData.category);
         const isoDate = new Date(formData.publish_date).toISOString();
         data.append("publish_date", isoDate);
@@ -162,7 +233,15 @@ export default function EditArticle() {
         const newErrors = {};
         if (!formData.title.trim()) newErrors.title = "Title is required.";
         if (!formData.writer.trim()) newErrors.writer = "Writer is required.";
-        if (!formData.description.trim()) newErrors.description = "Description is required.";
+        
+        // Enhanced description validation for rich text
+        const cleanDescription = formData.description.replace(/<[^>]*>/g, '').trim();
+        if (!cleanDescription) {
+            newErrors.description = "Article content is required.";
+        } else if (cleanDescription.length < 50) {
+            newErrors.description = "Article content must be at least 50 characters long.";
+        }
+        
         if (!formData.category.trim()) newErrors.category = "Category is required.";
         if (!formData.publish_date.trim()) {
             newErrors.publish_date = "Publish date is required.";
@@ -383,15 +462,36 @@ export default function EditArticle() {
                             {/* Article Content */}
                             <div>
                                 <label className={`block color-gray mb-2 font-montserrat font-semibold text-sm sm:text-[14px] leading-[100%] tracking-normal align-middle ${isRTL ? 'text-right' : 'text-left'}`}>{t('articleContent')}</label>
-                                <textarea
-                                    rows={6}
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    placeholder={t('writeArticleHere')}
-                                    className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 color-border resize-vertical font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal align-middle ${isRTL ? 'text-right' : 'text-left'}`}
-                                />
+                                
+
+                                
+                                <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <ReactQuill
+                                        theme="snow"
+                                        value={formData.description}
+                                        onChange={handleContentChange}
+                                        modules={quillModules}
+                                        formats={quillFormats}
+                                        placeholder={t('writeArticleHere')}
+                                        style={{
+                                            height: '300px',
+                                            fontFamily: 'Montserrat, sans-serif',
+                                            fontSize: '14px'
+                                        }}
+                                        className={`${isRTL ? 'rtl' : 'ltr'}`}
+                                    />
+                                </div>
                                 {errors.description && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.description}</p>}
+                                
+                                {/* Character and Word Count */}
+                                <div className={`flex justify-between text-xs text-gray-500 mt-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <span>
+                                        Characters: {formData.description.replace(/<[^>]*>/g, '').length}
+                                    </span>
+                                    <span>
+                                        Words: {formData.description.replace(/<[^>]*>/g, '').trim().split(/\s+/).filter(word => word.length > 0).length}
+                                    </span>
+                                </div>
                             </div>
 
                         </div>
