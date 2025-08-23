@@ -34,14 +34,14 @@ const HilalDigital2Urdu = () => {
 
                 {/* Main Content */}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3" dir='rtl'>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-2 max-lg:gap-y-3 lg:gap-x-8" dir='ltr'>
 
 
                     {/* Sidebar */}
                     <div className="space-y-4">
                         {newsItems.map((item, index) => (
                             <div key={index} className="bg-white">
-                                <div className="flex gap-3">
+                                <div className="flex gap-3" dir='rtl'>
                                     <div className="w-20 h-16 bg-gray-200  flex-shrink-0 overflow-hidden">
                                         <img
                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjDGMp734S91sDuUFqL51_xRTXS15iiRoHew&s"

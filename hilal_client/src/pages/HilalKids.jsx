@@ -72,13 +72,13 @@ const HilalKids = () => {
                         </div>
                     </div>
 
-                    <Suspense fallback={<ComponentSkeleton height="h-56" />}>
+                    {/* <Suspense fallback={<ComponentSkeleton height="h-56" />}>
                         <InFocusKidsSection />
                     </Suspense>
 
                     <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                         <TrendingHilalKidsSection />
-                    </Suspense>
+                    </Suspense> */}
                 </div>
 
                 {/* RIGHT COLUMN - Secondary content */}
