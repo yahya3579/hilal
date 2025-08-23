@@ -34,7 +34,7 @@ from adminpanel.views import GetBillboardByPositionView,GetAllEbooksView,SingleE
 from adminpanel.views import GetAllMagazinesView, SingleMagazineView, CreateOrUpdateMagazineView
 from adminpanel.views import CreateAuthorView, GetAllAuthorsView, SingleAuthorView
 from adminpanel.views import GetArchivedMagazinesView
-from adminpanel.views import GetAllVideosView, SingleVideoView, CreateVideoView, GetAllVideosManagementView, DashboardStatsView
+from adminpanel.views import GetAllVideosView, SingleVideoView, CreateVideoView, GetAllVideosManagementView, DashboardStatsView, GetHilalDigitalView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -86,6 +86,7 @@ urlpatterns = [
 
     # Video management URLs
     path('api/videos/', GetAllVideosView.as_view(), name='get-all-videos'),  # Get all active videos for frontend
+    path('api/videos/hilal-digital/', GetHilalDigitalView.as_view(), name='get-hilal-digital'),  # Get Hilal Digital data
     path('api/video/<int:pk>/', SingleVideoView.as_view(), name='single-video'),  # Get, update, delete a single video
     path('api/video/create/', CreateVideoView.as_view(), name='create-video'),  # Create a new video
     path('api/videos/management/', GetAllVideosManagementView.as_view(), name='get-all-videos-management'),  # Get all videos for admin management

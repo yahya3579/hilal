@@ -534,6 +534,30 @@ class GetAllVideosManagementView(APIView):
         return Response({"message": "Videos retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
 
 
+class GetHilalDigitalView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        # Get first active video (for left side)
+        featured_video = Videos.objects.filter(status='Active').first()
+        
+        # Get other active videos (for right side, excluding featured)
+        other_videos = Videos.objects.filter(
+            status='Active'
+        ).order_by('order', 'created_at')[1:5]  # Skip first one, get next 4
+        
+        featured_serializer = VideosSerializer(featured_video) if featured_video else None
+        other_serializer = VideosSerializer(other_videos, many=True)
+        
+        return Response({
+            "message": "Hilal Digital data retrieved successfully",
+            "data": {
+                "featured_video": featured_serializer.data if featured_serializer else None,
+                "other_videos": other_serializer.data
+            }
+        }, status=status.HTTP_200_OK)
+
+
 class DashboardStatsView(APIView):
     """
     API to get dashboard statistics for admin panel.
