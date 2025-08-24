@@ -18,6 +18,11 @@ const fetchArticleById = async (id) => {
     return res.data;
 };
 
+const fetchAuthors = async () => {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/authors/`);
+    return res.data.data;
+};
+
 export default function EditArticle() {
     const { t } = useTranslation();
     const { articleId } = useParams(); // Get articleId from URL
@@ -28,6 +33,10 @@ export default function EditArticle() {
         queryFn: () => fetchArticleById(articleId),
         enabled: !!articleId, // Only fetch if articleId exists
     });
+    const { data: authors, isLoading: isAuthorsLoading, error: authorsError } = useQuery({
+        queryKey: ["authors"],
+        queryFn: fetchAuthors,
+    });
 
     // Quill Editor Configuration - MS Word-like toolbar
     const quillModules = {
@@ -37,9 +46,9 @@ export default function EditArticle() {
             [{ 'size': ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '32px'] }],
             ['bold', 'italic', 'underline', 'strike'],
             [{ 'color': [] }, { 'background': [] }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
             [{ 'direction': 'rtl' }, { 'align': ['', 'center', 'right', 'justify'] }],
             ['blockquote', 'code-block'],
             ['link', 'image', 'video'],
@@ -85,13 +94,12 @@ export default function EditArticle() {
     useEffect(() => {
         if (articleData) {
             setFormData({
-                title: articleData.title || "",
-                writer: articleData.writer || "",
-                description: articleData.description || "",
-                category: articleData.category || "",
-
-                publish_date: articleData.publish_date ? articleData.publish_date.split("T")[0] : "",
-                cover_image: articleData.cover_image || null, // Populate existing image
+                title: articleData.article.title || "",
+                writer: articleData.article.writer || "",
+                description: articleData.article.description || "",
+                category: articleData.article.category || "",
+                publish_date: articleData.article.publish_date ? articleData.article.publish_date.split("T")[0] : "",
+                cover_image: articleData.article.cover_image || null, // Populate existing image
             });
         }
     }, [articleData]);
@@ -233,7 +241,7 @@ export default function EditArticle() {
         const newErrors = {};
         if (!formData.title.trim()) newErrors.title = "Title is required.";
         if (!formData.writer.trim()) newErrors.writer = "Writer is required.";
-        
+
         // Enhanced description validation for rich text
         const cleanDescription = formData.description.replace(/<[^>]*>/g, '').trim();
         if (!cleanDescription) {
@@ -241,7 +249,7 @@ export default function EditArticle() {
         } else if (cleanDescription.length < 50) {
             newErrors.description = "Article content must be at least 50 characters long.";
         }
-        
+
         if (!formData.category.trim()) newErrors.category = "Category is required.";
         if (!formData.publish_date.trim()) {
             newErrors.publish_date = "Publish date is required.";
@@ -431,14 +439,28 @@ export default function EditArticle() {
                                 {/* Writer */}
                                 <div>
                                     <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('writer')}</label>
-                                    <input
-                                        type="text"
-                                        name="writer"
-                                        value={formData.writer}
-                                        onChange={handleInputChange}
-                                        placeholder={t('writerPlaceholder')}
-                                        className={`w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600] ${isRTL ? 'text-right' : 'text-left'}`}
-                                    />
+                                    <div className="relative">
+                                        <select
+                                            name="writer"
+                                            value={formData.writer}
+                                            onChange={handleInputChange}
+                                            className={`w-full px-3 py-2 border color-border rounded-md appearance-none bg-white font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle ${isRTL ? 'text-right' : 'text-left'}`}
+                                        >
+                                            <option value="">{t('selectWriter')}</option>
+                                            {isAuthorsLoading ? (
+                                                <option disabled>{t('loading')}</option>
+                                            ) : authorsError ? (
+                                                <option disabled>{t('errorFetchingAuthors')}</option>
+                                            ) : (
+                                                authors.map((author) => (
+                                                    <option key={author.id} value={author.author_name}>
+                                                        {author.author_name}
+                                                    </option>
+                                                ))
+                                            )}
+                                        </select>
+                                        <ChevronDown className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none`} />
+                                    </div>
                                     {errors.writer && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.writer}</p>}
                                 </div>
 
@@ -462,9 +484,9 @@ export default function EditArticle() {
                             {/* Article Content */}
                             <div>
                                 <label className={`block color-gray mb-2 font-montserrat font-semibold text-sm sm:text-[14px] leading-[100%] tracking-normal align-middle ${isRTL ? 'text-right' : 'text-left'}`}>{t('articleContent')}</label>
-                                
 
-                                
+
+
                                 <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
                                     <ReactQuill
                                         theme="snow"
@@ -482,7 +504,7 @@ export default function EditArticle() {
                                     />
                                 </div>
                                 {errors.description && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.description}</p>}
-                                
+
                                 {/* Character and Word Count */}
                                 <div className={`flex justify-between text-xs text-gray-500 mt-2 ${isRTL ? 'text-right' : 'text-left'}`}>
                                     <span>

@@ -85,13 +85,14 @@ class GetAllArticlesView(APIView):
 
 class SingleArticleView(APIView):
     permission_classes = [AllowAny]
-    
 
     def get(self, request, pk):
         try:
             article = Articles.objects.get(pk=pk)
             serializer = ArticleSerializer(article)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            author = Authors.objects.filter(author_name=article.writer).first()
+            author_data = AuthorSerializer(author).data if author else None
+            return Response({"article": serializer.data, "author": author_data}, status=status.HTTP_200_OK)
         except Articles.DoesNotExist:
             return Response({"error": "Article not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -453,9 +454,15 @@ class SingleAuthorView(APIView):
     def put(self, request, pk):
         try:
             author = Authors.objects.get(pk=pk)
+            old_author_name = author.author_name  # Store the old author name
             serializer = AuthorSerializer(author, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                
+                # Update all articles where writer matches the old author name
+                new_author_name = serializer.validated_data.get("author_name", old_author_name)
+                Articles.objects.filter(writer=old_author_name).update(writer=new_author_name)
+                
                 return Response({"message": "Author updated successfully", "data": serializer.data}, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Authors.DoesNotExist:

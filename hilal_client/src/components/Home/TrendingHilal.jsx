@@ -13,8 +13,8 @@ const fetchArticlesByCategory = async (category) => {
 };
 const TrendingHilalSection = () => {
     const { data: articles, isLoading, error } = useQuery({
-        queryKey: ["articles", "trending-english-2"],
-        queryFn: () => fetchArticlesByCategory("trending-english-2"),
+        queryKey: ["articles", "national-international-news"],
+        queryFn: () => fetchArticlesByCategory("national-international-news"),
     });
 
     if (isLoading) return <Loader />;
@@ -26,7 +26,7 @@ const TrendingHilalSection = () => {
             {/* Trending Publications Header */}
             <div className="border-t-[3px] border-red-600">
                 <div className="py-2">
-                    <h2 className="heading-text-primary">TRENDING - HILAL PUBLICATIONS</h2>
+                    <h2 className="heading-text-primary">National & International News</h2>
                 </div>
 
                 <div className="py-4 grid lg:grid-cols-2 gap-x-6">
