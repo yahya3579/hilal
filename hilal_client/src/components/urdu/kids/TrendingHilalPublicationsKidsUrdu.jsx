@@ -29,7 +29,7 @@ const TrendingHilalPublicationsKidsUrdu = () => {
             {/* Header */}
             <div className="border-t-[3px] border-red-600">
                 <div className="bg-white py-2 mb-2">
-                    <h2 className="heading-text-primary" dir='rtl'> ہلال اردو</h2>
+                    <h2 className="heading-text-primary font-urdu-nastaliq-sm1" dir='rtl'> ہلال اردو</h2>
                 </div>
 
                 {/* Images Grid */}

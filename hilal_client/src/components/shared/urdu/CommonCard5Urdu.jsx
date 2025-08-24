@@ -15,13 +15,13 @@ const CommonCard5Urdu = ({ article }) => {
                 </Link>
                 <div className="py-3">
                     <p className="text-xs text-gray-400 mb-1" dir='rtl'>{article.writer}</p>
-                    <h4 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8]" dir='rtl'>
+                    <h4 className="text-xs font-semibold font-urdu-nastaliq-sm line-clamp-2 text-black leading-[1.8]" dir='rtl'>
                         {/* {article.title} */}
                         {article.title}
                     </h4>
                     <Link
                         to={`/article/${article.id}`}
-                        className="text-xs text-red-600 font-bold hover:underline" dir='rtl'
+                        className="text-xs text-red-600 font-urdu-nastaliq-sm font-bold hover:underline" dir='rtl'
                     >
                         مزید پڑھیں
                     </Link>

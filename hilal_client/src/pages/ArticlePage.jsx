@@ -126,9 +126,9 @@ export default function ArticlePage() {
   if (articleError) return <p>Error fetching article</p>;
 
   return (
-    <div className={`w-full min-h-screen bg-white ${isUrdu ? 'rtl' : 'ltr'}`}>
+    <div className={`w-full min-h-screen bg-white `}>
       {/* Main layout with sidebar starting from top */}
-      <div className="flex flex-col lg:flex-row min-h-screen">
+      <div className="flex flex-col lg:flex-row min-h-screen " dir={isUrdu ? 'rtl' : 'ltr'}>
         {/* Left Sidebar - 25% width on desktop, full width on mobile */}
         <div className="w-full lg:w-1/4 flex flex-col">
           {/* Profile and content section */}
@@ -182,7 +182,7 @@ export default function ArticlePage() {
                         </div>
                         <Link
                           to={`/article/${recentArticle.id}`}
-                          className="font-poppins font-light text-xs sm:text-sm leading-[150%] tracking-[-0.03em] capitalize underline hover:text-red-600 transition-colors text-center lg:text-left"
+                          className={`font-poppins font-light text-xs sm:text-sm leading-[150%] tracking-[-0.03em] capitalize underline hover:text-red-600 transition-colors text-center lg:text-left ${isUrdu ? ' font-urdu-nastaliq-sm lg:text-right' : ''}`}
                         >
                           {recentArticle.title}
                         </Link>
@@ -202,13 +202,13 @@ export default function ArticlePage() {
             {/* Title & Heading */}
             <div className="relative px-4 lg:px-6 pt-6 lg:pt-6 pb-4">
               {/* Title and Heading */}
-              <div className={`font-poppins font-light text-[16px] sm:text-[18px] lg:text-[32px] leading-[120%] tracking-[-0.03em] uppercase mb-3 lg:mb-2 text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
+              <div className={` font-light text-[16px] sm:text-[18px] lg:text-[32px] leading-[120%] tracking-[-0.03em] uppercase mb-3 lg:mb-2 text-center lg:text-left ${isUrdu ? 'font-urdu-nastaliq-sm  lg:text-right' : 'font-poppins'}`}>
                 {getCategoryDisplayName(article.article.category)}
               </div>
 
               {/* Heading with Date aligned to bottom right */}
               <div className="relative">
-                <h1 className={`text-black w-full lg:max-w-[80%] font-poppins font-medium line-clamp-3 lg:line-clamp-2 text-[20px] sm:text-[24px] lg:text-[52px] leading-[120%] lg:leading-[100%] tracking-[-0.03em] uppercase pr-16 sm:pr-20 lg:pr-0 text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
+                <h1 className={`text-black w-full lg:max-w-[80%]  font-medium line-clamp-3 lg:line-clamp-2 text-[20px] sm:text-[24px] lg:text-[52px] leading-[120%] lg:leading-[100%] tracking-[-0.03em] uppercase pr-16 sm:pr-20 lg:pr-0 text-center lg:text-left ${isUrdu ? 'font-urdu-nastaliq-sm lg:text-right' : 'font-poppins'}`}>
                   {article.article.title || "Article Title"}
                 </h1>
 
@@ -228,9 +228,7 @@ export default function ArticlePage() {
                 alt="Article"
                 className="w-full h-[400px] mb-4 rounded-lg"
               />
-              <p className={`text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
-                {article.article.description}
-              </p>
+              <div dangerouslySetInnerHTML={{ __html: article.article.description }} className={`text-black  font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize text-center lg:text-left ${isUrdu ? 'font-urdu-nastaliq-sm lg:text-right' : 'font-poppins'}`} />
               {isAuthorized == true && (
                 <div className="mt-6 lg:mt-8">
                   {/* Rate this article section */}

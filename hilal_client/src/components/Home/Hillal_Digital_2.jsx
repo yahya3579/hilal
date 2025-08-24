@@ -57,7 +57,7 @@ const HilalDigital2 = () => {
                             </div>
                         ) : featured_video ? (
                             <div className="overflow-hidden">
-                                <div 
+                                <div
                                     className="aspect-video h-[350px] w-full bg-gray-900 relative cursor-pointer"
                                     onClick={() => handleVideoClick(featured_video.video_id)}
                                 >
@@ -69,7 +69,7 @@ const HilalDigital2 = () => {
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="bg-red-600 rounded-lg p-2 shadow-md">
                                             <svg className="text-white w-6 h-6 fill-current" viewBox="0 0 24 24">
-                                                <path d="M8 5v14l11-7z"/>
+                                                <path d="M8 5v14l11-7z" />
                                             </svg>
                                         </div>
                                     </div>
@@ -83,11 +83,11 @@ const HilalDigital2 = () => {
                     </div>
 
                     {/* Sidebar Videos (Right Side) */}
-                    <div className="space-y-4">
+                    {/* <div className="grid grid-cols-2 gap-6">
                         {other_videos.map((video, index) => (
                             <div key={video.id} className="bg-white">
-                                <div className="flex gap-3">
-                                    <div 
+                                <div className="flex items-center gap-3">
+                                    <div
                                         className="w-20 h-16 bg-gray-200 flex-shrink-0 overflow-hidden cursor-pointer relative"
                                         onClick={() => handleVideoClick(video.video_id)}
                                     >
@@ -100,7 +100,7 @@ const HilalDigital2 = () => {
                                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                                                 <div className="bg-red-600 rounded-full p-1">
                                                     <svg className="text-white w-3 h-3 fill-current" viewBox="0 0 24 24">
-                                                        <path d="M8 5v14l11-7z"/>
+                                                        <path d="M8 5v14l11-7z" />
                                                     </svg>
                                                 </div>
                                             </div>
@@ -108,21 +108,66 @@ const HilalDigital2 = () => {
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                                                 <div className="bg-black bg-opacity-70 rounded-full p-1">
                                                     <svg className="text-white w-3 h-3 fill-current" viewBox="0 0 24 24">
-                                                        <path d="M8 5v14l11-7z"/>
+                                                        <path d="M8 5v14l11-7z" />
                                                     </svg>
                                                 </div>
                                             </div>
                                         )}
                                     </div>
                                     <div className="flex-1">
-                                        <div className="flex items-center gap-2 text-xs text-gray-400">
-                                            <span>1.4K views</span>
-                                            <span>3 days ago</span>
-                                        </div>
+
                                         <h3 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8]">
                                             {video.title}
                                         </h3>
                                     </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div> */}
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                        {other_videos.map((video) => (
+                            <div
+                                key={video.id}
+                                className="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer"
+                                onClick={() => handleVideoClick(video.video_id)}
+                            >
+                                {/* Thumbnail */}
+                                <div className="relative w-full h-28 bg-gray-200">
+                                    <img
+                                        src={video.thumbnail_url}
+                                        alt={video.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    {playingVideo === video.video_id ? (
+                                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                            <div className="bg-red-600 rounded-full p-1">
+                                                <svg
+                                                    className="text-white w-3 h-3 fill-current"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                            <div className="bg-black bg-opacity-70 rounded-full p-1">
+                                                <svg
+                                                    className="text-white w-3 h-3 fill-current"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Title */}
+                                <div className="p-2">
+                                    <h3 className="text-xs font-semibold line-clamp-2 text-black leading-snug">
+                                        {video.title}
+                                    </h3>
                                 </div>
                             </div>
                         ))}

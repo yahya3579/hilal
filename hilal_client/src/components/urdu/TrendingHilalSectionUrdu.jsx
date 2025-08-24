@@ -26,7 +26,7 @@ const TrendingHilalSectionUrdu = () => {
             {/* Trending Publications Header */}
             <div className="border-t-[3px] border-red-600">
                 <div className="py-2">
-                    <h2 className="heading-text-primary" dir='rtl'>قومی و بین الاقوامی</h2>
+                    <h2 className="heading-text-primary font-urdu-nastaliq-sm1" dir='rtl'>قومی و بین الاقوامی</h2>
                 </div>
 
                 <div className="py-4 grid lg:grid-cols-2 gap-x-6">

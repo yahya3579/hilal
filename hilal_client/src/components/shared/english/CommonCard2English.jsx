@@ -17,9 +17,7 @@ const CommonCard2English = ({ data }) => {
                             <span>{new Date(data[0].publish_date).toLocaleDateString("en-GB")}</span>
                         </div>
                         <h3 className="text-[20px] font-bold line-clamp-1 text-gray-500 mb-2">{data[0].title}</h3>
-                        <p className="text-xs text-black leading-relaxed font-bold line-clamp-5 mb-2">
-                            {data[0].description}
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: data[0].description }} className="text-xs text-black leading-relaxed font-bold line-clamp-5 mb-2" />
                     </div>
                 </div>
             </Link>

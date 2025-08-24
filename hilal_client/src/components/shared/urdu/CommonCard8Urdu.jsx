@@ -5,13 +5,13 @@ const CommonCard8Urdu = ({ article }) => {
     return (
         <>
 
-            <Link to={`/article/${article.id}`} key={article.id} className='flex items-start gap-2 hover:bg-gray-50 rounded cursor-pointer outline-none'>
+            <Link to={`/article/${article.id}`} key={article.id} className='flex items-start gap-2 hover:bg-gray-50 rounded cursor-pointer outline-none' dir='rtl'>
                 <img
                     src={article.cover_image}
                     alt={article.title}
-                    className="w-16 h-10 object-cover flex-shrink-0 outline-none"
+                    className="w-16 h-10 object-cover  flex-shrink-0 outline-none"
                 />
-                <p className="text-gray-500 text-xs outline-none font-bold" dir='rtl'>
+                <p className="text-black text-xs font-urdu-nastaliq-sm outline-none font-bold" dir='rtl'>
                     {/* {article.title} */}
                     {article.title}
                 </p>

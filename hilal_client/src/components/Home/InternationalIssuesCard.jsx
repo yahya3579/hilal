@@ -16,20 +16,24 @@ export default function InternationIssuesCard({ article, isUrdu }) {
                 </div>
 
                 {/* Right side - Article content */}
-                <div className="flex-1 px-2 py-2 flex flex-col justify-between font-poppins">
-                    <div>
+                <div className={`flex-1 px-2 py-2 flex flex-col justify-between ${isUrdu ? '' : 'font-poppins'}`}>
+                    <div >
                         {/* Main headline */}
-                        <h1 className={`text-[20px] md:text-[24px] font-medium leading-[auto] tracking-[-0.03em] text-black ${isUrdu ? 'text-right' : 'text-left'}`}>
+                        <h1 className={`text-[20px] md:text-[24px] font-medium leading-[auto] tracking-[-0.03em] text-black ${isUrdu ? ' font-urdu-nastaliq-sm' : 'text-left'}`}>
                             {article.title}
                         </h1>
 
                         {/* Article description */}
-                        <p className={`text-[16px] md:text-[18px] font-normal leading-[auto] tracking-[-0.03em] line-clamp-4 text-black ${isUrdu ? 'text-right' : 'text-left'}`}>
+                        <p
+                            className={`text-[16px] md:text-[18px] mt-1 font-normal tracking-[-0.03em] line-clamp-4 text-black 
+    ${isUrdu ? 'font-urdu-nastaliq-sm1 text-right leading-[2.2]' : 'text-left leading-snug font-poppins'}`}
+                        >
                             {article.description}
                         </p>
+
                         <Link
                             to={`/article/${article.id}`}
-                            className={`text-[14px] md:text-[16px] font-semibold leading-[auto] tracking-[-0.03em] text-black underline red-primary ${isUrdu ? 'text-right' : 'text-left'}`}
+                            className={`text-[14px] md:text-[16px] font-semibold leading-[auto] tracking-[-0.03em] text-black underline red-primary ${isUrdu ? 'text-right font-urdu-nastaliq-sm1' : 'text-left'}`}
                         >
                             {isUrdu ? 'مزید پڑھیں' : 'READ MORE'}
                         </Link>

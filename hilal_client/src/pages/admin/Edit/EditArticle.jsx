@@ -468,12 +468,11 @@ export default function EditArticle() {
                                 <div>
                                     <label className={`block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal ${isRTL ? 'text-right' : 'text-left'} align-middle`}>{t('date')}</label>
                                     <input
-                                        type="text"
+                                        type="date"
                                         name="publish_date"
                                         value={formData.publish_date}
                                         onChange={handleInputChange}
-                                        placeholder={t('datePlaceholder')}
-                                        className={`w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle placeholder:text-[#DF1600] ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] align-middle ${isRTL ? 'text-right' : 'text-left'}`}
                                     />
                                     {errors.publish_date && <p className={`text-red-600 text-xs mt-1 ${isRTL ? 'text-right' : 'text-left'}`}>{errors.publish_date}</p>}
                                 </div>

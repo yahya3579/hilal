@@ -47,7 +47,7 @@ const ArmedForcesNewsUrdu = () => {
                             className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
-                            <span className="text-white text-xs font-bold text-center px-1">ہلال کڈز انگلش</span>
+                            <span className="text-white  text-xs urdu-text font-bold text-center px-1">ہلال کڈز انگلش</span>
                         </div>
                     </Link>
                     <Link to={`/hilal-her`} className="relative group">
@@ -57,7 +57,7 @@ const ArmedForcesNewsUrdu = () => {
                             className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
-                            <span className="text-white text-xs font-bold text-center px-1">ہلال ہر</span>
+                            <span className="text-white text-xs urdu-text font-bold text-center px-1">ہلال ہر</span>
                         </div>
                     </Link>
                     <Link to={`/hilal-urdu-kids/`} className="relative group">
@@ -67,7 +67,7 @@ const ArmedForcesNewsUrdu = () => {
                             className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
-                            <span className="text-white text-xs font-bold text-center px-1">ہلال کڈز اردو</span>
+                            <span className="text-white text-xs urdu-text font-bold text-center px-1">ہلال کڈز اردو</span>
                         </div>
                     </Link>
                     <Link to={`/hilal-urdu/`} className="relative group">
@@ -77,7 +77,7 @@ const ArmedForcesNewsUrdu = () => {
                             className="w-20 h-28 object-cover flex-shrink-0 transition-opacity duration-300 group-hover:opacity-75"
                         />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded">
-                            <span className="text-white text-xs font-bold text-center px-1">ہلال اردو</span>
+                            <span className="text-white text-xs urdu-text font-bold text-center px-1">ہلال اردو</span>
                         </div>
                     </Link>
 
@@ -86,7 +86,7 @@ const ArmedForcesNewsUrdu = () => {
                 <div className="border-gray-200 relative py-6 outline-none">
                     {/* Header */}
                     <div className="text-center py-1 mb-2 outline-none">
-                        <span className="bg-red-600 text-white px-8 py-2 font-bold text-sm outline-none">
+                        <span className="bg-red-600  font-urdu-nastaliq-sm1 text-white px-13 py-1 font-bold text-sm outline-none">
                             مسلح افواج کی خبریں
                         </span>
                     </div>

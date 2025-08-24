@@ -176,7 +176,7 @@ export default function EditBillBoard() {
             title: formData.title,
             location: formData.location,
             status: formData.status,
-            issue_news: formData.category,
+            issue_news: "Yes",
             created: formData.date,
             image: imageUrl,
         };
@@ -289,18 +289,17 @@ export default function EditBillBoard() {
                             <div>
                                 <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">Date</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     name="date"
                                     value={formData.date}
                                     onChange={handleInputChange}
-                                    placeholder="yyyy-mm-dd"
                                     className="w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F]"
                                 />
                                 {errors.date && <p className="text-red-600 text-xs mt-1">{errors.date}</p>}
                             </div>
 
                             {/* Category Dropdown */}
-                            <div>
+                            {/* <div>
                                 <label className="block color-gray mb-2 font-montserrat font-semibold text-[14px] leading-[100%] tracking-normal align-middle">Category</label>
                                 <select
                                     name="category"
@@ -313,7 +312,7 @@ export default function EditBillBoard() {
                                     <option value="No">No</option>
                                 </select>
                                 {errors.category && <p className="text-red-600 text-xs mt-1">{errors.category}</p>}
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Submit Button */}
