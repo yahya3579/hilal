@@ -16,7 +16,7 @@ const CommonCard1Urdu = ({ article }) => {
                         }}
                     >
                         {/* Category Badge */}
-                        <Link to={`/category/${article.category}`} className="absolute top-3 left-3 bg-black text-white text-xs font-medium px-2 py-1 rounded">
+                        <Link to={`/category/${article.category}`} className="absolute top-3 left-3 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded">
                             {article.category}
                         </Link>
                     </div>

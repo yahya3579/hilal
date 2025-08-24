@@ -128,6 +128,20 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'hilal_backend',             # your database name
+#         'USER': 'root',             # your MySQL username
+#         'PASSWORD':'admin', # your MySQL password
+#         'HOST': 'localhost',        # or 127.0.0.1
+#         'PORT': '3306',
+#     }
+# }
+
+
+
 DATABASES = {
 
 
@@ -201,6 +215,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [ # Allow frontend development server
     "https://hilalclient.vercel.app",  # Allow production frontend
 ]
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",  # Allow frontend development server,  # Allow frontend development server
+# ]
 # CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
 
 # Allow cookies to be sent

@@ -263,10 +263,11 @@ const Navbar = () => {
                                             Hilal Her
                                         </Link>
                                     </li>
-
-
-
-
+                                    <li className="block px-4 py-2 text-sm hover:bg-gray-100 flex items-center ">
+                                        <Link to={`/archives`} className="w-full">
+                                            Archives
+                                        </Link>
+                                    </li>
 
                                     {/* Add more dropdown items here if needed */}
                                 </ul>
@@ -281,14 +282,7 @@ const Navbar = () => {
                                 </ul>
                             )}
                         </li>
-                        <li className="relative group cursor-pointer">
-                            <Link
-                                to="/archives"
-                                className="hover:underline transition-all duration-200 hover:text-red-200"
-                            >
-                                Archives
-                            </Link>
-                        </li>
+
 
                         <li className="hover:underline cursor-pointer">
                             <Link
@@ -452,6 +446,15 @@ const Navbar = () => {
                                             Hilal Her
                                         </Link>
                                     </li>
+                                    <li className="py-2 transform transition-all duration-300 hover:translate-x-2 ">
+                                        <Link
+                                            to="/archives"
+                                            className="text-base hover:underline hover:text-red-600 block text-gray-600 font-medium"
+                                            onClick={closeMobileMenu}
+                                        >
+                                            Archives
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -528,11 +531,7 @@ const Navbar = () => {
                             </div>
                         </li>
 
-                        <li className="py-4 border-b border-gray-200 hover:bg-red-50 px-4 rounded-xl transition-all duration-300">
-                            <Link to="/archives" className="block text-gray-700 hover:text-red-600 font-semibold text-lg" onClick={closeMobileMenu}>
-                                Archives
-                            </Link>
-                        </li>
+
 
                         <li className="py-4 border-b border-gray-200 hover:bg-red-50 px-4 rounded-xl transition-all duration-300">
                             <Link to="/ourcontributors" className="block text-gray-700 hover:text-red-600 font-semibold text-lg" onClick={closeMobileMenu}>

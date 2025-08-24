@@ -72,13 +72,13 @@ const HilalHer = () => {
                         </div>
                     </div>
 
-                    <Suspense fallback={<ComponentSkeleton height="h-56" />}>
+                    {/* <Suspense fallback={<ComponentSkeleton height="h-56" />}>
                         <InFocusSectionHer />
                     </Suspense>
 
                     <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                         <TrendingHilalHerSection />
-                    </Suspense>
+                    </Suspense> */}
                 </div>
 
                 {/* RIGHT COLUMN - Secondary content */}

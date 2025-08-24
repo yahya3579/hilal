@@ -22,31 +22,31 @@ const TrendingHilalPublications = () => {
     queryFn: () => fetchArticlesByCategory("misc"),
   });
 
-  const { data: nationalArticles, isLoading: nationalLoading, error: nationalError } = useQuery({
-    queryKey: ["articles", "national-international-news"],
-    queryFn: () => fetchArticlesByCategory("national-international-news"),
+  const { data: trendingEnglishArticles, isLoading: trendingLoading, error: trendingError } = useQuery({
+    queryKey: ["articles", "trending-english-1"],
+    queryFn: () => fetchArticlesByCategory("trending-english-1"),
   });
 
   // Check if any of the queries are still loading
-  if (inFocusLoading || miscLoading || nationalLoading) return <Loader />;
+  if (inFocusLoading || miscLoading || trendingLoading) return <Loader />;
 
   // Check if any of the queries have errors
-  if (inFocusError || miscError || nationalError) return <p>Error fetching articles</p>;
+  if (inFocusError || miscError || trendingError) return <p>Error fetching articles</p>;
 
   // Shuffle articles from each category randomly
   const shuffledInFocus = [...(inFocusArticles || [])].sort(() => Math.random() - 0.5);
   const shuffledMisc = [...(miscArticles || [])].sort(() => Math.random() - 0.5);
-  const shuffledNational = [...(nationalArticles || [])].sort(() => Math.random() - 0.5);
+  const shuffledTrending = [...(trendingEnglishArticles || [])].sort(() => Math.random() - 0.5);
 
   // Create the grid layout with specific positions
   const gridArticles = [
-    // Row 1: Column 1 (in-focus), Column 2 (misc), Column 3 (national)
+    // Row 1: Column 1 (in-focus), Column 2 (misc), Column 3 (trending)
     shuffledInFocus[0] || null,
-    shuffledNational[0] || null,
+    shuffledTrending[0] || null,
     shuffledMisc[0] || null,
-    // Row 2: Column 1 (in-focus), Column 2 (misc), Column 3 (national)
+    // Row 2: Column 1 (in-focus), Column 2 (misc), Column 3 (trending)
     shuffledInFocus[1] || null,
-    shuffledNational[1] || null,
+    shuffledTrending[1] || null,
     shuffledMisc[1] || null,
   ];
 

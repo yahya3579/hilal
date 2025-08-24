@@ -15,6 +15,7 @@ const fetchArticle = async (id) => {
   return res.data;
 };
 
+
 const fetchRecentArticles = async () => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/get-recent-articles/`);
   return res.data.data;
@@ -135,7 +136,7 @@ export default function ArticlePage() {
             {/* Profile Image */}
             <div className="w-full max-w-[280px] h-[200px] sm:h-[250px] lg:h-[291px] overflow-hidden rounded-lg">
               <img
-                src={article.cover_image || "/placeholder.svg"}
+                src={article.author.author_image || "/placeholder.svg"}
                 alt="Article Cover"
                 className="w-full h-full object-cover"
               />
@@ -144,12 +145,12 @@ export default function ArticlePage() {
             <div className="w-full max-w-[280px] lg:w-[280px] mt-4 lg:mt-0">
               {/* Author Name */}
               <h2 className="text-[#DF1600] font-extrabold text-[18px] sm:text-[20px] lg:text-[24px] leading-tight text-center mt-2 mb-2 font-poppins break-words px-2">
-                {article.writer || "Author Name"}
+                {article.author.author_name || "Author Name"}
               </h2>
 
               {/* Bio */}
               <p className="text-black mb-4 text-center lg:text-left font-poppins font-medium text-xs sm:text-sm leading-[150%] tracking-[-0.03em] px-2">
-                {article.description.split(".")[0] || "Author bio goes here."}
+                {article.author.introduction}
               </p>
 
               {/* Contact */}
@@ -159,7 +160,7 @@ export default function ArticlePage() {
                   href="mailto:hello@website.com"
                   className="text-black text-xs sm:text-sm italic hover:text-red-600 transition-colors text-center lg:text-left"
                 >
-                  hello@website.com
+                  {article.author.email || "Email not available"}
                 </a>
               </div>
 
@@ -202,18 +203,18 @@ export default function ArticlePage() {
             <div className="relative px-4 lg:px-6 pt-6 lg:pt-6 pb-4">
               {/* Title and Heading */}
               <div className={`font-poppins font-light text-[16px] sm:text-[18px] lg:text-[32px] leading-[120%] tracking-[-0.03em] uppercase mb-3 lg:mb-2 text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
-                {getCategoryDisplayName(article.category)}
+                {getCategoryDisplayName(article.article.category)}
               </div>
 
               {/* Heading with Date aligned to bottom right */}
               <div className="relative">
                 <h1 className={`text-black w-full lg:max-w-[80%] font-poppins font-medium line-clamp-3 lg:line-clamp-2 text-[20px] sm:text-[24px] lg:text-[52px] leading-[120%] lg:leading-[100%] tracking-[-0.03em] uppercase pr-16 sm:pr-20 lg:pr-0 text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
-                  {article.title || "Article Title"}
+                  {article.article.title || "Article Title"}
                 </h1>
 
                 {/* Date positioned at bottom-right corner of the heading */}
                 <span className="absolute bottom-0 right-0 text-black font-poppins font-light text-[8px] sm:text-[10px] lg:text-[24px] leading-[100%] tracking-[-0.03em] uppercase z-10">
-                  {new Date(article.publish_date).toLocaleDateString("en-GB") || "Publish Date"}
+                  {new Date(article.article.publish_date).toLocaleDateString("en-GB") || "Publish Date"}
                 </span>
               </div>
             </div>
@@ -222,8 +223,13 @@ export default function ArticlePage() {
           {/* Main content area */}
           <div className="flex-1 px-4 lg:px-6 relative border-l-[1px] border-black">
             <div className=" py-4 lg:py-6">
+              <img
+                src={article.article.cover_image}
+                alt="Article"
+                className="w-full h-[400px] mb-4 rounded-lg"
+              />
               <p className={`text-black font-poppins font-medium text-sm sm:text-base leading-relaxed [letter-spacing:-0.03em] capitalize text-center lg:text-left ${isUrdu ? 'lg:text-right' : ''}`}>
-                {article.description}
+                {article.article.description}
               </p>
               {isAuthorized == true && (
                 <div className="mt-6 lg:mt-8">

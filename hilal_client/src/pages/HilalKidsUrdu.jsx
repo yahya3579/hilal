@@ -97,13 +97,13 @@ const HilalKidsUrdu = () => {
                         </div>
                     </div>
 
-                    <Suspense fallback={<ComponentSkeleton height="h-56" />}>
+                    {/* <Suspense fallback={<ComponentSkeleton height="h-56" />}>
                         <InFocusSectionUrduKids />
                     </Suspense>
 
                     <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                         <TrendingHilalSectionKidsUrdu />
-                    </Suspense>
+                    </Suspense> */}
                 </div>
             </div>
 

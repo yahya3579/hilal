@@ -19,7 +19,10 @@ const CreateVideo = () => {
         youtube_url: '',
         description: '',
         status: 'Active',
-        order: 0
+        order: 0,
+        // views: '0 views',
+        // time_ago: 'Just now',
+        // is_featured: false
     });
 
     const mutation = useMutation({
@@ -143,6 +146,8 @@ const CreateVideo = () => {
                             />
                         </div>
                     </div>
+
+
 
                     {/* Buttons */}
                     <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">

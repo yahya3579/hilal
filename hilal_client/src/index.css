@@ -3,6 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+/* Urdu Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaliq&display=swap');
 @import "tailwindcss";
 
 
@@ -103,6 +106,68 @@
 .ltr select {
   padding-left: 0.75rem;
   padding-right: 2.5rem;
+}
+
+/* Urdu Font Classes */
+.font-urdu-nastaliq {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 1.25rem; /* 20px - larger for better readability */
+  line-height: 1.8; /* Better line spacing for Urdu text */
+  font-weight: 500;
+}
+
+.font-urdu-nastaliq-lg {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 1.5rem; /* 24px - for headings */
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.font-urdu-nastaliq-xl {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 1.875rem; /* 30px - for large headings */
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.font-urdu-nastaliq-sm {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 1.125rem; /* 18px - for smaller text but still readable */
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* Urdu Text Specific Styles */
+.urdu-text {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  font-weight: 500;
+  text-align: right;
+  direction: rtl;
+}
+
+.urdu-heading {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 1.75rem;
+  line-height: 1.5;
+  font-weight: 600;
+  text-align: right;
+  direction: rtl;
+}
+
+/* Fallback for systems without Urdu fonts */
+@supports not (font-family: 'Noto Nastaliq Urdu') {
+  .font-urdu-nastaliq,
+  .font-urdu-nastaliq-lg,
+  .font-urdu-nastaliq-xl,
+  .font-urdu-nastaliq-sm,
+  .urdu-text,
+  .urdu-heading {
+    font-family: 'Arial Unicode MS', 'Tahoma', 'Segoe UI', sans-serif;
+    font-size: 1.1em; /* Slightly larger than default */
+    line-height: 1.6;
+  }
 }
 
 

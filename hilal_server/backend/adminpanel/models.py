@@ -132,6 +132,9 @@ class Videos(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order = models.PositiveIntegerField(default=0)  # For ordering videos
+    # views = models.CharField(max_length=20, default="0 views")  # For display views like "1.4K views"
+    # time_ago = models.CharField(max_length=20, default="Just now")  # For display time like "3 days ago"
+    # is_featured = models.BooleanField(default=False)  # To mark featured video for left side
 
     def save(self, *args, **kwargs):
         # Extract video ID from YouTube URL
