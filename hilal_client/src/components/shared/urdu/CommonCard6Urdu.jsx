@@ -13,8 +13,8 @@ const CommonCard6Urdu = ({ article }) => {
                     className="min-w-[150px] h-[60px] object-cover"
                 />
                 <div>
-                    <p className="text-xs text-gray-400 mb-1" dir='rtl'>{article.writer}</p>
-                    <h4 className="text-xs font-semibold line-clamp-2 text-black leading-[1.8]" dir='rtl'>
+                    <p className="text-xs text-gray-400 font-urdu-nastaliq-sm mb-1" dir='rtl'>{article.writer}</p>
+                    <h4 className="text-xs font-semibold font-urdu-nastaliq-sm line-clamp-2 text-black leading-[1.8]" dir='rtl'>
                         {/* {article.title} */}
                         {article.title}
                     </h4>

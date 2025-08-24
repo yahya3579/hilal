@@ -28,7 +28,7 @@ const PreviousMonthHilalUrdu = () => {
         <div className="bg-white w-full font-poppins">
             <div className="border-t-[3px] border-red-600">
                 <div className="py-2">
-                    <h2 className="heading-text-primary" dir='rtl'>ہلال میگزین -گزشتہ ماہ کے شمارے</h2>
+                    <h2 className="heading-text-primary font-urdu-nastaliq-sm1" dir='rtl'>ہلال میگزین -گزشتہ ماہ کے شمارے</h2>
                 </div>
 
                 {/* Magazine Covers */}

@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 /* Urdu Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaliq&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Jameel+Noori+Nastaliq&display=swap'); */
 @import "tailwindcss";
 
 
@@ -132,10 +132,18 @@
 
 .font-urdu-nastaliq-sm {
   font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
-  font-size: 1.125rem; /* 18px - for smaller text but still readable */
+  font-size: 1 rem; /* 18px - for smaller text but still readable */
   line-height: 1.7;
   font-weight: 400;
 }
+
+.font-urdu-nastaliq-sm1 {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaliq', serif;
+  font-size: 3 rem; /* 18px - for smaller text but still readable */
+  
+  font-weight: 400;
+}
+
 
 /* Urdu Text Specific Styles */
 .urdu-text {

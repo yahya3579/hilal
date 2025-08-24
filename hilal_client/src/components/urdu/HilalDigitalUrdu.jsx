@@ -34,7 +34,7 @@ const HilalDigitalUrdu = () => {
             <div className="bg-white">
                 <div className="border-t-[3px] border-red-600 w-full mb-4 mt-2" />
                 <h2
-                    className="text-red-600 font-[500] text-[24px] leading-[100%] uppercase font-poppins mb-2 -mt-2"
+                    className="text-red-600 font-[500] text-[24px] leading-[100%] uppercase font-urdu-nastaliq-sm1 mb-2 -mt-2"
                     style={{ letterSpacing: "-0.03em" }} dir='rtl'
                 >
                     ہلال ڈیجیٹل
@@ -74,7 +74,7 @@ const HilalDigitalUrdu = () => {
                                         </div>
                                     </div>
                                     <div className="bg-white py-2">
-                                        <p className="text-xs font-semibold line-clamp-4 text-black leading-[1.8]">
+                                        <p className="text-xs font-semibold line-clamp-2 text-black leading-[1.8]">
                                             {video.title}
                                         </p>
                                     </div>

@@ -414,12 +414,11 @@ export default function EditMagazine() {
                                         Date
                                     </label>
                                     <input
-                                        type="text"
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         name="publish_date"
                                         value={formData.publish_date}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F] placeholder:text-[#DF1600]"
+                                        className="w-full px-3 py-2 border color-border rounded-md font-montserrat font-normal text-[12px] leading-[18px] tracking-normal text-[#0F0F0F]"
                                     />
                                     {errors.publish_date && <p className="text-red-600 text-xs mt-1">{errors.publish_date}</p>}
                                 </div>

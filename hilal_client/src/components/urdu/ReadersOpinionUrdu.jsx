@@ -55,7 +55,7 @@ const ReaderOpinionUrdu = () => {
                 {/* Readers Opinion Section */}
                 <div className="border-t-[3px] border-red-600 mt-6">
                     <div className="py-2 px-4">
-                        <h2 className="heading-text-primary" dir='rtl'>
+                        <h2 className="heading-text-primary font-urdu-nastaliq-sm1" dir='rtl'>
                             قارئین کی رائے
                         </h2>
                     </div>

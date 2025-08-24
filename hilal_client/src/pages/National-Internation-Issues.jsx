@@ -40,7 +40,7 @@ const NationalInternationIssues = () => {
 
                 <>
                     <div className="px-3 sm:px-6 pt-3 sm:pt-4">
-                        <h1 className={`text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-poppins mt-1 sm:mt-2 ${isUrdu ? 'text-right' : 'text-left'}`}>
+                        <h1 className={`text-lg sm:text-2xl font-medium uppercase tracking-tight text-[#DF1600] font-poppins mt-1 sm:mt-2 ${isUrdu ? 'font-urdu-nastaliq-sm' : 'text-left'}`}>
                             {isUrdu && category.includes('urdu') ?
                                 (category.includes('kids') ? 'ہلال فار کڈز - اردو' : 'اردو مضامین') :
                                 category.replace('-', ' ')
@@ -58,8 +58,9 @@ const NationalInternationIssues = () => {
                     </div>
 
                 </>
-            )}
-        </div>
+            )
+            }
+        </div >
 
     )
 }

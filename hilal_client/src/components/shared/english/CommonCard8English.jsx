@@ -11,7 +11,7 @@ const CommonCard8English = ({ article }) => {
                     alt={article.title}
                     className="w-16 h-10 object-cover flex-shrink-0 outline-none"
                 />
-                <p className="text-gray-500 text-xs outline-none font-bold">
+                <p className="text-black text-xs outline-none font-bold">
                     {article.title}
                 </p>
             </Link>
