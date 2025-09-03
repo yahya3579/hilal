@@ -6,7 +6,14 @@ import Loader from '../Loader/loader';
 
 const fetchVideos = async () => {
     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/videos/`);
-    return res.data.data;
+    // Filter videos to show only Urdu content based on language field
+    const allVideos = res.data.data;
+    const urduVideos = allVideos.filter(video => 
+        video.language === 'Urdu' || 
+        // Keep specific video ID for backward compatibility
+        video.video_id === '-os77HbWhs0'
+    );
+    return urduVideos;
 };
 
 const HilalDigitalUrdu = () => {
@@ -28,6 +35,9 @@ const HilalDigitalUrdu = () => {
     if (error) return <p>Error loading videos</p>;
     if (!videos || videos.length === 0) return <p>No videos available</p>;
 
+    // Get only the videos to display based on visibleCount
+    const videosToShow = videos;
+
     return (
         <div className="bg-white relative max-lg:px-4 flex font-poppins flex-col">
             {/* Header */}
@@ -44,10 +54,10 @@ const HilalDigitalUrdu = () => {
             {/* Video List */}
             <div
                 ref={listRef}
-                className="flex-1 overflow-y-auto max-h-screen"
+                className="overflow-y-auto h-[560px]"
                 style={{ scrollbarWidth: "none" }}
             >
-                {videos.map((video, index) => (
+                {videosToShow.map((video, index) => (
                     <div key={video.id} className="relative border-b my-2 border-gray-200">
                         <div className="relative">
                             {playingVideo === video.video_id && playingVideoIndex === index ? (

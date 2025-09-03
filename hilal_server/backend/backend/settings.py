@@ -1,3 +1,4 @@
+
 """
 Django settings for backend project.
 
@@ -13,7 +14,10 @@ from corsheaders.defaults import default_headers
 from pathlib import Path # import libraries for file path handling 1
 from datetime import timedelta
 from dotenv import load_dotenv
+import pymysql
 
+# Initialize PyMySQL as MySQL client
+pymysql.install_as_MySQLdb()
 
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -129,43 +133,65 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'hilal_backend',             # your database name
-#         'USER': 'root',             # your MySQL username
-#         'PASSWORD':'admin', # your MySQL password
-#         'HOST': 'localhost',        # or 127.0.0.1
-#         'PORT': '3306',
-#     }
-# }
-
-
-
 DATABASES = {
-
-
     'default': {
-
         'ENGINE': 'django.db.backends.mysql',
-
-
-        'NAME': 'hilal_database',             # your database name
-
-
-        'USER': 'admin',             # your MySQL username
-
-
-        'PASSWORD':'database_password', # your MySQL password
-
-
-        'HOST': 'database-2.cszw0uku8hw1.us-east-1.rds.amazonaws.com',        # or 127.0.0.1
-
+        'NAME': 'hilal_backend',             # your database name
+        'USER': 'root',             # your MySQL username
+        'PASSWORD': '',         # your MariaDB password (leave empty if no password set)
+        'HOST': 'localhost',        # or 127.0.0.1
         'PORT': '3306',
-
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
     }
-
 }
+
+# Override Django's MariaDB version check to work with 10.4.32
+import django.db.backends.mysql.base as mysql_base
+import django.db.backends.mysql.features as mysql_features
+
+# Monkey patch to bypass MariaDB version check and disable RETURNING clause
+def patched_minimum_database_version(self):
+    if self.connection.mysql_is_mariadb:
+        return (10, 4)  # Allow MariaDB 10.4
+    else:
+        return (5, 7)   # MySQL 5.7
+
+# Disable RETURNING clause support for MariaDB 10.4
+def patched_can_return_columns_from_insert(self):
+    return False
+
+mysql_features.DatabaseFeatures.minimum_database_version = property(patched_minimum_database_version)
+mysql_features.DatabaseFeatures.can_return_columns_from_insert = property(patched_can_return_columns_from_insert)
+
+
+
+# DATABASES = {
+
+
+#     'default': {
+
+#         'ENGINE': 'django.db.backends.mysql',
+
+
+#         'NAME': 'hilal_database',             # your database name
+
+
+#         'USER': 'admin',             # your MySQL username
+
+
+#         'PASSWORD':'database_password', # your MySQL password
+
+
+#         'HOST': 'database-2.cszw0uku8hw1.us-east-1.rds.amazonaws.com',        # or 127.0.0.1
+
+#         'PORT': '3306',
+
+#     }
+
+# }
 
 
 # Password validation
@@ -212,13 +238,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS_ALLOWED_ORIGINS = [
 #     "https://hilalclient.vercel.app",  # Allow frontend development server
 # ]
-CORS_ALLOWED_ORIGINS = [ # Allow frontend development server
-    "https://hilalclient.vercel.app",  # Allow production frontend
-]
-
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",  # Allow frontend development server,  # Allow frontend development server
+# CORS_ALLOWED_ORIGINS = [ # Allow frontend development server
+#     "https://hilalclient.vercel.app",  # Allow production frontend
 # ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Allow frontend development server,  # Allow frontend development server
+]
 # CORS_ALLOWED_CREDENTIALS = True  # Allow credentials for CORS; adjust in production
 
 # Allow cookies to be sent
@@ -229,13 +255,13 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Requested-With',
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://hilalclient.vercel.app",
-]
-
 # CSRF_TRUSTED_ORIGINS = [
 #     "https://hilalclient.vercel.app",
 # ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
 # Optional: allow specific methods
 CORS_ALLOW_METHODS = [
     "GET",

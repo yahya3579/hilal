@@ -28,7 +28,7 @@ export default function InternationIssuesCard({ article, isUrdu }) {
                             className={`text-[16px] md:text-[18px] mt-1 font-normal tracking-[-0.03em] line-clamp-4 text-black 
     ${isUrdu ? 'font-urdu-nastaliq-sm1 text-right leading-[2.2]' : 'text-left leading-snug font-poppins'}`}
                         >
-                            {article.description}
+                            {article.description?.replace(/<[^>]*>/g, '')}
                         </p>
 
                         <Link

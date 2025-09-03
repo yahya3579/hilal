@@ -50,6 +50,7 @@ urlpatterns = [
 
     # article management URLs
     path('api/article/<int:pk>/', SingleArticleView.as_view(), name='single-article'), #get the single article with post delete up and get methods
+    path('api/article/<int:pk>', SingleArticleView.as_view(), name='single-article-no-slash'), #handle requests without trailing slash
     path('api/create-article/', CreateArticleView.as_view(), name='create-article'), # create article with post method
     path('api/get-articles/', GetAllArticlesView.as_view(), name='get-articles'),# get all articles with get method
     path('api/create-comment/', CreateCommentView.as_view(), name='create-comment'), # create comment with post method

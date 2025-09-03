@@ -58,31 +58,8 @@ const HilalKidsUrdu = () => {
 
     return (
         <>
-            <div className="flex lg:flex-row flex-col">
-                {/* RIGHT COLUMN - RTL layout, sidebar on right */}
-                <div className="lg:w-[30%] relative">
-                    <div className="sticky top-0">
-                        <div style={{ scrollbarWidth: "none" }} className="overflow-y-auto max-h-screen">
-                            <Suspense fallback={<ComponentSkeleton height="h-40" />}>
-                                <ArmedForcesNewsUrdu />
-                            </Suspense>
-
-                            <Suspense fallback={<ComponentSkeleton height="h-32" />}>
-                                <Advertisement1 />
-                            </Suspense>
-
-                            <Suspense fallback={<ComponentSkeleton height="h-36" />}>
-                                <NewsLetterUrdu />
-                            </Suspense>
-
-                            <Suspense fallback={<ComponentSkeleton height="h-32" />}>
-                                <Advertisement2Urdu />
-                            </Suspense>
-                        </div>
-                    </div>
-                </div>
-
-                {/* LEFT COLUMN - RTL layout, main content on left */}
+            <div className="flex lg:flex-row flex-col px-4 lg:px-8 xl:px-12">
+                {/* LEFT COLUMN - Main content with articles and videos */}
                 <div style={{ scrollbarWidth: "none" }} className="lg:w-[70%] overflow-y-auto max-h-screen">
                     <div className="flex lg:flex-row flex-col">
                         <div className="lg:w-1/4">
@@ -105,6 +82,29 @@ const HilalKidsUrdu = () => {
                         <TrendingHilalSectionKidsUrdu />
                     </Suspense> */}
                 </div>
+
+                {/* RIGHT COLUMN - Sidebar with ads and news */}
+                <div className="lg:w-[30%] relative">
+                    <div className="sticky top-0">
+                        <div style={{ scrollbarWidth: "none" }} className="overflow-y-auto max-h-screen">
+                            <Suspense fallback={<ComponentSkeleton height="h-40" />}>
+                                <ArmedForcesNewsUrdu />
+                            </Suspense>
+
+                            <Suspense fallback={<ComponentSkeleton height="h-32" />}>
+                                <Advertisement1 />
+                            </Suspense>
+
+                            <Suspense fallback={<ComponentSkeleton height="h-36" />}>
+                                <NewsLetterUrdu />
+                            </Suspense>
+
+                            <Suspense fallback={<ComponentSkeleton height="h-32" />}>
+                                <Advertisement2Urdu />
+                            </Suspense>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Below-the-fold content - Loads only when scrolled into view */}
@@ -125,7 +125,7 @@ const HilalKidsUrdu = () => {
             {/* Bottom section - Loads when user scrolls further */}
             <div ref={bottomRef}>
                 {bottomVisible && (
-                    <div className="flex lg:flex-row flex-col px-4 py-2 gap-x-4">
+                    <div className="flex lg:flex-row flex-col py-2 gap-x-4">
                         <div className="lg:w-[70%]">
                             <Suspense fallback={<ComponentSkeleton height="h-56" />}>
                                 <PreviousMonthHilalUrdu />

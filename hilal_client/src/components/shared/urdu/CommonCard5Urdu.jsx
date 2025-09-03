@@ -15,7 +15,7 @@ const CommonCard5Urdu = ({ article }) => {
                 </Link>
                 <div className="py-3">
                     <p className="text-xs text-gray-400 mb-1" dir='rtl'>{article.writer}</p>
-                    <h4 className="text-xs font-semibold font-urdu-nastaliq-sm line-clamp-2 text-black leading-[1.8]" dir='rtl'>
+                    <h4 className="text-xs font-semibold font-urdu-nastaliq-sm  text-black leading-[1.8]" dir='rtl'>
                         {/* {article.title} */}
                         {article.title}
                     </h4>

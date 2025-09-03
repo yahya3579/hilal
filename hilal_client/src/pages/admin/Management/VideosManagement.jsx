@@ -20,6 +20,7 @@ const VideosManagement = () => {
     const queryClient = useQueryClient();
     const { showToast } = useToast();
     const [deleteModal, setDeleteModal] = useState({ show: false, videoId: null });
+    const [languageFilter, setLanguageFilter] = useState('');
 
     const { data: videos, isLoading, error } = useQuery({
         queryKey: ['videos-management'],
@@ -51,6 +52,11 @@ const VideosManagement = () => {
     if (isLoading) return <Loader />;
     if (error) return <p className="p-4 text-red-500">Error fetching videos</p>;
 
+    // Filter videos based on language filter
+    const filteredVideos = languageFilter 
+        ? videos.filter(video => video.language === languageFilter)
+        : videos;
+
     return (
         <div className="p-6 bg-white min-h-screen">
             {/* Header */}
@@ -60,17 +66,23 @@ const VideosManagement = () => {
                 </h1>
                 <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
                     <span className="text-sm text-[#1E1E1E] font-medium leading-[100%] tracking-[-0.01em] font-poppins">
-                        Content filter
+                        Language filter
                     </span>
-                    <select className="border border-gray-300 rounded px-3 py-1 text-sm">
-                        <option value="">Select filter</option>
+                    <select 
+                        className="border border-gray-300 rounded px-3 py-1 text-sm"
+                        value={languageFilter}
+                        onChange={(e) => setLanguageFilter(e.target.value)}
+                    >
+                        <option value="">All Languages</option>
+                        <option value="English">English</option>
+                        <option value="Urdu">Urdu</option>
                     </select>
                 </div>
             </div>
 
             {/* Table */}
             <div className="overflow-x-auto">
-                {(!videos || videos.length === 0) ? (
+                {(!filteredVideos || filteredVideos.length === 0) ? (
                     <p className="text-center text-gray-500 font-poppins text-lg">No videos found.</p>
                 ) : (
                     <table className="w-full border-collapse">
@@ -80,13 +92,14 @@ const VideosManagement = () => {
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Thumbnail</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Title</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Description</th>
+                                <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Language</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Order</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Status</th>
                                 <th className="text-left py-3 px-4 text-[#DF1600] font-medium text-[15px] capitalize font-poppins">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {videos.map((video, index) => (
+                            {filteredVideos.map((video, index) => (
                                 <tr
                                     key={video.id}
                                     className="border-b-[0.5px] border-[#292D32] hover:bg-gray-50 cursor-pointer"
@@ -105,6 +118,15 @@ const VideosManagement = () => {
                                     <td className="py-4 px-4 text-gray-700">
                                         <span className="font-medium text-[12.7px] font-poppins">
                                             {video.description ? (video.description.length > 50 ? `${video.description.substring(0, 50)}...` : video.description) : 'No description'}
+                                        </span>
+                                    </td>
+                                    <td className="py-4 px-4 text-gray-700">
+                                        <span className={`px-2 py-1 rounded text-[10.89px] font-bold ${
+                                            video.language === 'Urdu' 
+                                                ? 'bg-[#DF1600] text-white' 
+                                                : 'bg-blue-500 text-white'
+                                        }`}>
+                                            {video.language || 'English'}
                                         </span>
                                     </td>
                                     <td className="py-4 px-4 text-gray-700">

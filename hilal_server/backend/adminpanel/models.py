@@ -129,6 +129,11 @@ class Videos(models.Model):
         choices=[('Active', 'Active'), ('Inactive', 'Inactive')], 
         default='Active'
     )
+    language = models.CharField(
+        max_length=10,
+        choices=[('English', 'English'), ('Urdu', 'Urdu')],
+        default='English'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     order = models.PositiveIntegerField(default=0)  # For ordering videos
@@ -164,6 +169,6 @@ class Videos(models.Model):
         return self.title
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'videos'
         ordering = ['order', 'created_at']

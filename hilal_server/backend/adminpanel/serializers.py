@@ -58,5 +58,5 @@ class AuthorSerializer(serializers.ModelSerializer):
 class VideosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Videos
-        fields = ['id', 'title', 'youtube_url', 'video_id', 'thumbnail_url', 'description', 'status', 'created_at', 'updated_at', 'order']
+        fields = ['id', 'title', 'youtube_url', 'video_id', 'thumbnail_url', 'description', 'status', 'language', 'created_at', 'updated_at', 'order']
         read_only_fields = ['id', 'video_id', 'thumbnail_url', 'created_at', 'updated_at']

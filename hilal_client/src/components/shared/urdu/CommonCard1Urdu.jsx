@@ -30,7 +30,7 @@ const CommonCard1Urdu = ({ article }) => {
                     </div>
                     {/* Title */}
                     <Link to={`/article/${article.id}`}>
-                        <h3 className="text-xs font-urdu-nastaliq-sm font-semibold line-clamp-4 text-black h-max " dir='rtl'>
+                        <h3 className="text-xs font-urdu-nastaliq-sm font-semibold  text-black h-max " dir='rtl'>
                             {/* {article.title} */}
                             {article.title}
                         </h3>

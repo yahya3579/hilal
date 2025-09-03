@@ -25,6 +25,10 @@ import EditArticle from "./pages/admin/Edit/EditArticle";
 import EditAuthor from "./pages/admin/Edit/EditAuthor";
 import EditBillBoard from "./pages/admin/Edit/EditBillBoard";
 import EditMagazine from "./pages/admin/Edit/EditMagazine";
+
+
+
+import EditVideo from "./pages/admin/Edit/EditVideo";
 import HilalArchives from "./pages/HilalArchives";
 import AboutUs from "./pages/AboutUs";
 import HilalEbooks from "./pages/HilalEbooks";
@@ -103,6 +107,7 @@ const App = () => {
       <Route path="/admin/edit-magazine" element={<ProtectedRoutes><EditMagazine /></ProtectedRoutes>} />
       <Route path="/admin/edit-ebook" element={<ProtectedRoutes><EditEbook /></ProtectedRoutes>} />
       <Route path="/admin/edit-ebook/:ebookId" element={<ProtectedRoutes><EditEbook /></ProtectedRoutes>} />
+      <Route path="/admin/videos-management/edit/:videoId" element={<ProtectedRoutes><EditVideo /></ProtectedRoutes>} />
       {/* admin routes end */}
 
       <Route path="*" element={<NotFound />} />

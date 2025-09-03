@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/hilal-logo.svg";
 import hilalHerLogo from '../assets/hilal-logo-her.svg'
 import hilalKidsLogo from '../assets/hilal-logo-kids.svg'
+import hilalUrduLogo from '../assets/hilal-urdu.png'
 import {
     Facebook,
     Youtube,
@@ -47,7 +48,17 @@ const Navbar = () => {
         "/category/hilal-her": hilalHerLogo,
         "/hilal-kids": hilalKidsLogo,
         "/hilal-urdu-kids": hilalKidsLogo,
+        "/hilal-urdu": hilalUrduLogo,
         "/": Logo,
+    };
+
+    // Define logo sizes for different routes
+    const logoSizeMap = {
+        "/hilal-urdu": "h-25 w-auto", // Larger size for Urdu logo
+        "/hilal-urdu-kids": "h-12 w-45", // Smaller size for Kids Urdu logo
+        "/hilal-kids": "h-12 w-45", // Smaller size for Kids logo
+        "/hilal-her": "h-12 w-45", // Smaller size for Her logo
+        default: "h-14 w-auto" // Default size for other logos
     };
 
     // Pick the logo based on the current path
@@ -178,9 +189,9 @@ const Navbar = () => {
                 {/* Logo Section */}
                 <div className="absolute -bottom-3 left-4 top-0 flex items-center bg-white p-4 shadow-lg z-20">
                     <img
-                        src={Logo}
+                        src={logoMap[currentLogo] || Logo}
                         alt="Hilal Publications"
-                        className="h-14 w-auto"
+                        className={logoSizeMap[currentLogo] || logoSizeMap.default}
                     />
                 </div>
 

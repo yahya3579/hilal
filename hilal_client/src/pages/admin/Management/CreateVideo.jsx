@@ -19,6 +19,7 @@ const CreateVideo = () => {
         youtube_url: '',
         description: '',
         status: 'Active',
+        language: 'English',
         order: 0,
         // views: '0 views',
         // time_ago: 'Just now',
@@ -112,6 +113,26 @@ const CreateVideo = () => {
                             className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-text resize-none"
                             placeholder="Enter video description (optional)"
                         />
+                    </div>
+
+                    {/* Language Selection */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
+                            Language *
+                        </label>
+                        <select
+                            name="language"
+                            value={formData.language}
+                            onChange={handleInputChange}
+                            required
+                            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-poppins text-[14px] cursor-pointer bg-white"
+                        >
+                            <option value="English">English</option>
+                            <option value="Urdu">Urdu</option>
+                        </select>
+                        <p className="text-xs text-gray-500 mt-1 font-poppins">
+                            Urdu videos will appear in Hilal Urdu and Hilal Kids Urdu pages. English videos will appear in other sections.
+                        </p>
                     </div>
 
                     {/* Status and Order */}

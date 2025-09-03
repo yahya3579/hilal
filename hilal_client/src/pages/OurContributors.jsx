@@ -536,7 +536,7 @@ const OurContributors = () => {
           {/* Lt Gen Ahmed Sharif Chaudhry, HI (M) */}
           <div className="border border-gray-300 p-2 sm:p-3">
             <img 
-              src={team1}
+              src={team4}
               alt="Lt Gen Ahmed Sharif Chaudhry, HI (M)"
               className="w-full sm:w-[304px] h-[250px] sm:h-[318px] object-cover mb-2 mx-auto"
             />
@@ -572,12 +572,12 @@ const OurContributors = () => {
           {/* Uroosa Saeed Iqbal */}
           <div className="border border-gray-300 p-2 sm:p-3">
             <img 
-              src={team4}
+              src={team1}
               alt="Uroosa Saeed Iqbal"
               className="w-full sm:w-[304px] h-[250px] sm:h-[318px] object-cover mb-2 mx-auto"
             />
             <p className="text-center text-xs sm:text-sm font-poppins text-gray-700">
-              Uroosa Saeed Iqbal
+             Uroosa Saeed Iqbal
             </p>
           </div>
         </div>
