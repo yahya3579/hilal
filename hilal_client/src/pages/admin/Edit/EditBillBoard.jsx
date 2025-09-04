@@ -16,12 +16,22 @@ const fetchBillboardById = async (id) => {
 };
 
 const saveBillboard = async ({ id, data }) => {
-    if (id) {
-        const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/billboard/${id}/`, data);
-        return res.data;
-    } else {
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-billboard/`, data);
-        return res.data;
+    console.log("saveBillboard called with:", { id, data });
+    try {
+        if (id) {
+            console.log("Updating billboard with ID:", id);
+            const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/billboard/${id}/`, data);
+            console.log("Update response:", res.data);
+            return res.data;
+        } else {
+            console.log("Creating new billboard");
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/create-billboard/`, data);
+            console.log("Create response:", res.data);
+            return res.data;
+        }
+    } catch (error) {
+        console.error("API error:", error.response?.data || error.message);
+        throw error;
     }
 };
 
@@ -72,11 +82,15 @@ export default function EditBillBoard() {
     const mutation = useMutation({
         mutationFn: saveBillboard,
         onSuccess: () => {
+            setIsSubmitting(false);
             alert(billboardId ? "Billboard updated successfully!" : "Billboard created successfully!");
             navigate("/admin/bill-boards-management");
         },
         onError: (error) => {
-            alert(`Error ${billboardId ? "updating" : "creating"} billboard: ${error.response?.data || error.message}`);
+            console.error("Mutation error:", error);
+            setIsSubmitting(false);
+            const errorMessage = error.response?.data?.error || error.response?.data?.message || error.message || "An unexpected error occurred.";
+            alert(`Error ${billboardId ? "updating" : "creating"} billboard: ${errorMessage}`);
         },
     });
 
@@ -143,28 +157,39 @@ export default function EditBillBoard() {
         const newErrors = {};
         if (!formData.title.trim()) newErrors.title = "Title is required.";
         if (!formData.location.trim()) newErrors.location = "Location is required.";
-        if (!formData.category.trim()) newErrors.category = "Category is required.";
         if (!formData.date.trim()) newErrors.date = "Date is required.";
+        if (!userId) newErrors.user = "User authentication is required.";
+        if (!formData.image && !billboardData?.image) newErrors.image = "Image is required.";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
+        console.log("Form submitted");
+        console.log("Form data:", formData);
+        console.log("User ID:", userId);
+        
+        if (!validateForm()) {
+            console.log("Form validation failed:", errors);
+            return;
+        }
 
         setIsSubmitting(true);
         let imageUrl = billboardData?.image;
 
         if (formData.image && typeof formData.image !== "string") {
             try {
+                console.log("Uploading image to Cloudinary...");
                 imageUrl = await uploadToCloudinary(formData.image);
                 if (!imageUrl) {
                     alert("Image upload failed");
                     setIsSubmitting(false);
                     return;
                 }
+                console.log("Image uploaded successfully:", imageUrl);
             } catch (error) {
+                console.error("Image upload error:", error);
                 alert("Error uploading image: " + error.message);
                 setIsSubmitting(false);
                 return;
@@ -181,17 +206,10 @@ export default function EditBillBoard() {
             image: imageUrl,
         };
 
-        mutation.mutate({ id: billboardId, data: updatedData }, {
-            onSuccess: () => {
-                alert(billboardId ? "Billboard updated successfully!" : "Billboard created successfully!");
-                navigate("/admin/bill-boards-management");
-            },
-            onError: (error) => {
-                const errorMessage = error.response?.data?.error || "An unexpected error occurred.";
-                alert(errorMessage); // Show error if location is already occupied
-                setIsSubmitting(false);
-            },
-        });
+        console.log("Submitting data:", updatedData);
+        console.log("Billboard ID:", billboardId);
+        
+        mutation.mutate({ id: billboardId, data: updatedData });
     };
 
     if (isLoading) return <Loader />;
@@ -246,6 +264,7 @@ export default function EditBillBoard() {
                                 <p className="font-montserrat font-normal text-xs sm:text-[12px] leading-[18px] tracking-normal text-center align-middle color-gray">Supported formats: PNG, JPG</p>
                             </div>
                             {errors.image && <p className="text-red-600 text-xs mt-1">{errors.image}</p>}
+                            {errors.user && <p className="text-red-600 text-xs mt-1">{errors.user}</p>}
                         </div>
 
                         {/* Form Fields */}

@@ -17,7 +17,17 @@ const CommonCard1Urdu = ({ article }) => {
                     >
                         {/* Category Badge */}
                         <Link to={`/category/${article.category}`} className="absolute top-3 left-3 bg-red-500 text-white text-xs font-medium px-2 py-1 rounded">
-                            {article.category}
+                            {article.category === "trending-urdu" ? "Trending" : 
+                             article.category === "trending-urdu-kids" ? "Trending" : 
+                             article.category === "in-focus-urdu" ? "in-focus" : 
+                             article.category === "in-focus-urdu-kids" ? "in-focus" : 
+                             article.category === "misc-urdu" ? "misc" : 
+                             article.category === "misc-urdu-kids" ? "misc" : 
+                             article.category === "armed-forces-news-urdu" ? "misc" : 
+                             article.category === "armed-forces-news-urdu-kids" ? "misc" : 
+                             article.category === "national-international-news-urdu" ? "Trending" :
+                             article.category === "national-international-news-urdu-kids" ? "misc" :
+                             article.category}
                         </Link>
                     </div>
                 </Link>

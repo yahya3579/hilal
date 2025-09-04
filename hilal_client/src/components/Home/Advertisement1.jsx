@@ -27,10 +27,10 @@ const Advertisement1 = () => {
                 <img
                     src={billboard.image}
                     alt={billboard.title || "Advertisement"}
-                    className="w-[300px] h-[250px] object-fill"
+                    className="w-[430px] h-[250px] object-fill"
                 />
             ) : (
-                <div className="w-[300px] h-[250px] bg-black flex items-center justify-center rounded">
+                <div className="w-[430px] h-[250px] bg-black flex items-center justify-center rounded">
                     <p className="text-white font-medium">Ad Space</p>
                 </div>
             )}

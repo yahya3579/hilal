@@ -13,6 +13,7 @@ const HilalDigital2Urdu = lazy(() => import("../components/urdu/HilalDigital2Urd
 const Advertisement2Urdu = lazy(() => import("../components/urdu/Advertisment2Urdu"));
 const TrendingHilalSectionUrdu = lazy(() => import("../components/urdu/TrendingHilalSectionUrdu"));
 const InFocusSectionUrduKids = lazy(() => import("../components/urdu/kids/InFocusUrduKids"));
+const HilalMiscUrduKids = lazy(() => import("../components/urdu/kids/HilalMiscUrduKids"));
 const Advertisement1 = lazy(() => import("../components/Home/Advertisement1"));
 const Advertisement4 = lazy(() => import("../components/Home/Advertisement4"));
 
@@ -58,29 +59,33 @@ const HilalKidsUrdu = () => {
 
     return (
         <>
-            <div className="flex lg:flex-row flex-col px-4 lg:px-8 xl:px-12">
+            <div className="flex lg:flex-row flex-col">
                 {/* LEFT COLUMN - Main content with articles and videos */}
                 <div style={{ scrollbarWidth: "none" }} className="lg:w-[70%] overflow-y-auto max-h-screen">
                     <div className="flex lg:flex-row flex-col">
-                        <div className="lg:w-1/4">
-                            <Suspense fallback={<ComponentSkeleton height="h-48" />}>
-                                <HilalDigitalUrdu />
-                            </Suspense>
-                        </div>
                         <div className="lg:w-3/4">
                             <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                                 <TrendingHilalPublicationsKidsUrdu />
                             </Suspense>
                         </div>
+                        <div className="lg:w-1/4">
+                            <Suspense fallback={<ComponentSkeleton height="h-48" />}>
+                                <HilalDigitalUrdu />
+                            </Suspense>
+                        </div>
                     </div>
 
-                    {/* <Suspense fallback={<ComponentSkeleton height="h-56" />}>
+                    <Suspense fallback={<ComponentSkeleton height="h-56" />}>
                         <InFocusSectionUrduKids />
                     </Suspense>
 
                     <Suspense fallback={<ComponentSkeleton height="h-64" />}>
+                        <HilalMiscUrduKids />
+                    </Suspense>
+
+                    <Suspense fallback={<ComponentSkeleton height="h-64" />}>
                         <TrendingHilalSectionKidsUrdu />
-                    </Suspense> */}
+                    </Suspense>
                 </div>
 
                 {/* RIGHT COLUMN - Sidebar with ads and news */}
@@ -125,7 +130,7 @@ const HilalKidsUrdu = () => {
             {/* Bottom section - Loads when user scrolls further */}
             <div ref={bottomRef}>
                 {bottomVisible && (
-                    <div className="flex lg:flex-row flex-col py-2 gap-x-4">
+                    <div className="flex lg:flex-row flex-col px-4 py-2 gap-x-4">
                         <div className="lg:w-[70%]">
                             <Suspense fallback={<ComponentSkeleton height="h-56" />}>
                                 <PreviousMonthHilalUrdu />
